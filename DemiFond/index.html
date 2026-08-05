@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Suivi Demi-Fond</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <style>
+        :root {
+            --primary: #B83B1D;
+            /* Rouge/orange foncé piste d'athlétisme */
+            --success: #30D158;
+            --danger: #FF453A;
+            --bg-color: #F2F2F7;
+            --card-bg: #FFFFFF;
+            --text-main: #1C1C1E;
+            --text-muted: #8E8E93;
+            --radius: 16px;
+            --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+            min-height: 100vh;
+        }
+
+        /* Vues de l'application */
+        .view {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typographie et En-têtes */
+        h1,
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--text-main);
+        }
+
+        .header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .header-center-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .header-center-title h2 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .header-title-img {
+            max-height: 90px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        #view-accueil button.btn-with-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-side-img {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(184, 59, 29, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #FFFFFF;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 10px 18px;
+            width: auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .back-btn:hover,
+        .back-btn:active {
+            background-color: rgba(184, 59, 29, 0.9);
+            transform: scale(0.98);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Boutons */
+        button {
+            width: 100%;
+            padding: 18px 24px;
+            margin-bottom: 15px;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            background-color: rgba(184, 59, 29, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #FFFFFF;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button:active,
+        button:hover {
+            background-color: rgba(184, 59, 29, 0.95);
+            transform: scale(0.99);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        button.primary {
+            background-color: rgba(184, 59, 29, 0.85);
+            color: white;
+        }
+
+        button.success {
+            background-color: rgba(48, 209, 88, 0.85);
+            color: white;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+        }
+
+        button.danger {
+            background-color: rgba(255, 69, 58, 0.85);
+            color: white;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+        }
+
+        /* Modales */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-buttons button {
+            margin-bottom: 0;
+        }
+
+        /* Formulaires */
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #D1D1D6;
+            font-size: 16px;
+            font-family: var(--font);
+            background-color: var(--bg-color);
+            appearance: none;
+        }
+
+        /* Interface Chrono / Observation */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 5px;
+            color: var(--primary);
+        }
+
+        .stat-card .label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .chrono-display {
+            font-size: 48px;
+            font-weight: 800;
+            text-align: center;
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+        }
+
+        .counter-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 22px;
+            font-size: 24px;
+            padding: 0;
+            margin: 0;
+            background: var(--bg-color);
+        }
+
+        .counter-val {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        #view-accueil {
+            background: url('fd3.png') no-repeat center center / cover;
+            min-height: 100vh;
+            margin: -20px;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        #view-accueil.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #view-accueil button {
+            background-color: rgba(184, 59, 29, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #FFFFFF;
+            border-radius: 16px;
+            padding: 22px 28px;
+            font-size: 19px;
+            font-weight: 700;
+            width: 85%;
+            max-width: 380px;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Effet escalier (décalage horizontal) */
+        #view-accueil button:nth-child(1) {
+            transform: translateX(-45px);
+        }
+
+        #view-accueil button:nth-child(2) {
+            transform: translateX(0);
+        }
+
+        #view-accueil button:nth-child(3) {
+            transform: translateX(45px);
+        }
+
+        #view-accueil button:nth-child(1):hover,
+        #view-accueil button:nth-child(1):active {
+            background-color: rgba(184, 59, 29, 0.9);
+            transform: translateX(-45px) scale(1.03);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        #view-accueil button:nth-child(2):hover,
+        #view-accueil button:nth-child(2):active {
+            background-color: rgba(184, 59, 29, 0.9);
+            transform: translateX(0) scale(1.03);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        #view-accueil button:nth-child(3):hover,
+        #view-accueil button:nth-child(3):active {
+            background-color: rgba(184, 59, 29, 0.9);
+            transform: translateX(45px) scale(1.03);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Page Infos Coureurs Layout */
+        .infos-header-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .infos-header-center h2 {
+            margin: 0;
+            font-size: 34px;
+            font-weight: 900;
+            color: var(--text-main);
+        }
+
+        .infos-header-center img {
+            max-height: 100px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+        }
+
+        .coureurs-duo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .coureur-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .coureur-col .btn-edit-coureur {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 12px;
+            white-space: normal;
+        }
+
+        .coureur-col .btn-fiche-sq {
+            width: 100%;
+            height: 180px;
+            font-size: 22px;
+        }
+
+        /* Dynamic Fiche Coureur Layout */
+        .fiche-profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .fiche-profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .fiche-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .fiche-card-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .fiche-student-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .fiche-student-class {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .fiche-vma-box {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 6px;
+            background: rgba(184, 59, 29, 0.1);
+            padding: 8px 14px;
+            border-radius: 10px;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .fiche-vma-box .value {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .fiche-recap-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed #E5E5EA;
+        }
+
+        .fiche-recap-stat:last-child {
+            border-bottom: none;
+        }
+
+        .recap-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .recap-val {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .fiche-seances-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-seance-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            margin-bottom: 0;
+            text-transform: none;
+            letter-spacing: normal;
+            font-size: 16px;
+        }
+
+        .modal-large {
+            max-width: 540px;
+            width: 92%;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .seance-course-box {
+            background: #FFFFFF;
+            border: 1px solid #E5E5EA;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            text-align: left;
+        }
+
+        .seance-course-box:last-child {
+            margin-bottom: 0;
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #F2F2F7;
+            padding-bottom: 8px;
+        }
+
+        .course-header h4 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        /* BANNIÈRE PROJET CIBLE & BOUTON MARCHE */
+        .target-project-banner {
+            background: rgba(184, 59, 29, 0.08);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 16px;
+            text-align: center;
+            margin: 15px 0 20px 0;
+            backdrop-filter: blur(8px);
+        }
+
+        .target-project-banner .target-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary-dark);
+        }
+
+        .target-project-banner .target-main-val {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-main);
+            margin: 4px 0;
+        }
+
+        .target-project-banner .target-sub-val {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .target-project-banner .target-speed-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ENCART SPÉCIAL ARRÊTS / MARCHE */
+        .arrets-marche-card {
+            background: rgba(217, 119, 6, 0.08);
+            border: 1.5px solid rgba(217, 119, 6, 0.35);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .arrets-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .arrets-card-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #D97706;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .arrets-counter-badge {
+            background: #D97706;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .arrets-card-body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-arret-toggle {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            background: rgba(217, 119, 6, 0.15);
+            color: #D97706;
+            border: 2px dashed #F59E0B;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0 !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-arret-toggle:hover {
+            background: rgba(217, 119, 6, 0.25);
+        }
+
+        .btn-arret-toggle.active {
+            background: #D97706;
+            color: white;
+            border-style: solid;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+        }
+
+        .arret-timer-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            border: 1px solid #F59E0B;
+            border-radius: 10px;
+            padding: 6px 14px;
+            min-width: 110px;
+        }
+
+        .arret-timer-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #D97706;
+        }
+
+        .arret-timer-val {
+            font-size: 20px;
+            font-weight: 800;
+            color: #B45309;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* OBSERVATION MINUTEUR ET COMPTEURS */
+        .observation-controls-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 15px;
+            align-items: stretch;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 500px) {
+            .observation-controls-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .counters-column {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chrono-discreet-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 130px;
+            border: 1px solid #E5E5EA;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            text-align: center;
+        }
+
+        .chrono-discreet-card .chrono-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .chrono-time-minimal {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 8px;
+        }
+
+        .btn-chrono-minimal {
+            padding: 6px 14px !important;
+            font-size: 13px !important;
+            border-radius: 8px !important;
+            margin-bottom: 0 !important;
+            width: 100% !important;
+        }
+
+        .seance-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .seance-stat-card {
+            background: #F8F9FA;
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #E9ECEF;
+        }
+
+        .seance-stat-card .val {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 4px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .status-atteint {
+            background: #E6F4EA;
+            color: #137333;
+            border: 1px solid #CEEAD6;
+        }
+
+        .status-depasse {
+            background: #E8F0FE;
+            color: #1A73E8;
+            border: 1px solid #D2E3FC;
+        }
+
+        .status-non-atteint {
+            background: #FCE8E6;
+            color: #C5221F;
+            border: 1px solid #FAD2CF;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- VUE : ACCUEIL -->
+    <div id="view-accueil" class="view active">
+        <button class="primary btn-with-icon" onclick="nav('view-infos')">
+            <img src="fiche1.png" alt="Fiche1" class="btn-side-img">
+            <span>Infos coureurs</span>
+        </button>
+        <button class="primary btn-with-icon" onclick="nav('view-session-config')">
+            <img src="seance.png" alt="Séance" class="btn-side-img">
+            <span>Commencer une séance</span>
+        </button>
+        <button class="primary btn-with-icon" onclick="nav('view-eval')">
+            <img src="eval.png" alt="Évaluation" class="btn-side-img">
+            <span>Évaluation</span>
+        </button>
+    </div>
+
+    <!-- VUE : INFOS COUREURS -->
+    <div id="view-infos" class="view">
+        <!-- Bouton Retour tout en haut a gauche -->
+        <div style="display: flex; justify-content: flex-start; width: 100%; margin-bottom: 10px;">
+            <button class="back-btn" onclick="nav('view-accueil')">◀ Retour</button>
+        </div>
+
+        <!-- Titre et Image en gros au centre -->
+        <div class="infos-header-center">
+            <h2>Fiche Coureur</h2>
+            <img src="fiche1.png" alt="fiche1">
+        </div>
+
+        <!-- 2 colonnes verticales : Coureur 1 a gauche, Coureur 2 a droite -->
+        <div class="coureurs-duo-grid">
+            <!-- Colonne Coureur 1 -->
+            <div class="coureur-col">
+                <button class="btn-edit-coureur" onclick="openModal('modal-coureur', 1)">Enregistrer/Modifier Coureur
+                    1</button>
+                <button class="primary btn-fiche-sq" onclick="openFiche(1)">Fiche coureur 1</button>
+            </div>
+
+            <!-- Colonne Coureur 2 -->
+            <div class="coureur-col">
+                <button class="btn-edit-coureur" onclick="openModal('modal-coureur', 2)">Enregistrer/Modifier Coureur
+                    2</button>
+                <button class="primary btn-fiche-sq" onclick="openFiche(2)">Fiche coureur 2</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VUE : FICHE COUREUR -->
+    <div id="view-fiche" class="view">
+        <div class="header-bar">
+            <button class="back-btn" onclick="nav('view-infos')">◀ Retour</button>
+            <h2 id="fiche-name">Fiche Coureur</h2>
+            <div style="width: 70px;"></div>
+        </div>
+
+        <div class="fiche-profile-grid">
+            <!-- Encart Gauche -->
+            <div class="fiche-card">
+                <div class="fiche-card-title">Profil Élève</div>
+                <div class="fiche-student-name" id="fiche-fullname">Nom Prénom</div>
+                <div class="fiche-student-class" id="fiche-class-display">Classe : -</div>
+                <div class="fiche-vma-box">
+                    <span>VMA :</span>
+                    <span class="value" id="fiche-vma">0</span>
+                    <span>km/h</span>
+                </div>
+            </div>
+
+            <!-- Encart Droite (Récapitulatif) -->
+            <div class="fiche-card">
+                <div class="fiche-card-title">Récapitulatif des courses</div>
+                <div class="fiche-recap-stat">
+                    <span class="recap-label">Nombre de courses totales :</span>
+                    <span class="recap-val" id="fiche-total-runs">0</span>
+                </div>
+                <div class="fiche-recap-stat">
+                    <span class="recap-label">Distance totale parcourue :</span>
+                    <span class="recap-val" id="fiche-total-dist">0 m</span>
+                </div>
+                <div class="fiche-recap-stat">
+                    <span class="recap-label">Temps total couru :</span>
+                    <span class="recap-val" id="fiche-total-time">0 min</span>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 25px; margin-bottom: 15px; text-align: center;">Détails des séances</h3>
+        <div id="fiche-history" class="fiche-seances-list">
+            <!-- Boutons séances injectés dynamiquement -->
+        </div>
+    </div>
+
+    <!-- VUE : COMMENCER UNE SÉANCE (Détails) -->
+    <div id="view-session-config" class="view">
+        <div class="header-bar">
+            <button class="back-btn" onclick="nav('view-accueil')">◀ Retour</button>
+            <h2>Séance en cours</h2>
+            <div style="width: 70px;"></div>
+        </div>
+
+        <button onclick="openModal('modal-config-seance')">Configurer la séance</button>
+        <button onclick="openModal('modal-echauffement')">Échauffement</button>
+        <button class="success" onclick="openModal('modal-config-course')">Commencer une course</button>
+
+        <br><br>
+        <button class="danger" onclick="terminerSeance()">Séance terminée</button>
+    </div>
+
+    <!-- VUE : OBSERVATION COURSE -->
+    <div id="view-observation" class="view">
+        <h2 id="obs-title">Course de ...</h2>
+        <p style="text-align:center; margin-bottom: 10px; color:var(--text-muted);">Observateur : <span
+                id="obs-observateur">...</span></p>
+
+        <!-- Banniere Projet Cible Mise en Avant -->
+        <div class="target-project-banner">
+            <div class="target-title">🎯 Projet à Réaliser</div>
+            <div class="target-main-val" id="obs-cible-highlight">0 m</div>
+            <div class="target-sub-val" id="obs-cible-tours-plots">0 tour</div>
+            <div class="target-speed-badge">Vitesse Cible : <strong id="obs-vitesse-cible">0.0 km/h</strong></div>
+        </div>
+
+        <div class="observation-controls-row">
+            <!-- Gauche : Boutons de comptage des tours et plots -->
+            <div class="counters-column">
+                <div class="counter-controls">
+                    <span>Tours complets</span>
+                    <button class="counter-btn" onclick="updateCounter('tours', -1)">-</button>
+                    <span class="counter-val" id="obs-tours">0</span>
+                    <button class="counter-btn primary" onclick="updateCounter('tours', 1)">+</button>
+                </div>
+                <div class="counter-controls">
+                    <span>Plots (en plus)</span>
+                    <button class="counter-btn" onclick="updateCounter('plots', -1)">-</button>
+                    <span class="counter-val" id="obs-plots">0</span>
+                    <button class="counter-btn primary" onclick="updateCounter('plots', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- Droite : Minuteur discret et minimaliste -->
+            <div class="chrono-discreet-card">
+                <div class="chrono-label">⏱️ Minuteur</div>
+                <div class="chrono-time-minimal" id="obs-chrono">00:00</div>
+                <button class="primary btn-chrono-minimal" id="btn-chrono" onclick="toggleChrono()">Démarrer</button>
+            </div>
+        </div>
+
+        <!-- Encart Spécial Arrêts / Marche -->
+        <div class="arrets-marche-card">
+            <div class="arrets-card-header">
+                <div class="arrets-card-title">🚶 Arrêts / Marche</div>
+                <div class="arrets-counter-badge" id="obs-arrets-count">0 arrêt(s)</div>
+            </div>
+            <div class="arrets-card-body">
+                <button id="btn-toggle-marche" class="btn-arret-toggle" onclick="toggleArretMarche()">
+                    <span id="btn-arret-icon">⏱️</span>
+                    <span id="btn-arret-text">Le coureur s'arrête / marche</span>
+                </button>
+                <div class="arret-timer-box">
+                    <span class="arret-timer-label">Chrono arrêt</span>
+                    <span class="arret-timer-val" id="obs-arret-chrono">00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <div class="label">Parcouru (m)</div>
+                <div class="value" id="obs-dist-done">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Plots Restants</div>
+                <div class="value" id="obs-plots-left">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Vitesse Cible</div>
+                <div class="value" id="obs-vitesse-card">0.0 km/h</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Vitesse Est.</div>
+                <div class="value" id="obs-vitesse">0.0 km/h</div>
+            </div>
+        </div>
+
+        <button class="success" onclick="validerCourse()" style="margin-top: 20px;">Valider la course</button>
+    </div>
+
+    <!-- VUE : ÉVALUATION -->
+    <div id="view-eval" class="view">
+        <div class="header-bar">
+            <button class="back-btn" onclick="nav('view-accueil')">◀ Retour</button>
+            <h2>Évaluation</h2>
+            <div style="width: 70px;"></div>
+        </div>
+        <div style="background: var(--card-bg); padding: 20px; border-radius: var(--radius); text-align: center;">
+            <p style="margin-bottom: 15px;">Importez une fiche d'évaluation (.csv, .xlsx)</p>
+            <input type="file" accept=".csv, .xlsx" style="padding: 10px;">
+        </div>
+    </div>
+
+    <!-- MODALES -->
+
+    <!-- Modale : Coureur -->
+    <div class="modal-overlay" id="modal-coureur">
+        <div class="modal">
+            <h3 id="modal-coureur-title">Coureur</h3>
+            <input type="hidden" id="c-id">
+            <label>Nom</label><input type="text" id="c-nom">
+            <label>Prénom</label><input type="text" id="c-prenom">
+            <label>Classe</label><input type="text" id="c-classe">
+            <label>VMA (km/h)</label><input type="number" step="0.5" id="c-vma">
+            <div class="modal-buttons">
+                <button class="danger" onclick="closeModal('modal-coureur')">Annuler</button>
+                <button class="success" onclick="saveCoureur()">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale : Config Séance -->
+    <div class="modal-overlay" id="modal-config-seance">
+        <div class="modal">
+            <h3>Configurer la séance</h3>
+            <label>N° Séance</label><input type="number" id="s-num">
+            <label>Date</label><input type="date" id="s-date">
+            <label>Distance inter-plots (m)</label><input type="number" id="s-dist-plots" value="50">
+            <label>Nombre de plots par tour</label><input type="number" id="s-nb-plots" value="4">
+            <div class="modal-buttons">
+                <button class="danger" onclick="closeModal('modal-config-seance')">Annuler</button>
+                <button class="success" onclick="saveConfigSeance()">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale : Echauffement -->
+    <div class="modal-overlay" id="modal-echauffement">
+        <div class="modal">
+            <h3>Échauffement</h3>
+            <label>Coureur</label>
+            <select id="e-coureur"></select>
+            <label>FC Repos (bpm)</label><input type="number" id="e-fc-repos">
+            <label>Sensation Repos</label>
+            <select id="e-sens-repos">
+                <option>Très bien</option>
+                <option>Bien</option>
+                <option>Moyen</option>
+                <option>Bof</option>
+                <option>Pas bien</option>
+            </select>
+            <label>FC post-échauffement</label><input type="number" id="e-fc-post">
+            <label>Sensation post-échauffement</label>
+            <select id="e-sens-post">
+                <option>Très bien</option>
+                <option>Bien</option>
+                <option>Moyen</option>
+                <option>Bof</option>
+                <option>Pas bien</option>
+            </select>
+            <label>Auto-évaluation (0 à 3)</label>
+            <input type="number" min="0" max="3" id="e-note">
+            <div class="modal-buttons">
+                <button class="danger" onclick="closeModal('modal-echauffement')">Annuler</button>
+                <button class="success" onclick="saveEchauffement()">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale : Config Course -->
+    <div class="modal-overlay" id="modal-config-course">
+        <div class="modal">
+            <h3>Nouveau Projet</h3>
+            <label>Coureur</label>
+            <select id="p-coureur" onchange="updateVMA_Projet()"></select>
+            <p style="font-size: 14px; color: var(--primary); margin-top: 5px;">VMA : <span id="p-vma">0</span> km/h</p>
+
+            <label>Temps de course</label>
+            <select id="p-temps"></select>
+
+            <label>Intensité (% VMA)</label>
+            <select id="p-pct" onchange="calculerProjet()"></select>
+
+            <div class="stat-card" style="margin-top: 15px; text-align: left;">
+                <div class="label">Objectif calculé</div>
+                <div class="value" id="p-objectif" style="font-size: 18px;">0 m</div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="danger" onclick="closeModal('modal-config-course')">Annuler</button>
+                <button class="success" onclick="lancerCourse()">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale : Détails Séance -->
+    <div class="modal-overlay" id="modal-detail-seance">
+        <div class="modal modal-large">
+            <h3 id="modal-seance-title">Détails Séance</h3>
+            <div id="modal-seance-content">
+                <!-- Contenu détaillé dynamique -->
+            </div>
+            <div class="modal-buttons" style="margin-top: 20px;">
+                <button class="primary" onclick="closeModal('modal-detail-seance')">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- ETAT GLOBAL ---
+        let coureurs = JSON.parse(localStorage.getItem('df_coureurs')) || {
+            1: { nom: '', prenom: 'Coureur 1', classe: '', vma: 10, seances: [], runs: [] },
+            2: { nom: '', prenom: 'Coureur 2', classe: '', vma: 10, seances: [], runs: [] }
+        };
+        let seanceConfig = JSON.parse(localStorage.getItem('df_seance')) || { num: 1, date: new Date().toISOString().split('T')[0], distPlots: 50, nbPlots: 4 };
+
+        // Cache des courses effectuées dans la séance active en cours (avant validation "Séance terminée")
+        let activeSessionRuns = { 1: [], 2: [] };
+
+        let runState = {
+            activeId: null, targetMeters: 0, timeSec: 0, targetSpeed: 0,
+            tours: 0, plots: 0, startTime: null, timerInterval: null, running: false,
+            arretsCount: 0, arretActive: false, arretInterval: null, arretCurrentSec: 0, arretTotalSec: 0
+        };
+
+        // --- MIGRATION / GESTION SÉANCES ---
+        function getCoureurSeances(c) {
+            if (c.seances && c.seances.length > 0) {
+                return c.seances;
+            }
+            // Compatibilité si d'anciennes courses existent sans structure séance
+            if (c.runs && c.runs.length > 0) {
+                let map = {};
+                c.runs.forEach(r => {
+                    let sNum = r.seanceNum || 1;
+                    if (!map[sNum]) {
+                        map[sNum] = { num: sNum, date: r.date || seanceConfig.date, runs: [] };
+                    }
+                    map[sNum].runs.push(r);
+                });
+                c.seances = Object.values(map);
+                saveData();
+                return c.seances;
+            }
+            return [];
+        }
+
+        // --- NAVIGATION ---
+        function nav(viewId) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function openModal(modalId, param = null) {
+            document.getElementById(modalId).classList.add('active');
+
+            if (modalId === 'modal-coureur') {
+                document.getElementById('modal-coureur-title').innerText = "Coureur " + param;
+                document.getElementById('c-id').value = param;
+                document.getElementById('c-nom').value = coureurs[param].nom;
+                document.getElementById('c-prenom').value = coureurs[param].prenom === `Coureur ${param}` ? '' : coureurs[param].prenom;
+                document.getElementById('c-classe').value = coureurs[param].classe;
+                document.getElementById('c-vma').value = coureurs[param].vma;
+            }
+            if (modalId === 'modal-config-seance') {
+                document.getElementById('s-num').value = seanceConfig.num;
+                document.getElementById('s-date').value = seanceConfig.date;
+                document.getElementById('s-dist-plots').value = seanceConfig.distPlots;
+                document.getElementById('s-nb-plots').value = seanceConfig.nbPlots;
+            }
+            if (modalId === 'modal-echauffement' || modalId === 'modal-config-course') {
+                let select = document.getElementById(modalId === 'modal-echauffement' ? 'e-coureur' : 'p-coureur');
+                select.innerHTML = `<option value="1">${coureurs[1].prenom}</option><option value="2">${coureurs[2].prenom}</option>`;
+                if (modalId === 'modal-config-course') {
+                    let selectTime = document.getElementById('p-temps');
+                    selectTime.innerHTML = '';
+                    for (let i = 30; i <= 1200; i += 30) {
+                        let m = Math.floor(i / 60); let s = i % 60;
+                        selectTime.innerHTML += `<option value="${i}">${m > 0 ? m + ' min ' : ''}${s > 0 ? s + ' s' : ''}</option>`;
+                    }
+
+                    // Generer liste intensité (50% à 150% par pas de 5%)
+                    let selectPct = document.getElementById('p-pct');
+                    selectPct.innerHTML = '';
+                    for (let pct = 50; pct <= 150; pct += 5) {
+                        let isDefault = (pct === 80) ? ' selected' : '';
+                        selectPct.innerHTML += `<option value="${pct}"${isDefault}>${pct}%</option>`;
+                    }
+
+                    updateVMA_Projet();
+                }
+            }
+        }
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('active'); }
+
+        // --- SAUVEGARDES & FIN DE SÉANCE ---
+        function saveData() { localStorage.setItem('df_coureurs', JSON.stringify(coureurs)); }
+
+        function saveCoureur() {
+            let id = document.getElementById('c-id').value;
+            coureurs[id].nom = document.getElementById('c-nom').value;
+            coureurs[id].prenom = document.getElementById('c-prenom').value || `Coureur ${id}`;
+            coureurs[id].classe = document.getElementById('c-classe').value;
+            coureurs[id].vma = parseFloat(document.getElementById('c-vma').value) || 10;
+            saveData(); closeModal('modal-coureur');
+        }
+
+        function saveConfigSeance() {
+            seanceConfig = {
+                num: parseInt(document.getElementById('s-num').value) || 1,
+                date: document.getElementById('s-date').value,
+                distPlots: parseInt(document.getElementById('s-dist-plots').value),
+                nbPlots: parseInt(document.getElementById('s-nb-plots').value)
+            };
+            localStorage.setItem('df_seance', JSON.stringify(seanceConfig));
+            closeModal('modal-config-seance');
+        }
+
+        function saveEchauffement() {
+            closeModal('modal-echauffement');
+            alert("Données d'échauffement enregistrées.");
+        }
+
+        function terminerSeance() {
+            let hasRuns = false;
+
+            [1, 2].forEach(id => {
+                let runsToSave = activeSessionRuns[id];
+                if (runsToSave && runsToSave.length > 0) {
+                    hasRuns = true;
+                    if (!coureurs[id].seances) coureurs[id].seances = [];
+
+                    let existing = coureurs[id].seances.find(s => s.num == seanceConfig.num);
+                    if (existing) {
+                        existing.runs.push(...runsToSave);
+                    } else {
+                        coureurs[id].seances.push({
+                            num: seanceConfig.num,
+                            date: seanceConfig.date,
+                            runs: [...runsToSave]
+                        });
+                    }
+                    activeSessionRuns[id] = [];
+                }
+            });
+
+            saveData();
+
+            if (hasRuns) {
+                alert(`Séance n°${seanceConfig.num} terminée et enregistrée dans les fiches coureurs !`);
+            }
+            nav('view-accueil');
+        }
+
+        // --- FICHE COUREUR ---
+        function openFiche(id) {
+            let c = coureurs[id];
+            document.getElementById('fiche-name').innerText = "Fiche " + (c.prenom || ("Coureur " + id));
+            document.getElementById('fiche-fullname').innerText = (c.prenom + " " + c.nom).trim() || ("Coureur " + id);
+            document.getElementById('fiche-class-display').innerText = c.classe ? "Classe : " + c.classe : "Coureur " + id;
+            document.getElementById('fiche-vma').innerText = c.vma || 10;
+
+            let seances = getCoureurSeances(c);
+            let totalRuns = 0;
+            let totalDist = 0;
+            let totalTimeSec = 0;
+
+            seances.forEach(s => {
+                if (s.runs) {
+                    s.runs.forEach(run => {
+                        totalRuns++;
+                        totalDist += (run.realise || 0);
+                        totalTimeSec += (run.tempsSec || 0);
+                    });
+                }
+            });
+
+            document.getElementById('fiche-total-runs').innerText = totalRuns;
+            document.getElementById('fiche-total-dist').innerText = totalDist >= 1000 ? (totalDist / 1000).toFixed(2) + " km" : totalDist + " m";
+
+            let totalMin = Math.floor(totalTimeSec / 60);
+            let totalSec = totalTimeSec % 60;
+            let timeStr = totalMin > 0 ? (totalMin + " min " + (totalSec > 0 ? totalSec + " s" : "")) : (totalSec + " s");
+            document.getElementById('fiche-total-time').innerText = totalTimeSec > 0 ? timeStr : "-";
+
+            let histHTML = '';
+            if (seances.length === 0) {
+                histHTML = '<p style="text-align:center; color: var(--text-muted); padding: 20px;">Aucune séance enregistrée pour le moment.</p>';
+            } else {
+                seances.forEach((seance, sIdx) => {
+                    let nbCourses = seance.runs ? seance.runs.length : 0;
+                    let numSeance = seance.num || (sIdx + 1);
+                    histHTML += `<button class="primary btn-seance-item" onclick="openDetailSeance(${id}, ${sIdx})">
+                        <span><strong>Séance n°${numSeance}</strong> <small style="opacity:0.8; margin-left:8px;">(${nbCourses} course${nbCourses > 1 ? 's' : ''} - ${seance.date || 'S.D.'})</small></span>
+                        <span>Voir les détails ➔</span>
+                    </button>`;
+                });
+            }
+            document.getElementById('fiche-history').innerHTML = histHTML;
+            nav('view-fiche');
+        }
+
+        function openDetailSeance(coureurId, seanceIndex) {
+            let c = coureurs[coureurId];
+            let seances = getCoureurSeances(c);
+            let seance = seances[seanceIndex];
+            let numSeance = seance ? (seance.num || (seanceIndex + 1)) : (seanceIndex + 1);
+
+            document.getElementById('modal-seance-title').innerText = `Séance n°${numSeance} - ${c.prenom}`;
+
+            let contentHTML = `<p style="text-align:center; color:var(--text-muted); margin-bottom:15px;">Date : <strong>${seance.date || '-'}</strong> | Total : <strong>${seance.runs ? seance.runs.length : 0} course(s)</strong></p>`;
+
+            if (!seance.runs || seance.runs.length === 0) {
+                contentHTML += '<p style="text-align:center;">Aucune course dans cette séance.</p>';
+            } else {
+                seance.runs.forEach((run, rIdx) => {
+                    let diff = run.realise - run.objectif;
+                    let statusText = "";
+                    let statusClass = "";
+
+                    if (diff > 25) {
+                        statusText = "🚀 Projet Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
+                        statusClass = "status-depasse";
+                    } else if (diff >= -25 && diff <= 25) {
+                        statusText = "✅ Projet Atteint (" + (diff >= 0 ? "+" + diff : diff) + " m)";
+                        statusClass = "status-atteint";
+                    } else {
+                        statusText = "❌ Projet Non Atteint (" + diff + " m)";
+                        statusClass = "status-non-atteint";
+                    }
+
+                    let pct = run.pctVMA || (run.vitesseCible && c.vma ? Math.round((run.vitesseCible / c.vma) * 100) : 70);
+                    let timeStr = run.tempsSec ? formatTime(run.tempsSec) : "-";
+                    let vitesseCibleStr = run.vitesseCible ? run.vitesseCible.toFixed(1) + " km/h" : "-";
+                    let marcheBadge = '';
+                    if (run.arretsCount > 0) {
+                        let totalStopStr = run.arretTotalSec ? formatTime(run.arretTotalSec) : '0s';
+                        marcheBadge = `<span style="background:#D97706; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">🚶 ${run.arretsCount} arrêt(s) (${totalStopStr})</span>`;
+                    } else if (run.marche) {
+                        marcheBadge = `<span style="background:#D97706; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">🚶 Marche</span>`;
+                    }
+
+                    contentHTML += `
+                        <div class="seance-course-box">
+                            <div class="course-header">
+                                <h4>Course n°${rIdx + 1} ${marcheBadge}</h4>
+                                <div class="status-badge ${statusClass}">${statusText}</div>
+                            </div>
+                            <div class="seance-detail-grid">
+                                <div class="seance-stat-card">
+                                    <div class="label">Durée</div>
+                                    <div class="val">${timeStr}</div>
+                                </div>
+                                <div class="seance-stat-card">
+                                    <div class="label">Intensité (% VMA)</div>
+                                    <div class="val">${pct}%</div>
+                                </div>
+                                <div class="seance-stat-card">
+                                    <div class="label">Vitesse Cible</div>
+                                    <div class="val">${vitesseCibleStr}</div>
+                                </div>
+                                <div class="seance-stat-card">
+                                    <div class="label">Distance Objectif</div>
+                                    <div class="val">${run.objectif} m</div>
+                                </div>
+                                <div class="seance-stat-card">
+                                    <div class="label">Distance Réalisée</div>
+                                    <div class="val" style="color:var(--primary);">${run.realise} m</div>
+                                </div>
+                                <div class="seance-stat-card">
+                                    <div class="label">Arrêts / Marche</div>
+                                    <div class="val" style="color:${(run.arretsCount || run.marche) ? '#D97706' : 'inherit'};">
+                                        ${run.arretsCount ? run.arretsCount + ' arrêt(s) (' + (run.arretTotalSec ? formatTime(run.arretTotalSec) : '0s') + ')' : (run.marche ? 'Oui' : 'Aucun')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            document.getElementById('modal-seance-content').innerHTML = contentHTML;
+            openModal('modal-detail-seance');
+        }
+
+        // --- LOGIQUE COURSE ---
+        function updateVMA_Projet() {
+            let id = document.getElementById('p-coureur').value;
+            document.getElementById('p-vma').innerText = coureurs[id].vma;
+            calculerProjet();
+        }
+
+        function calculerProjet() {
+            let id = document.getElementById('p-coureur').value;
+            let vma = coureurs[id].vma;
+            let timeSec = parseInt(document.getElementById('p-temps').value);
+            let pct = parseFloat(document.getElementById('p-pct').value);
+
+            let distObjectif = ((vma * (pct / 100)) / 3.6) * timeSec;
+            document.getElementById('p-objectif').innerText = Math.round(distObjectif) + " m";
+
+            runState.activeId = id;
+            runState.targetMeters = Math.round(distObjectif);
+            runState.timeSec = timeSec;
+            runState.targetSpeed = vma * (pct / 100);
+        }
+
+        function lancerCourse() {
+            closeModal('modal-config-course');
+
+            let obsId = runState.activeId == 1 ? 2 : 1;
+            document.getElementById('obs-observateur').innerText = coureurs[obsId].prenom;
+            document.getElementById('obs-title').innerText = "Course de " + coureurs[runState.activeId].prenom;
+
+            // Calcul du projet en tours/plots
+            let distParTour = (seanceConfig.nbPlots || 4) * (seanceConfig.distPlots || 50);
+            let targetMeters = runState.targetMeters || 0;
+            let targetTours = Math.floor(targetMeters / distParTour);
+            let targetPlotsRem = Math.round((targetMeters % distParTour) / (seanceConfig.distPlots || 50));
+            if (targetPlotsRem >= seanceConfig.nbPlots) {
+                targetTours += Math.floor(targetPlotsRem / seanceConfig.nbPlots);
+                targetPlotsRem = targetPlotsRem % seanceConfig.nbPlots;
+            }
+
+            let tourStr = `${targetTours} tour${targetTours > 1 ? 's' : ''}`;
+            if (targetPlotsRem > 0) {
+                tourStr += ` + ${targetPlotsRem} plot${targetPlotsRem > 1 ? 's' : ''}`;
+            }
+
+            let speedTargetStr = runState.targetSpeed ? runState.targetSpeed.toFixed(1) : "0.0";
+
+            document.getElementById('obs-cible-highlight').innerText = targetMeters + " m";
+            document.getElementById('obs-cible-tours-plots').innerText = tourStr;
+            document.getElementById('obs-vitesse-cible').innerText = speedTargetStr + " km/h";
+            document.getElementById('obs-vitesse-card').innerText = speedTargetStr + " km/h";
+
+            // Reset arret state
+            runState.tours = 0; runState.plots = 0; runState.running = false;
+            runState.arretsCount = 0; runState.arretActive = false;
+            runState.arretCurrentSec = 0; runState.arretTotalSec = 0;
+            clearInterval(runState.arretInterval);
+
+            let arretBadge = document.getElementById('obs-arrets-count');
+            if (arretBadge) arretBadge.innerText = "0 arrêt(s)";
+            let arretChrono = document.getElementById('obs-arret-chrono');
+            if (arretChrono) arretChrono.innerText = "00:00";
+
+            let btnToggleArret = document.getElementById('btn-toggle-marche');
+            if (btnToggleArret) {
+                btnToggleArret.classList.remove('active');
+                document.getElementById('btn-arret-text').innerText = "Le coureur s'arrête / marche";
+                document.getElementById('btn-arret-icon').innerText = "⏱️";
+            }
+
+            clearInterval(runState.timerInterval);
+            document.getElementById('obs-chrono').innerText = formatTime(runState.timeSec);
+            document.getElementById('btn-chrono').innerText = "Démarrer";
+            document.getElementById('btn-chrono').className = "primary";
+
+            updateDashboard();
+            nav('view-observation');
+        }
+
+        function toggleArretMarche() {
+            let btn = document.getElementById('btn-toggle-marche');
+            let icon = document.getElementById('btn-arret-icon');
+            let text = document.getElementById('btn-arret-text');
+
+            if (!runState.arretActive) {
+                // Coureur s'arrête -> démarrer le chrono d'arrêt & incrémenter le compteur d'arrêts
+                runState.arretActive = true;
+                runState.arretsCount++;
+                document.getElementById('obs-arrets-count').innerText = runState.arretsCount + " arrêt(s)";
+
+                btn.classList.add('active');
+                icon.innerText = "▶";
+                text.innerText = "Le coureur repart";
+
+                runState.arretCurrentSec = 0;
+                let startTime = Date.now();
+
+                clearInterval(runState.arretInterval);
+                runState.arretInterval = setInterval(() => {
+                    runState.arretCurrentSec = Math.floor((Date.now() - startTime) / 1000);
+                    document.getElementById('obs-arret-chrono').innerText = formatTime(runState.arretCurrentSec);
+                }, 1000);
+            } else {
+                // Coureur repart -> stopper le chrono d'arrêt
+                runState.arretActive = false;
+                clearInterval(runState.arretInterval);
+                runState.arretTotalSec += runState.arretCurrentSec;
+
+                btn.classList.remove('active');
+                icon.innerText = "⏱️";
+                text.innerText = "Le coureur s'arrête / marche";
+            }
+        }
+
+        // --- CHRONO ET OBSERVATION ---
+        function formatTime(totalSec) {
+            let m = Math.floor(totalSec / 60).toString().padStart(2, '0');
+            let s = (totalSec % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        function toggleChrono() {
+            let btn = document.getElementById('btn-chrono');
+            if (!runState.running) {
+                runState.running = true;
+                btn.innerText = "Pause";
+                btn.className = "danger";
+
+                let targetEndTime = Date.now() + (runState.timeSec * 1000);
+
+                runState.timerInterval = setInterval(() => {
+                    let remain = Math.max(0, Math.ceil((targetEndTime - Date.now()) / 1000));
+                    document.getElementById('obs-chrono').innerText = formatTime(remain);
+
+                    if (remain <= 0) {
+                        toggleChrono();
+                        alert("Temps écoulé !");
+                    }
+                }, 1000);
+            } else {
+                runState.running = false;
+                btn.innerText = "Reprendre";
+                btn.className = "success";
+                clearInterval(runState.timerInterval);
+            }
+        }
+
+        function updateCounter(type, val) {
+            runState[type] = Math.max(0, runState[type] + val);
+
+            if (type === 'plots' && runState.plots >= seanceConfig.nbPlots) {
+                runState.tours += Math.floor(runState.plots / seanceConfig.nbPlots);
+                runState.plots = runState.plots % seanceConfig.nbPlots;
+            }
+
+            document.getElementById('obs-tours').innerText = runState.tours;
+            document.getElementById('obs-plots').innerText = runState.plots;
+            updateDashboard();
+        }
+
+        function updateDashboard() {
+            let distParTour = seanceConfig.nbPlots * seanceConfig.distPlots;
+            let distActuelle = (runState.tours * distParTour) + (runState.plots * seanceConfig.distPlots);
+            document.getElementById('obs-dist-done').innerText = distActuelle;
+
+            let distRestante = Math.max(0, runState.targetMeters - distActuelle);
+            let plotsRestants = Math.ceil(distRestante / seanceConfig.distPlots);
+            document.getElementById('obs-plots-left').innerText = plotsRestants;
+
+            document.getElementById('obs-vitesse').innerText = (distActuelle > 0) ? runState.targetSpeed.toFixed(1) + " km/h" : "0.0 km/h";
+        }
+
+        function validerCourse() {
+            clearInterval(runState.timerInterval);
+
+            // Si un arrêt était en cours lors de la validation
+            if (runState.arretActive) {
+                clearInterval(runState.arretInterval);
+                runState.arretTotalSec += runState.arretCurrentSec;
+                runState.arretActive = false;
+            }
+
+            let distParTour = seanceConfig.nbPlots * seanceConfig.distPlots;
+            let distFinale = (runState.tours * distParTour) + (runState.plots * seanceConfig.distPlots);
+
+            let runnerVMA = coureurs[runState.activeId].vma || 10;
+            let pct = Math.round((runState.targetSpeed / runnerVMA) * 100);
+
+            if (!activeSessionRuns[runState.activeId]) {
+                activeSessionRuns[runState.activeId] = [];
+            }
+
+            activeSessionRuns[runState.activeId].push({
+                tempsSec: runState.timeSec,
+                pctVMA: pct,
+                vitesseCible: runState.targetSpeed,
+                objectif: runState.targetMeters,
+                realise: distFinale,
+                tours: runState.tours,
+                plots: runState.plots,
+                marche: runState.arretsCount > 0,
+                arretsCount: runState.arretsCount || 0,
+                arretTotalSec: runState.arretTotalSec || 0
+            });
+
+            alert(`Course validée pour ${coureurs[runState.activeId].prenom} (${distFinale} m) !`);
+            nav('view-session-config');
+        }
+    </script>
+</body>
+
+</html>
