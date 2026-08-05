@@ -721,64 +721,292 @@
             font-variant-numeric: tabular-nums;
         }
 
-        /* OBSERVATION MINUTEUR ET COMPTEURS */
-        .observation-controls-row {
+        /* REORGANISATION PAGE OBSERVATION */
+        .obs-top-layout {
             display: grid;
             grid-template-columns: 1fr auto;
-            gap: 15px;
+            gap: 20px;
             align-items: stretch;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        @media (max-width: 500px) {
-            .observation-controls-row {
+        @media (max-width: 768px) {
+            .obs-top-layout {
                 grid-template-columns: 1fr;
             }
         }
 
-        .counters-column {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .obs-observer-mention {
+            font-size: 22px;
+            font-weight: 800;
+            color: #000000;
+            margin-bottom: 12px;
         }
 
-        .chrono-discreet-card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 12px 16px;
+        .obs-observer-mention span {
+            color: #000000;
+            font-weight: 900;
+        }
+
+        .obs-runner-info-card {
+            background: var(--card-bg, #ffffff);
+            border-radius: var(--radius, 16px);
+            padding: 16px 20px;
+            border: 1px solid #E5E5EA;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .obs-runner-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-dark, #4C1D95);
+            margin-bottom: 12px;
+        }
+
+        .obs-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+        }
+
+        .obs-info-item {
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.15);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .obs-info-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted, #6B7280);
+            margin-bottom: 4px;
+        }
+
+        .obs-info-val {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main, #1F2937);
+        }
+
+        .obs-info-val.highlight {
+            color: var(--primary, #7C3AED);
+            font-size: 20px;
+        }
+
+        .obs-info-val.speed {
+            color: #D97706;
+        }
+
+        /* MINUTEUR PROMINENT (DROITE) */
+        .chrono-prominent-card {
+            background: #ffffff;
+            border-radius: var(--radius, 16px);
+            padding: 20px 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-width: 130px;
-            border: 1px solid #E5E5EA;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            min-width: 190px;
+            height: 100%;
+            box-sizing: border-box;
+            border: 2px solid var(--primary, #7C3AED);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.12);
             text-align: center;
         }
 
-        .chrono-discreet-card .chrono-label {
-            font-size: 11px;
-            font-weight: 700;
+        .chrono-prominent-card .chrono-label {
+            font-size: 13px;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--text-muted);
+            color: var(--primary-dark, #4C1D95);
+            margin-bottom: 6px;
+        }
+
+        .chrono-time-large {
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--text-main, #1F2937);
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .btn-chrono-large {
+            padding: 10px 20px !important;
+            font-size: 15px !important;
+            font-weight: 800 !important;
+            border-radius: 10px !important;
+            margin-bottom: 0 !important;
+            width: 100% !important;
+        }
+
+        /* LAYOUT MILIEU : BOUTONS & ARRETS MARCHE CÔTE À CÔTE */
+        .obs-middle-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .obs-middle-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .obs-counters-card {
+            background: var(--card-bg, #ffffff);
+            border-radius: var(--radius, 16px);
+            padding: 16px;
+            border: 1px solid #E5E5EA;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .obs-section-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--primary-dark, #4C1D95);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 4px;
         }
 
-        .chrono-time-minimal {
-            font-size: 26px;
+        .obs-section-title-bar {
+            font-size: 14px;
             font-weight: 800;
-            color: var(--text-main);
-            font-variant-numeric: tabular-nums;
-            margin-bottom: 8px;
+            color: var(--primary-dark, #4C1D95);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
 
-        .btn-chrono-minimal {
-            padding: 6px 14px !important;
-            font-size: 13px !important;
-            border-radius: 8px !important;
+        .highlight-speed-card {
+            border: 2px solid #7C3AED !important;
+            background: rgba(124, 58, 237, 0.04) !important;
+        }
+
+        .highlight-speed-card .value {
+            color: #7C3AED !important;
+            font-size: 24px !important;
+            font-weight: 900 !important;
+        }
+
+        /* CONFIG BOUTON REDUIT & SÉANCE EN COURS */
+        .btn-config-sm {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background-color: rgba(124, 58, 237, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #FFFFFF;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 14px;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: none;
+            letter-spacing: normal;
+            width: auto;
             margin-bottom: 0 !important;
+        }
+
+        .btn-config-sm:hover,
+        .btn-config-sm:active {
+            background-color: rgba(124, 58, 237, 1);
+            transform: scale(0.98);
+            box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+        }
+
+        /* ENCART ECHAUFFEMENT INLINE (MODE VERTICAL) */
+        .echauffement-inline-card {
+            background: var(--card-bg, #ffffff);
+            border-radius: var(--radius, 16px);
+            padding: 20px;
+            border: 1px solid #E5E5EA;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .echauffement-card-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary-dark, #4C1D95);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .echauffement-form-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .echauffement-form-grid .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .echauffement-form-grid label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted, #4B5563);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .echauffement-form-grid input,
+        .echauffement-form-grid select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1.5px solid #D1D5DB;
+            font-size: 15px;
+            box-sizing: border-box;
+            background: #F9FAFB;
+        }
+
+        .btn-save-echauffement {
             width: 100% !important;
+            padding: 10px 16px !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            border-radius: 10px !important;
+            margin-bottom: 0 !important;
+        }
+
+        .btn-start-course {
+            width: 100% !important;
+            padding: 16px 24px !important;
+            font-size: 18px !important;
+            font-weight: 800 !important;
+            border-radius: 12px !important;
+            margin-top: 10px !important;
+            margin-bottom: 15px !important;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25) !important;
         }
 
         .seance-detail-grid {
@@ -927,39 +1155,116 @@
         </div>
     </div>
 
-    <!-- VUE : COMMENCER UNE SÉANCE (Détails) -->
+    <!-- VUE : SÉANCE EN COURS -->
     <div id="view-session-config" class="view">
-        <div class="header-bar">
-            <button class="back-btn" onclick="nav('view-accueil')">◀ Retour</button>
-            <h2>Séance en cours</h2>
+        <div
+            style="display: flex; justify-content: space-between; align-items: flex-start; width: 100%; margin-bottom: 20px;">
+            <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 8px;">
+                <button class="back-btn" onclick="nav('view-accueil')">◀ Retour</button>
+                <button class="btn-config-sm" onclick="openModal('modal-config-seance')">⚙️ Configurer la
+                    séance</button>
+            </div>
+            <h2 style="margin: 0; padding-top: 5px;">Séance en cours</h2>
             <div style="width: 70px;"></div>
         </div>
 
-        <button onclick="openModal('modal-config-seance')">Configurer la séance</button>
-        <button onclick="openModal('modal-echauffement')">Échauffement</button>
-        <button class="success" onclick="openModal('modal-config-course')">Commencer une course</button>
+        <!-- ENCART ECHAUFFEMENT -->
+        <div class="echauffement-inline-card">
+            <div class="echauffement-card-title">🔥 Échauffement</div>
+            <div class="echauffement-form-grid">
+                <div class="form-group">
+                    <label>Coureur</label>
+                    <select id="e-coureur"></select>
+                </div>
+                <div class="form-group">
+                    <label>FC Repos (bpm)</label>
+                    <input type="number" id="e-fc-repos" placeholder="ex: 65">
+                </div>
+                <div class="form-group">
+                    <label>Sensation Repos</label>
+                    <select id="e-sens-repos">
+                        <option>Très bien</option>
+                        <option>Bien</option>
+                        <option>Moyen</option>
+                        <option>Bof</option>
+                        <option>Pas bien</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>FC Post-Échauffement</label>
+                    <input type="number" id="e-fc-post" placeholder="ex: 120">
+                </div>
+                <div class="form-group">
+                    <label>Sensation Post-Échauffement</label>
+                    <select id="e-sens-post">
+                        <option>Très bien</option>
+                        <option>Bien</option>
+                        <option>Moyen</option>
+                        <option>Bof</option>
+                        <option>Pas bien</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Auto-évaluation (0 à 3)</label>
+                    <input type="number" min="0" max="3" id="e-note" placeholder="0 à 3">
+                </div>
+            </div>
+            <button class="primary btn-save-echauffement" onclick="saveEchauffement()">Enregistrer
+                l'échauffement</button>
+        </div>
 
-        <br><br>
-        <button class="danger" onclick="terminerSeance()">Séance terminée</button>
+        <!-- BOUTON DÉMARRER UNE COURSE -->
+        <button class="success btn-start-course" onclick="openModal('modal-config-course')">🚀 Démarrer une
+            course</button>
+
+        <!-- COURSES EFFECTUÉES PENDANT LA SÉANCE ACTIVE -->
+        <div id="active-session-runs-container"></div>
+
+        <button class="danger" onclick="terminerSeance()"
+            style="width: 100%; padding: 14px; font-size: 16px; margin-top: 20px;">Séance terminée</button>
     </div>
 
     <!-- VUE : OBSERVATION COURSE -->
     <div id="view-observation" class="view">
-        <h2 id="obs-title">Course de ...</h2>
-        <p style="text-align:center; margin-bottom: 10px; color:var(--text-muted);">Observateur : <span
-                id="obs-observateur">...</span></p>
+        <!-- HAUT : Observateur & Infos Coureur à gauche / Minuteur à droite -->
+        <div class="obs-top-layout">
+            <div class="obs-left-header">
+                <div class="obs-observer-mention">
+                    Observateur : <span id="obs-observateur">...</span>
+                </div>
 
-        <!-- Banniere Projet Cible Mise en Avant -->
-        <div class="target-project-banner">
-            <div class="target-title">🎯 Projet à Réaliser</div>
-            <div class="target-main-val" id="obs-cible-highlight">0 m</div>
-            <div class="target-sub-val" id="obs-cible-tours-plots">0 tour</div>
-            <div class="target-speed-badge">Vitesse Cible : <strong id="obs-vitesse-cible">0.0 km/h</strong></div>
+                <div class="obs-runner-info-card">
+                    <div class="obs-runner-title" id="obs-title">Course de ...</div>
+                    <div class="obs-info-grid">
+                        <div class="obs-info-item">
+                            <span class="obs-info-label">Objectif Distance</span>
+                            <span class="obs-info-val highlight" id="obs-cible-highlight">0 m</span>
+                        </div>
+                        <div class="obs-info-item">
+                            <span class="obs-info-label">Objectif Tours / Plots</span>
+                            <span class="obs-info-val" id="obs-cible-tours-plots">0 tour</span>
+                        </div>
+                        <div class="obs-info-item">
+                            <span class="obs-info-label">Vitesse Cible</span>
+                            <span class="obs-info-val speed" id="obs-vitesse-cible">0.0 km/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="obs-right-header">
+                <div class="chrono-prominent-card">
+                    <div class="chrono-label">⏱️ Minuteur</div>
+                    <div class="chrono-time-large" id="obs-chrono">00:00</div>
+                    <button class="primary btn-chrono-large" id="btn-chrono" onclick="toggleChrono()">Démarrer</button>
+                </div>
+            </div>
         </div>
 
-        <div class="observation-controls-row">
-            <!-- Gauche : Boutons de comptage des tours et plots -->
-            <div class="counters-column">
+        <!-- MILIEU : Boutons de comptage (gauche) & Arrêts/Marche (droite) côte à côte -->
+        <div class="obs-middle-layout">
+            <div class="obs-counters-card">
+                <div class="obs-section-title">📊 Comptage Tours & Plots</div>
                 <div class="counter-controls">
                     <span>Tours complets</span>
                     <button class="counter-btn" onclick="updateCounter('tours', -1)">-</button>
@@ -974,52 +1279,53 @@
                 </div>
             </div>
 
-            <!-- Droite : Minuteur discret et minimaliste -->
-            <div class="chrono-discreet-card">
-                <div class="chrono-label">⏱️ Minuteur</div>
-                <div class="chrono-time-minimal" id="obs-chrono">00:00</div>
-                <button class="primary btn-chrono-minimal" id="btn-chrono" onclick="toggleChrono()">Démarrer</button>
-            </div>
-        </div>
-
-        <!-- Encart Spécial Arrêts / Marche -->
-        <div class="arrets-marche-card">
-            <div class="arrets-card-header">
-                <div class="arrets-card-title">🚶 Arrêts / Marche</div>
-                <div class="arrets-counter-badge" id="obs-arrets-count">0 arrêt(s)</div>
-            </div>
-            <div class="arrets-card-body">
-                <button id="btn-toggle-marche" class="btn-arret-toggle" onclick="toggleArretMarche()">
-                    <span id="btn-arret-icon">⏱️</span>
-                    <span id="btn-arret-text">Le coureur s'arrête / marche</span>
-                </button>
-                <div class="arret-timer-box">
-                    <span class="arret-timer-label">Chrono arrêt</span>
-                    <span class="arret-timer-val" id="obs-arret-chrono">00:00</span>
+            <!-- Encart Spécial Arrêts / Marche -->
+            <div class="arrets-marche-card" style="margin: 0;">
+                <div class="arrets-card-header">
+                    <div class="arrets-card-title">🚶 Arrêts / Marche</div>
+                    <div class="arrets-counter-badge" id="obs-arrets-count">0 arrêt(s)</div>
+                </div>
+                <div class="arrets-card-body">
+                    <button id="btn-toggle-marche" class="btn-arret-toggle" onclick="toggleArretMarche()">
+                        <span id="btn-arret-icon">⏱️</span>
+                        <span id="btn-arret-text">Le coureur s'arrête / marche</span>
+                    </button>
+                    <div class="arret-timer-box">
+                        <span class="arret-timer-label">Chrono arrêt</span>
+                        <span class="arret-timer-val" id="obs-arret-chrono">00:00</span>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <!-- BAS : Informations en Temps Réel -->
+        <div class="obs-section-title-bar">⚡ Informations en Temps Réel</div>
         <div class="dashboard-grid">
             <div class="stat-card">
-                <div class="label">Parcouru (m)</div>
-                <div class="value" id="obs-dist-done">0</div>
+                <div class="label">Distance Parcourue</div>
+                <div class="value" id="obs-dist-done">0 m</div>
             </div>
             <div class="stat-card">
-                <div class="label">Plots Restants</div>
+                <div class="label">Plots / Tours Restants</div>
                 <div class="value" id="obs-plots-left">0</div>
             </div>
-            <div class="stat-card">
-                <div class="label">Vitesse Cible</div>
-                <div class="value" id="obs-vitesse-card">0.0 km/h</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Vitesse Est.</div>
+            <div class="stat-card highlight-speed-card">
+                <div class="label">Vitesse Instantanée (Temps Réel)</div>
                 <div class="value" id="obs-vitesse">0.0 km/h</div>
             </div>
         </div>
 
-        <button class="success" onclick="validerCourse()" style="margin-top: 20px;">Valider la course</button>
+        <!-- Element caché pour compatibilité avec d'autres fonctions JS si besoin -->
+        <div id="obs-vitesse-card" style="display:none;"></div>
+
+        <div style="display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap;">
+            <button class="danger" onclick="annulerCourse()"
+                style="flex: 1; min-width: 160px; font-size: 16px; padding: 14px 20px; margin: 0;">Annuler la
+                course</button>
+            <button class="success" onclick="validerCourse()"
+                style="flex: 1; min-width: 160px; font-size: 16px; padding: 14px 20px; margin: 0;">Valider la
+                course</button>
+        </div>
     </div>
 
     <!-- VUE : ÉVALUATION -->
@@ -1149,13 +1455,18 @@
         let seanceConfig = JSON.parse(localStorage.getItem('df_seance')) || { num: 1, date: new Date().toISOString().split('T')[0], distPlots: 50, nbPlots: 4 };
 
         // Cache des courses effectuées dans la séance active en cours (avant validation "Séance terminée")
-        let activeSessionRuns = { 1: [], 2: [] };
+        let activeSessionRuns = JSON.parse(localStorage.getItem('df_active_runs')) || { 1: [], 2: [] };
 
         let runState = {
             activeId: null, targetMeters: 0, timeSec: 0, targetSpeed: 0,
             tours: 0, plots: 0, startTime: null, timerInterval: null, running: false,
+            elapsedSec: 0,
             arretsCount: 0, arretActive: false, arretInterval: null, arretCurrentSec: 0, arretTotalSec: 0
         };
+
+        function saveActiveRuns() {
+            localStorage.setItem('df_active_runs', JSON.stringify(activeSessionRuns));
+        }
 
         // --- MIGRATION / GESTION SÉANCES ---
         function getCoureurSeances(c) {
@@ -1183,6 +1494,100 @@
         function nav(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
+
+            if (viewId === 'view-session-config') {
+                populateEchauffementCoureurs();
+                updateActiveSessionUI();
+            }
+        }
+
+        function populateEchauffementCoureurs() {
+            let select = document.getElementById('e-coureur');
+            if (select) {
+                select.innerHTML = `<option value="1">${coureurs[1].prenom}</option><option value="2">${coureurs[2].prenom}</option>`;
+            }
+        }
+
+        function updateActiveSessionUI() {
+            let container = document.getElementById('active-session-runs-container');
+            if (!container) return;
+
+            let allRuns = [];
+            [1, 2].forEach(id => {
+                if (activeSessionRuns[id] && activeSessionRuns[id].length > 0) {
+                    activeSessionRuns[id].forEach((run, idx) => {
+                        allRuns.push({ runnerId: id, runnerName: coureurs[id].prenom, run: run, runIdx: idx + 1 });
+                    });
+                }
+            });
+
+            if (allRuns.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color: var(--text-muted); padding: 15px; background: rgba(0,0,0,0.02); border-radius: 12px; margin-top: 15px;">Aucune course enregistrée dans cette séance pour le moment.</p>`;
+                return;
+            }
+
+            let html = `<h3 style="margin-top: 25px; margin-bottom: 12px; color: var(--primary-dark); text-align: center;">🏃 Courses de la séance en cours (${allRuns.length})</h3>`;
+
+            allRuns.forEach((item) => {
+                let run = item.run;
+                let diff = run.realise - run.objectif;
+                let statusText = "";
+                let statusClass = "";
+
+                if (diff > 25) {
+                    statusText = "🚀 Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
+                    statusClass = "status-depasse";
+                } else if (diff >= -25 && diff <= 25) {
+                    statusText = "✅ Atteint (" + (diff >= 0 ? "+" + diff : diff) + " m)";
+                    statusClass = "status-atteint";
+                } else {
+                    statusText = "❌ Non Atteint (" + diff + " m)";
+                    statusClass = "status-non-atteint";
+                }
+
+                let timeStr = run.tempsSec ? formatTime(run.tempsSec) : "-";
+                let vitesseCibleStr = run.vitesseCible ? run.vitesseCible.toFixed(1) + " km/h" : "-";
+                let pct = run.pctVMA || 70;
+
+                let marcheBadge = '';
+                if (run.arretsCount > 0) {
+                    let totalStopStr = run.arretTotalSec ? formatTime(run.arretTotalSec) : '0s';
+                    marcheBadge = `<span style="background:#D97706; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">🚶 ${run.arretsCount} arrêt(s) (${totalStopStr})</span>`;
+                }
+
+                html += `
+                    <div class="seance-course-box" style="margin-bottom: 12px;">
+                        <div class="course-header">
+                            <h4>${item.runnerName} - Course n°${item.runIdx} ${marcheBadge}</h4>
+                            <div class="status-badge ${statusClass}">${statusText}</div>
+                        </div>
+                        <div class="seance-detail-grid">
+                            <div class="seance-stat-card">
+                                <div class="label">Durée</div>
+                                <div class="val">${timeStr}</div>
+                            </div>
+                            <div class="seance-stat-card">
+                                <div class="label">Intensité</div>
+                                <div class="val">${pct}% VMA</div>
+                            </div>
+                            <div class="seance-stat-card">
+                                <div class="label">Vitesse Cible</div>
+                                <div class="val">${vitesseCibleStr}</div>
+                            </div>
+                            <div class="seance-stat-card">
+                                <div class="label">Objectif</div>
+                                <div class="val">${run.objectif} m</div>
+                            </div>
+                            <div class="seance-stat-card">
+                                <div class="label">Réalisé</div>
+                                <div class="val" style="color:var(--primary); font-weight:800;">${run.realise} m</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
         }
 
         function openModal(modalId, param = null) {
@@ -1204,7 +1609,7 @@
             }
             if (modalId === 'modal-echauffement' || modalId === 'modal-config-course') {
                 let select = document.getElementById(modalId === 'modal-echauffement' ? 'e-coureur' : 'p-coureur');
-                select.innerHTML = `<option value="1">${coureurs[1].prenom}</option><option value="2">${coureurs[2].prenom}</option>`;
+                if (select) select.innerHTML = `<option value="1">${coureurs[1].prenom}</option><option value="2">${coureurs[2].prenom}</option>`;
                 if (modalId === 'modal-config-course') {
                     let selectTime = document.getElementById('p-temps');
                     selectTime.innerHTML = '';
@@ -1251,8 +1656,17 @@
         }
 
         function saveEchauffement() {
-            closeModal('modal-echauffement');
-            alert("Données d'échauffement enregistrées.");
+            let id = document.getElementById('e-coureur').value;
+            if (!coureurs[id].echauffements) coureurs[id].echauffements = {};
+            coureurs[id].echauffements[seanceConfig.num] = {
+                fcRepos: document.getElementById('e-fc-repos').value,
+                sensRepos: document.getElementById('e-sens-repos').value,
+                fcPost: document.getElementById('e-fc-post').value,
+                sensPost: document.getElementById('e-sens-post').value,
+                note: document.getElementById('e-note').value
+            };
+            saveData();
+            alert(`Données d'échauffement enregistrées pour ${coureurs[id].prenom} !`);
         }
 
         function terminerSeance() {
@@ -1278,7 +1692,9 @@
                 }
             });
 
+            saveActiveRuns();
             saveData();
+            updateActiveSessionUI();
 
             if (hasRuns) {
                 alert(`Séance n°${seanceConfig.num} terminée et enregistrée dans les fiches coureurs !`);
@@ -1468,8 +1884,9 @@
             document.getElementById('obs-vitesse-cible').innerText = speedTargetStr + " km/h";
             document.getElementById('obs-vitesse-card').innerText = speedTargetStr + " km/h";
 
-            // Reset arret state
+            // Reset arret & run state
             runState.tours = 0; runState.plots = 0; runState.running = false;
+            runState.elapsedSec = 0;
             runState.arretsCount = 0; runState.arretActive = false;
             runState.arretCurrentSec = 0; runState.arretTotalSec = 0;
             clearInterval(runState.arretInterval);
@@ -1544,11 +1961,15 @@
                 btn.innerText = "Pause";
                 btn.className = "danger";
 
-                let targetEndTime = Date.now() + (runState.timeSec * 1000);
+                let chronoStartTime = Date.now() - (runState.elapsedSec * 1000);
 
                 runState.timerInterval = setInterval(() => {
-                    let remain = Math.max(0, Math.ceil((targetEndTime - Date.now()) / 1000));
+                    let now = Date.now();
+                    runState.elapsedSec = Math.floor((now - chronoStartTime) / 1000);
+                    let remain = Math.max(0, runState.timeSec - runState.elapsedSec);
                     document.getElementById('obs-chrono').innerText = formatTime(remain);
+
+                    updateDashboard();
 
                     if (remain <= 0) {
                         toggleChrono();
@@ -1579,13 +2000,39 @@
         function updateDashboard() {
             let distParTour = seanceConfig.nbPlots * seanceConfig.distPlots;
             let distActuelle = (runState.tours * distParTour) + (runState.plots * seanceConfig.distPlots);
-            document.getElementById('obs-dist-done').innerText = distActuelle;
+
+            let obsDistDone = document.getElementById('obs-dist-done');
+            if (obsDistDone) obsDistDone.innerText = distActuelle + " m";
 
             let distRestante = Math.max(0, runState.targetMeters - distActuelle);
             let plotsRestants = Math.ceil(distRestante / seanceConfig.distPlots);
-            document.getElementById('obs-plots-left').innerText = plotsRestants;
+            let toursRestants = Math.floor(distRestante / distParTour);
+            let plotsBonusRestants = Math.round((distRestante % distParTour) / seanceConfig.distPlots);
+            if (plotsBonusRestants >= seanceConfig.nbPlots) {
+                toursRestants += Math.floor(plotsBonusRestants / seanceConfig.nbPlots);
+                plotsBonusRestants = plotsBonusRestants % seanceConfig.nbPlots;
+            }
 
-            document.getElementById('obs-vitesse').innerText = (distActuelle > 0) ? runState.targetSpeed.toFixed(1) + " km/h" : "0.0 km/h";
+            let obsPlotsElem = document.getElementById('obs-plots-left');
+            if (obsPlotsElem) {
+                let textRestant = `${plotsRestants} plot${plotsRestants > 1 ? 's' : ''}`;
+                if (distRestante > 0) {
+                    textRestant += ` (${toursRestants} t + ${plotsBonusRestants} p)`;
+                } else {
+                    textRestant = "Objectif atteint !";
+                }
+                obsPlotsElem.innerText = textRestant;
+            }
+
+            // Calcul de la vitesse instantanée en temps réel basée sur le minuteur et la distance enregistrée
+            let speedRealTime = (runState.elapsedSec > 0 && distActuelle > 0)
+                ? ((distActuelle / runState.elapsedSec) * 3.6)
+                : 0;
+
+            let obsVitesseElem = document.getElementById('obs-vitesse');
+            if (obsVitesseElem) {
+                obsVitesseElem.innerText = speedRealTime > 0 ? speedRealTime.toFixed(1) + " km/h" : "0.0 km/h";
+            }
         }
 
         function validerCourse() {
@@ -1621,8 +2068,21 @@
                 arretTotalSec: runState.arretTotalSec || 0
             });
 
+            saveActiveRuns();
+            updateActiveSessionUI();
+
             alert(`Course validée pour ${coureurs[runState.activeId].prenom} (${distFinale} m) !`);
             nav('view-session-config');
+        }
+
+        function annulerCourse() {
+            if (confirm("Voulez-vous vraiment annuler la course ? Les données enregistrées pour cette course ne seront pas sauvegardées.")) {
+                clearInterval(runState.timerInterval);
+                clearInterval(runState.arretInterval);
+                runState.running = false;
+                runState.arretActive = false;
+                nav('view-session-config');
+            }
         }
     </script>
 </body>
