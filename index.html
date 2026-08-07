@@ -8,6 +8,11 @@
     <title>Suivi Demi-Fond</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --primary: #B83B1D;
@@ -43,6 +48,11 @@
             display: none;
             padding: 20px;
             animation: fadeIn 0.3s ease;
+        }
+
+        .view:not(#view-accueil) {
+            max-width: 650px;
+            margin: 0 auto;
         }
 
         .view.active {
@@ -320,12 +330,13 @@
         }
 
         #view-accueil {
-            background: url('fd3.png') no-repeat center center / cover;
+            background: url('image/fd3.png') no-repeat center center / cover;
             min-height: 100vh;
             margin: -20px;
             padding: 20px;
             box-sizing: border-box;
             overflow-x: hidden;
+            max-width: none;
         }
 
         #view-accueil.active {
@@ -341,12 +352,12 @@
             -webkit-backdrop-filter: blur(12px);
             color: #FFFFFF;
             border-radius: 16px;
-            padding: 22px 28px;
-            font-size: 19px;
+            padding: 15px 24px;
+            font-size: 17px;
             font-weight: 700;
             width: 85%;
             max-width: 380px;
-            margin-bottom: 22px;
+            margin-bottom: 16px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35);
             border: 1.5px solid rgba(255, 255, 255, 0.35);
             text-transform: uppercase;
@@ -354,37 +365,48 @@
             transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Effet escalier (décalage horizontal) */
+        /* Effet escalier progressif (décalage horizontal sur 4 boutons) */
         #view-accueil button:nth-child(1) {
-            transform: translateX(-45px);
+            transform: translateX(-100px);
         }
 
         #view-accueil button:nth-child(2) {
-            transform: translateX(0);
+            transform: translateX(-60px);
         }
 
         #view-accueil button:nth-child(3) {
-            transform: translateX(45px);
+            transform: translateX(-20px);
+        }
+
+        #view-accueil button:nth-child(4) {
+            transform: translateX(20px);
         }
 
         #view-accueil button:nth-child(1):hover,
         #view-accueil button:nth-child(1):active {
             background-color: rgba(184, 59, 29, 0.9);
-            transform: translateX(-45px) scale(1.03);
+            transform: translateX(-100px) scale(1.03);
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
         }
 
         #view-accueil button:nth-child(2):hover,
         #view-accueil button:nth-child(2):active {
             background-color: rgba(184, 59, 29, 0.9);
-            transform: translateX(0) scale(1.03);
+            transform: translateX(-60px) scale(1.03);
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
         }
 
         #view-accueil button:nth-child(3):hover,
         #view-accueil button:nth-child(3):active {
             background-color: rgba(184, 59, 29, 0.9);
-            transform: translateX(45px) scale(1.03);
+            transform: translateX(-20px) scale(1.03);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        #view-accueil button:nth-child(4):hover,
+        #view-accueil button:nth-child(4):active {
+            background-color: rgba(184, 59, 29, 0.9);
+            transform: translateX(20px) scale(1.03);
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
         }
 
@@ -441,7 +463,20 @@
         .coureur-col .btn-fiche-sq {
             width: 100%;
             height: 180px;
-            font-size: 22px;
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55)), url('image/fondbtn.png') no-repeat center center / cover;
+            color: #B83B1D;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .coureur-col .btn-fiche-sq:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
         }
 
         /* Dynamic Fiche Coureur Layout */
@@ -944,13 +979,58 @@
             text-align: left;
         }
 
+        .echauffement-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0;
+            cursor: pointer;
+            user-select: none;
+            width: 100%;
+        }
+
+        .btn-toggle-echauffement {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: auto !important;
+            max-width: max-content !important;
+            flex-shrink: 0 !important;
+            white-space: nowrap !important;
+            background: rgba(124, 58, 237, 0.08);
+            color: var(--primary-dark, #4C1D95);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0 !important;
+            opacity: 0.85;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .btn-toggle-echauffement:hover {
+            background: rgba(124, 58, 237, 0.18);
+            opacity: 1;
+        }
+
+        @media (max-width: 480px) {
+            .btn-toggle-echauffement {
+                padding: 3px 7px;
+                font-size: 10px;
+            }
+        }
+
         .echauffement-card-title {
             font-size: 16px;
             font-weight: 800;
             color: var(--primary-dark, #4C1D95);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 16px;
+            margin-bottom: 0;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -1065,16 +1145,20 @@
 
     <!-- VUE : ACCUEIL -->
     <div id="view-accueil" class="view active">
+        <button class="primary btn-with-icon" onclick="openModal('modal-coureur', 1)">
+            <img src="image/fiche1.png" alt="Inscription" class="btn-side-img">
+            <span>S'inscrire</span>
+        </button>
         <button class="primary btn-with-icon" onclick="nav('view-infos')">
-            <img src="fiche1.png" alt="Fiche1" class="btn-side-img">
-            <span>Infos coureurs</span>
+            <img src="image/logofiche.png" alt="Fiches coureurs" class="btn-side-img">
+            <span>Fiches coureurs</span>
         </button>
         <button class="primary btn-with-icon" onclick="nav('view-session-config')">
-            <img src="seance.png" alt="Séance" class="btn-side-img">
+            <img src="image/tableau.png" alt="Séance" class="btn-side-img">
             <span>Commencer une séance</span>
         </button>
         <button class="primary btn-with-icon" onclick="nav('view-eval')">
-            <img src="eval.png" alt="Évaluation" class="btn-side-img">
+            <img src="image/eval.png" alt="Évaluation" class="btn-side-img">
             <span>Évaluation</span>
         </button>
     </div>
@@ -1089,23 +1173,19 @@
         <!-- Titre et Image en gros au centre -->
         <div class="infos-header-center">
             <h2>Fiche Coureur</h2>
-            <img src="fiche1.png" alt="fiche1">
+            <img src="image/logocoureur.png" alt="fiche">
         </div>
 
         <!-- 2 colonnes verticales : Coureur 1 a gauche, Coureur 2 a droite -->
         <div class="coureurs-duo-grid">
             <!-- Colonne Coureur 1 -->
             <div class="coureur-col">
-                <button class="btn-edit-coureur" onclick="openModal('modal-coureur', 1)">Enregistrer/Modifier Coureur
-                    1</button>
-                <button class="primary btn-fiche-sq" onclick="openFiche(1)">Fiche coureur 1</button>
+                <button class="primary btn-fiche-sq" id="btn-fiche-1" onclick="openFiche(1)">Fiche Coureur 1</button>
             </div>
 
             <!-- Colonne Coureur 2 -->
             <div class="coureur-col">
-                <button class="btn-edit-coureur" onclick="openModal('modal-coureur', 2)">Enregistrer/Modifier Coureur
-                    2</button>
-                <button class="primary btn-fiche-sq" onclick="openFiche(2)">Fiche coureur 2</button>
+                <button class="primary btn-fiche-sq" id="btn-fiche-2" onclick="openFiche(2)">Fiche Coureur 2</button>
             </div>
         </div>
     </div>
@@ -1169,52 +1249,61 @@
         </div>
 
         <!-- ENCART ECHAUFFEMENT -->
-        <div class="echauffement-inline-card">
-            <div class="echauffement-card-title">🔥 Échauffement</div>
-            <div class="echauffement-form-grid">
-                <div class="form-group">
-                    <label>Coureur</label>
-                    <select id="e-coureur"></select>
-                </div>
-                <div class="form-group">
-                    <label>FC Repos (bpm)</label>
-                    <input type="number" id="e-fc-repos" placeholder="ex: 65">
-                </div>
-                <div class="form-group">
-                    <label>Sensation Repos</label>
-                    <select id="e-sens-repos">
-                        <option>Très bien</option>
-                        <option>Bien</option>
-                        <option>Moyen</option>
-                        <option>Bof</option>
-                        <option>Pas bien</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>FC Post-Échauffement</label>
-                    <input type="number" id="e-fc-post" placeholder="ex: 120">
-                </div>
-                <div class="form-group">
-                    <label>Sensation Post-Échauffement</label>
-                    <select id="e-sens-post">
-                        <option>Très bien</option>
-                        <option>Bien</option>
-                        <option>Moyen</option>
-                        <option>Bof</option>
-                        <option>Pas bien</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Auto-évaluation (0 à 3)</label>
-                    <input type="number" min="0" max="3" id="e-note" placeholder="0 à 3">
-                </div>
+        <div class="echauffement-inline-card" id="echauffement-card">
+            <div class="echauffement-card-header" onclick="toggleEchauffementCard()">
+                <div class="echauffement-card-title">🔥 Échauffement</div>
+                <button id="btn-toggle-echauffement" class="btn-toggle-echauffement" type="button"
+                    onclick="event.stopPropagation(); toggleEchauffementCard();">
+                    ▲ Masquer
+                </button>
             </div>
-            <button class="primary btn-save-echauffement" onclick="saveEchauffement()">Enregistrer
-                l'échauffement</button>
+
+            <div id="echauffement-body" style="margin-top: 16px;">
+                <div class="echauffement-form-grid">
+                    <div class="form-group">
+                        <label>Coureur</label>
+                        <select id="e-coureur"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>FC Repos (bpm)</label>
+                        <input type="number" id="e-fc-repos" placeholder="ex: 65">
+                    </div>
+                    <div class="form-group">
+                        <label>Sensation Repos</label>
+                        <select id="e-sens-repos">
+                            <option>Très bien</option>
+                            <option>Bien</option>
+                            <option>Moyen</option>
+                            <option>Bof</option>
+                            <option>Pas bien</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>FC Post-Échauffement</label>
+                        <input type="number" id="e-fc-post" placeholder="ex: 120">
+                    </div>
+                    <div class="form-group">
+                        <label>Sensation Post-Échauffement</label>
+                        <select id="e-sens-post">
+                            <option>Très bien</option>
+                            <option>Bien</option>
+                            <option>Moyen</option>
+                            <option>Bof</option>
+                            <option>Pas bien</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Auto-évaluation (0 à 3)</label>
+                        <input type="number" min="0" max="3" id="e-note" placeholder="0 à 3">
+                    </div>
+                </div>
+                <button class="primary btn-save-echauffement" onclick="saveEchauffement()">Enregistrer
+                    l'échauffement</button>
+            </div>
         </div>
 
         <!-- BOUTON DÉMARRER UNE COURSE -->
-        <button class="success btn-start-course" onclick="openModal('modal-config-course')">🚀 Démarrer une
+        <button class="success btn-start-course" onclick="openModal('modal-config-course')"> Démarrer une
             course</button>
 
         <!-- COURSES EFFECTUÉES PENDANT LA SÉANCE ACTIVE -->
@@ -1295,6 +1384,13 @@
                         <span class="arret-timer-val" id="obs-arret-chrono">00:00</span>
                     </div>
                 </div>
+                <div style="margin-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 12px;">
+                    <button id="btn-abandon" onclick="enregistrerAbandon()"
+                        style="width: 100%; padding: 12px; background: rgba(220, 38, 38, 0.15); border: 1.5px solid #DC2626; color: #DC2626; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;">
+                        <span>⚠️</span>
+                        <span>Déclarer un abandon</span>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -1346,8 +1442,13 @@
     <!-- Modale : Coureur -->
     <div class="modal-overlay" id="modal-coureur">
         <div class="modal">
-            <h3 id="modal-coureur-title">Coureur</h3>
-            <input type="hidden" id="c-id">
+            <h3 id="modal-coureur-title">Inscription Coureur</h3>
+            <label>Choix du coureur</label>
+            <select id="c-id-select" onchange="onCoureurSelectChange()">
+                <option value="1">Coureur 1</option>
+                <option value="2">Coureur 2</option>
+            </select>
+            <input type="hidden" id="c-id" value="1">
             <label>Nom</label><input type="text" id="c-nom">
             <label>Prénom</label><input type="text" id="c-prenom">
             <label>Classe</label><input type="text" id="c-classe">
@@ -1446,6 +1547,80 @@
         </div>
     </div>
 
+    <!-- Modale 1 : Confirmation d'Enregistrement Course -->
+    <div class="modal-overlay" id="modal-validation-course">
+        <div class="modal"
+            style="text-align: center; font-family: 'Atkinson Hyperlegible', Verdana, Arial, sans-serif;">
+            <h3 style="color: var(--success); font-size: 24px; font-weight: 700;">✅ Course Enregistrée !</h3>
+            <p id="modal-validation-text"
+                style="font-size: 19px; margin: 24px 0; line-height: 1.6; color: var(--text-main);"></p>
+            <div class="modal-buttons">
+                <button class="primary" onclick="fermerValidationEtOuvrirAnalyse()"
+                    style="width: 100%; padding: 16px; font-size: 18px; font-weight: bold; font-family: inherit;">Voir
+                    l'analyse 📊</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modale 2 : Analyse Pédagogique Course -->
+    <div class="modal-overlay" id="modal-analyse-course">
+        <div class="modal modal-large" style="font-family: 'Atkinson Hyperlegible', Verdana, Arial, sans-serif;">
+            <h3 id="modal-analyse-title"
+                style="font-size: 24px; font-weight: 700; color: var(--primary); text-align: center;">📊 Analyse de la
+                course</h3>
+
+            <div style="display: flex; flex-direction: column; gap: 18px; margin: 24px 0; text-align: left;">
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 18px 20px; border-radius: 14px;">
+                    <div style="font-weight: 700; font-size: 20px; color: var(--primary); margin-bottom: 8px;">🏃
+                        Analyse de la course</div>
+                    <div id="modal-analyse-body"
+                        style="font-size: 18px; line-height: 1.6; color: var(--text-main); font-weight: 400;"></div>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.05); padding: 18px 20px; border-radius: 14px;">
+                    <div style="font-weight: 700; font-size: 20px; color: #D97706; margin-bottom: 8px;">💡 Conseil</div>
+                    <div id="modal-conseil-body"
+                        style="font-size: 18px; line-height: 1.6; color: var(--text-main); font-weight: 400;"></div>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="primary" onclick="closeModal('modal-analyse-course'); nav('view-session-config');"
+                    style="width: 100%; padding: 16px; font-size: 18px; font-weight: bold; font-family: inherit;">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE UNIFORMISÉE : ALERTE APPLICATION -->
+    <div class="modal-overlay" id="modal-app-alert">
+        <div class="modal"
+            style="text-align: center; font-family: 'Atkinson Hyperlegible', Verdana, Arial, sans-serif;">
+            <h3 id="app-alert-title" style="color: var(--primary); font-size: 24px; font-weight: 700;">Notification</h3>
+            <p id="app-alert-body" style="font-size: 19px; margin: 24px 0; line-height: 1.6; color: var(--text-main);">
+            </p>
+            <div class="modal-buttons">
+                <button id="app-alert-btn" class="primary" onclick="closeAppAlert()"
+                    style="width: 100%; padding: 16px; font-size: 18px; font-weight: bold; font-family: inherit;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE UNIFORMISÉE : CONFIRMATION APPLICATION -->
+    <div class="modal-overlay" id="modal-app-confirm">
+        <div class="modal"
+            style="text-align: center; font-family: 'Atkinson Hyperlegible', Verdana, Arial, sans-serif;">
+            <h3 id="app-confirm-title" style="color: #DC2626; font-size: 24px; font-weight: 700;">Confirmation</h3>
+            <p id="app-confirm-body"
+                style="font-size: 19px; margin: 24px 0; line-height: 1.6; color: var(--text-main);"></p>
+            <div class="modal-buttons" style="display: flex; gap: 12px;">
+                <button class="danger" onclick="closeAppConfirm(false)"
+                    style="flex: 1; padding: 16px; font-size: 18px; font-weight: bold; font-family: inherit; margin: 0;">Annuler</button>
+                <button id="app-confirm-ok-btn" class="success" onclick="closeAppConfirm(true)"
+                    style="flex: 1; padding: 16px; font-size: 18px; font-weight: bold; font-family: inherit; margin: 0;">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- ETAT GLOBAL ---
         let coureurs = JSON.parse(localStorage.getItem('df_coureurs')) || {
@@ -1456,16 +1631,159 @@
 
         // Cache des courses effectuées dans la séance active en cours (avant validation "Séance terminée")
         let activeSessionRuns = JSON.parse(localStorage.getItem('df_active_runs')) || { 1: [], 2: [] };
+        let lastRunAnalysis = { runnerId: 1, distFinale: 0, analyse: '', conseil: '' };
+        let appAlertCallback = null;
+        let appConfirmCallback = null;
+
+        function showAppAlert(title, message, icon = 'ℹ️', buttonText = 'OK', callback = null) {
+            document.getElementById('app-alert-title').innerHTML = `${icon} ${title}`;
+            document.getElementById('app-alert-body').innerHTML = message;
+            document.getElementById('app-alert-btn').innerText = buttonText;
+            appAlertCallback = callback;
+            openModal('modal-app-alert');
+        }
+
+        function closeAppAlert() {
+            closeModal('modal-app-alert');
+            if (appAlertCallback) {
+                let cb = appAlertCallback;
+                appAlertCallback = null;
+                cb();
+            }
+        }
+
+        function showAppConfirm(title, message, onConfirm, onCancel = null) {
+            document.getElementById('app-confirm-title').innerHTML = `⚠️ ${title}`;
+            document.getElementById('app-confirm-body').innerHTML = message;
+            appConfirmCallback = { onConfirm, onCancel };
+            openModal('modal-app-confirm');
+        }
+
+        function closeAppConfirm(result) {
+            closeModal('modal-app-confirm');
+            if (appConfirmCallback) {
+                let cb = appConfirmCallback;
+                appConfirmCallback = null;
+                if (result && cb.onConfirm) cb.onConfirm();
+                else if (!result && cb.onCancel) cb.onCancel();
+            }
+        }
 
         let runState = {
             activeId: null, targetMeters: 0, timeSec: 0, targetSpeed: 0,
             tours: 0, plots: 0, startTime: null, timerInterval: null, running: false,
             elapsedSec: 0,
-            arretsCount: 0, arretActive: false, arretInterval: null, arretCurrentSec: 0, arretTotalSec: 0
+            arretsCount: 0, arretActive: false, arretInterval: null, arretCurrentSec: 0, arretTotalSec: 0,
+            abandon: false
         };
 
         function saveActiveRuns() {
             localStorage.setItem('df_active_runs', JSON.stringify(activeSessionRuns));
+        }
+
+        function enregistrerAbandon() {
+            if (!runState.activeId) return;
+            showAppConfirm(
+                "Confirmer l'Abandon",
+                `Voulez-vous vraiment déclarer l'abandon de la course pour <strong>${coureurs[runState.activeId].prenom}</strong> ?`,
+                () => {
+                    runState.abandon = true;
+                    validerCourse();
+                }
+            );
+        }
+
+        // --- ARBRE DÉCISIONNEL & ANALYSE PÉDAGOGIQUE ---
+        function analyserCourse(runData) {
+            if (runData.abandon) {
+                return {
+                    analyse: "Analyse de la course : Abandon de la course.",
+                    conseil: "Conseil : Prends le temps de récupérer et échange avec ton professeur pour analyser les raisons de cet abandon et réadapter ton projet de course. Ne te décourage pas !"
+                };
+            }
+
+            let nbPlotsTour = seanceConfig.nbPlots || 4;
+            let distPlot = seanceConfig.distPlots || 50;
+            let totalPlotsDone = (runData.tours * nbPlotsTour) + runData.plots;
+            let targetPlotsNeeded = runData.objectif > 0 ? Math.ceil(runData.objectif / distPlot) : 0;
+
+            let diffPlots = totalPlotsDone - targetPlotsNeeded;
+            let absDiff = Math.abs(diffPlots);
+            let avecMarche = (runData.arretsCount > 0) || runData.marche;
+            let arretTotalSec = runData.arretTotalSec || 0;
+            let arretsCount = runData.arretsCount || 0;
+
+            let arretFrequentOuLong = (arretsCount > 2) || (arretTotalSec >= 15);
+
+            let analyse = "";
+            let conseil = "";
+
+            if (diffPlots === 0) { // ATTEINT
+                if (!avecMarche) {
+                    analyse = "Course réussie ! Bravo !";
+                    conseil = "Conserve cette stratégie et cette régularité pour tes prochaines séances !";
+                } else {
+                    analyse = "Analyse de la course : Très bien ! Tu as validé ton objectif de course mais attention tu as marché.";
+                    conseil = "Conseil : Cours un peu moins vite pour mieux gérer ton allure de course et ne pas avoir à t'arrêter.";
+                }
+            } else if (diffPlots < 0) { // NON ATTEINT
+                if (absDiff <= 3) { // De 1, 2 ou 3 plots
+                    if (!avecMarche) {
+                        analyse = "Analyse de la course : Tu n'as pas validé ton objectif de course.";
+                        conseil = "Conseil : Cours un peu plus vite. Prends des repères pendant la course pour savoir où tu en es dans ton projet et si tu dois accélérer ou ralentir pendant la course.";
+                    } else if (!arretFrequentOuLong) {
+                        analyse = "Analyse de la course : Tu n'as pas réussi l'objectif de la course.";
+                        conseil = "Conseil : Essaye de récupérer en ralentissant ta vitesse de course mais sans t'arrêter. Tu pourras récupérer et te rapprocher de ton objectif. Essaye de courir avec plus de régularité (exemple : éviter de courir vite, puis t'arrêter pour ensuite repartir vite).";
+                    } else {
+                        analyse = "Analyse de la course : Tu n'as pas atteint l'objectif.";
+                        conseil = "Conseil : Change de projet, réduis l'intensité de ta course. Ne relâche pas tes efforts.";
+                    }
+                } else { // De 4 plots ou plus
+                    if (!avecMarche) {
+                        analyse = "Analyse de la course : Tu es loin de ton projet de course !";
+                        conseil = "Conseil : Change ton projet, réduis l'intensité choisie, elle est trop élevée pour toi.";
+                    } else if (!arretFrequentOuLong) {
+                        analyse = "Analyse de la course : Tu es loin de ton projet de course !";
+                        conseil = "Conseil : Ne relâche pas tes efforts. Soit tu augmente ta vitesse de course si tu le peux, soit tu change de projet (intensité).";
+                    } else {
+                        analyse = "Analyse de la course : Tu es loin de ton projet de course !";
+                        conseil = "Conseil : Augmente tes efforts. Si le projet est trop difficile, change de stratégie et choisis une intensité moins élevée.";
+                    }
+                }
+            } else { // DÉPASSÉ
+                if (absDiff <= 3) { // De 1, 2 ou 3 plots
+                    if (!avecMarche) {
+                        analyse = "Analyse de la course : Très bien tu as atteint ton objectif ! Mais attention, l'objectif est d'atteindre l'objectif sans le dépassé.";
+                        conseil = "Conseil : Réduit ton allure sur la course ou change de projet (augmente le).";
+                    } else if (!arretFrequentOuLong) {
+                        analyse = "Analyse de la course : Très bien tu as atteint ton objectif, et en marchant parfois en plus ! Cela signifie que ton intensité n'est pas la bonne.";
+                        conseil = "Conseil : Change ton projet, augmente l'intensité.";
+                    } else {
+                        analyse = "Analyse de la course : Tu as dépassé ton projet et en marchant souvent. C'était trop facile ?";
+                        conseil = "Conseil : Change ton projet, augmente l'intensité et vérifie bien la distance que tu parcours.";
+                    }
+                } else { // De 4 plots ou plus
+                    if (!avecMarche) {
+                        analyse = "Analyse de la course : Tu as dépassé de beaucoup ton projet ! Tu as bien couru mais l'objectif est de ne pas dépassé.";
+                        conseil = "Conseil : Change ton projet, augmente l'intensité, elle est surement trop faible.";
+                    } else {
+                        analyse = "Analyse de la course : Tu as dépassé ton projet et en marchant souvent ? 🤨 L'observateur a t-il observé correctement ?";
+                        conseil = "Conseil : Change ton projet, augmente l'intensité et vérifie bien la distance que tu parcours.";
+                    }
+                }
+            }
+
+            return { analyse, conseil };
+        }
+
+        function fermerValidationEtOuvrirAnalyse() {
+            closeModal('modal-validation-course');
+
+            document.getElementById('modal-analyse-title').innerText = `📊 Analyse de la course - ${coureurs[lastRunAnalysis.runnerId].prenom}`;
+            document.getElementById('modal-analyse-body').innerText = lastRunAnalysis.analyse;
+            document.getElementById('modal-conseil-body').innerText = lastRunAnalysis.conseil;
+
+            openModal('modal-analyse-course');
         }
 
         // --- MIGRATION / GESTION SÉANCES ---
@@ -1495,10 +1813,22 @@
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
 
+            if (viewId === 'view-infos') {
+                updateInfosViewButtons();
+            }
             if (viewId === 'view-session-config') {
                 populateEchauffementCoureurs();
                 updateActiveSessionUI();
             }
+        }
+
+        function updateInfosViewButtons() {
+            let btn1 = document.getElementById('btn-fiche-1');
+            let btn2 = document.getElementById('btn-fiche-2');
+            let p1 = coureurs[1].prenom;
+            let p2 = coureurs[2].prenom;
+            if (btn1) btn1.innerText = (p1 && p1 !== 'Coureur 1') ? `Fiche de ${p1}` : 'Fiche Coureur 1';
+            if (btn2) btn2.innerText = (p2 && p2 !== 'Coureur 2') ? `Fiche de ${p2}` : 'Fiche Coureur 2';
         }
 
         function populateEchauffementCoureurs() {
@@ -1590,16 +1920,34 @@
             container.innerHTML = html;
         }
 
+        function loadCoureurFormData(id) {
+            let select = document.getElementById('c-id-select');
+            if (select) select.value = id;
+            document.getElementById('c-id').value = id;
+            document.getElementById('c-nom').value = coureurs[id].nom || '';
+            document.getElementById('c-prenom').value = (coureurs[id].prenom === `Coureur ${id}`) ? '' : (coureurs[id].prenom || '');
+            document.getElementById('c-classe').value = coureurs[id].classe || '';
+            document.getElementById('c-vma').value = coureurs[id].vma || 10;
+        }
+
+        function onCoureurSelectChange() {
+            let selectedId = parseInt(document.getElementById('c-id-select').value) || 1;
+            loadCoureurFormData(selectedId);
+        }
+
         function openModal(modalId, param = null) {
             document.getElementById(modalId).classList.add('active');
 
             if (modalId === 'modal-coureur') {
-                document.getElementById('modal-coureur-title').innerText = "Coureur " + param;
-                document.getElementById('c-id').value = param;
-                document.getElementById('c-nom').value = coureurs[param].nom;
-                document.getElementById('c-prenom').value = coureurs[param].prenom === `Coureur ${param}` ? '' : coureurs[param].prenom;
-                document.getElementById('c-classe').value = coureurs[param].classe;
-                document.getElementById('c-vma').value = coureurs[param].vma;
+                let targetId = param || 1;
+                document.getElementById('modal-coureur-title').innerText = "Inscription Coureur";
+                let select = document.getElementById('c-id-select');
+                if (select) {
+                    let label1 = coureurs[1].prenom && coureurs[1].prenom !== 'Coureur 1' ? `Coureur 1 (${coureurs[1].prenom})` : 'Coureur 1';
+                    let label2 = coureurs[2].prenom && coureurs[2].prenom !== 'Coureur 2' ? `Coureur 2 (${coureurs[2].prenom})` : 'Coureur 2';
+                    select.innerHTML = `<option value="1">${label1}</option><option value="2">${label2}</option>`;
+                }
+                loadCoureurFormData(targetId);
             }
             if (modalId === 'modal-config-seance') {
                 document.getElementById('s-num').value = seanceConfig.num;
@@ -1636,12 +1984,15 @@
         function saveData() { localStorage.setItem('df_coureurs', JSON.stringify(coureurs)); }
 
         function saveCoureur() {
-            let id = document.getElementById('c-id').value;
+            let id = document.getElementById('c-id-select').value || document.getElementById('c-id').value || 1;
             coureurs[id].nom = document.getElementById('c-nom').value;
             coureurs[id].prenom = document.getElementById('c-prenom').value || `Coureur ${id}`;
             coureurs[id].classe = document.getElementById('c-classe').value;
             coureurs[id].vma = parseFloat(document.getElementById('c-vma').value) || 10;
-            saveData(); closeModal('modal-coureur');
+            saveData();
+            updateInfosViewButtons();
+            closeModal('modal-coureur');
+            showAppAlert("Inscription Enregistrée", `Les informations de <strong>${coureurs[id].prenom}</strong> ont été enregistrées avec succès.`, "✅");
         }
 
         function saveConfigSeance() {
@@ -1653,6 +2004,7 @@
             };
             localStorage.setItem('df_seance', JSON.stringify(seanceConfig));
             closeModal('modal-config-seance');
+            showAppAlert("Configuration Enregistrée", `La séance n°<strong>${seanceConfig.num}</strong> (${seanceConfig.nbPlots} plots x ${seanceConfig.distPlots}m) a été mise à jour.`, "⚙️");
         }
 
         function saveEchauffement() {
@@ -1666,7 +2018,25 @@
                 note: document.getElementById('e-note').value
             };
             saveData();
-            alert(`Données d'échauffement enregistrées pour ${coureurs[id].prenom} !`);
+            toggleEchauffementCard(false);
+            showAppAlert("Échauffement Enregistré", `Les données d'échauffement de <strong>${coureurs[id].prenom}</strong> ont été enregistrées.`, "🔥");
+        }
+
+        function toggleEchauffementCard(forceState = null) {
+            let body = document.getElementById('echauffement-body');
+            let btn = document.getElementById('btn-toggle-echauffement');
+            if (!body || !btn) return;
+
+            let isVisible = body.style.display !== 'none';
+            let shouldShow = (forceState !== null) ? forceState : !isVisible;
+
+            if (shouldShow) {
+                body.style.display = 'block';
+                btn.innerText = '▲ Masquer';
+            } else {
+                body.style.display = 'none';
+                btn.innerText = '▼ Modifier';
+            }
         }
 
         function terminerSeance() {
@@ -1697,9 +2067,12 @@
             updateActiveSessionUI();
 
             if (hasRuns) {
-                alert(`Séance n°${seanceConfig.num} terminée et enregistrée dans les fiches coureurs !`);
+                showAppAlert("Séance Terminée", `La séance n°<strong>${seanceConfig.num}</strong> a été enregistrée avec succès dans les fiches coureurs.`, "🏁", "Retour à l'accueil", () => {
+                    nav('view-accueil');
+                });
+            } else {
+                nav('view-accueil');
             }
-            nav('view-accueil');
         }
 
         // --- FICHE COUREUR ---
@@ -1768,8 +2141,11 @@
                     let statusText = "";
                     let statusClass = "";
 
-                    if (diff > 25) {
-                        statusText = "🚀 Projet Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
+                    if (run.abandon) {
+                        statusText = "⚠️ Abandon (" + run.realise + " m)";
+                        statusClass = "status-non-atteint";
+                    } else if (diff > 25) {
+                        statusText = "❌ Projet Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
                         statusClass = "status-depasse";
                     } else if (diff >= -25 && diff <= 25) {
                         statusText = "✅ Projet Atteint (" + (diff >= 0 ? "+" + diff : diff) + " m)";
@@ -1783,7 +2159,9 @@
                     let timeStr = run.tempsSec ? formatTime(run.tempsSec) : "-";
                     let vitesseCibleStr = run.vitesseCible ? run.vitesseCible.toFixed(1) + " km/h" : "-";
                     let marcheBadge = '';
-                    if (run.arretsCount > 0) {
+                    if (run.abandon) {
+                        marcheBadge = `<span style="background:#DC2626; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">⚠️ Abandon</span>`;
+                    } else if (run.arretsCount > 0) {
                         let totalStopStr = run.arretTotalSec ? formatTime(run.arretTotalSec) : '0s';
                         marcheBadge = `<span style="background:#D97706; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">🚶 ${run.arretsCount} arrêt(s) (${totalStopStr})</span>`;
                     } else if (run.marche) {
@@ -1824,6 +2202,12 @@
                                     </div>
                                 </div>
                             </div>
+                            ${(run.analyse || run.conseil) ? `
+                            <div style="background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px; margin-top: 12px; font-size: 13px; text-align: left;">
+                                ${run.analyse ? `<div style="margin-bottom: 6px; color: var(--primary); font-weight: bold;">🏃 ${run.analyse}</div>` : ''}
+                                ${run.conseil ? `<div style="color: #D97706;">💡 ${run.conseil}</div>` : ''}
+                            </div>
+                            ` : ''}
                         </div>
                     `;
                 });
@@ -1886,7 +2270,11 @@
 
             // Reset arret & run state
             runState.tours = 0; runState.plots = 0; runState.running = false;
-            runState.elapsedSec = 0;
+            runState.elapsedSec = 0; runState.abandon = false;
+            let obsToursElem = document.getElementById('obs-tours');
+            if (obsToursElem) obsToursElem.innerText = 0;
+            let obsPlotsElem = document.getElementById('obs-plots');
+            if (obsPlotsElem) obsPlotsElem.innerText = 0;
             runState.arretsCount = 0; runState.arretActive = false;
             runState.arretCurrentSec = 0; runState.arretTotalSec = 0;
             clearInterval(runState.arretInterval);
@@ -1973,7 +2361,7 @@
 
                     if (remain <= 0) {
                         toggleChrono();
-                        alert("Temps écoulé !");
+                        showAppAlert("Temps Écoulé !", "Le minuteur de la course est arrivé à 00:00.", "⏱️");
                     }
                 }, 1000);
             } else {
@@ -1998,28 +2386,34 @@
         }
 
         function updateDashboard() {
-            let distParTour = seanceConfig.nbPlots * seanceConfig.distPlots;
-            let distActuelle = (runState.tours * distParTour) + (runState.plots * seanceConfig.distPlots);
+            let nbPlotsTour = seanceConfig.nbPlots || 4;
+            let distPlot = seanceConfig.distPlots || 50;
+            let distParTour = nbPlotsTour * distPlot;
+
+            let totalPlotsDone = (runState.tours * nbPlotsTour) + runState.plots;
+            let distActuelle = totalPlotsDone * distPlot;
+
+            let targetPlotsNeeded = runState.targetMeters > 0 ? Math.ceil(runState.targetMeters / distPlot) : 0;
 
             let obsDistDone = document.getElementById('obs-dist-done');
             if (obsDistDone) obsDistDone.innerText = distActuelle + " m";
 
-            let distRestante = Math.max(0, runState.targetMeters - distActuelle);
-            let plotsRestants = Math.ceil(distRestante / seanceConfig.distPlots);
-            let toursRestants = Math.floor(distRestante / distParTour);
-            let plotsBonusRestants = Math.round((distRestante % distParTour) / seanceConfig.distPlots);
-            if (plotsBonusRestants >= seanceConfig.nbPlots) {
-                toursRestants += Math.floor(plotsBonusRestants / seanceConfig.nbPlots);
-                plotsBonusRestants = plotsBonusRestants % seanceConfig.nbPlots;
-            }
-
             let obsPlotsElem = document.getElementById('obs-plots-left');
             if (obsPlotsElem) {
-                let textRestant = `${plotsRestants} plot${plotsRestants > 1 ? 's' : ''}`;
-                if (distRestante > 0) {
-                    textRestant += ` (${toursRestants} t + ${plotsBonusRestants} p)`;
+                let textRestant = "";
+                if (targetPlotsNeeded > 0 && totalPlotsDone > targetPlotsNeeded) {
+                    textRestant = "Objectif dépassé";
+                    obsPlotsElem.style.color = "#DC2626";
+                } else if (targetPlotsNeeded > 0 && totalPlotsDone === targetPlotsNeeded) {
+                    textRestant = "Objectif atteint";
+                    obsPlotsElem.style.color = "#15803D";
                 } else {
-                    textRestant = "Objectif atteint !";
+                    let plotsRestants = Math.max(0, targetPlotsNeeded - totalPlotsDone);
+                    let toursRestants = Math.floor(plotsRestants / nbPlotsTour);
+                    let plotsBonusRestants = plotsRestants % nbPlotsTour;
+
+                    textRestant = `${plotsRestants} plot${plotsRestants > 1 ? 's' : ''} (${toursRestants} t + ${plotsBonusRestants} p)`;
+                    obsPlotsElem.style.color = "";
                 }
                 obsPlotsElem.innerText = textRestant;
             }
@@ -2051,11 +2445,7 @@
             let runnerVMA = coureurs[runState.activeId].vma || 10;
             let pct = Math.round((runState.targetSpeed / runnerVMA) * 100);
 
-            if (!activeSessionRuns[runState.activeId]) {
-                activeSessionRuns[runState.activeId] = [];
-            }
-
-            activeSessionRuns[runState.activeId].push({
+            let runData = {
                 tempsSec: runState.timeSec,
                 pctVMA: pct,
                 vitesseCible: runState.targetSpeed,
@@ -2065,25 +2455,72 @@
                 plots: runState.plots,
                 marche: runState.arretsCount > 0,
                 arretsCount: runState.arretsCount || 0,
-                arretTotalSec: runState.arretTotalSec || 0
-            });
+                arretTotalSec: runState.arretTotalSec || 0,
+                abandon: runState.abandon || false
+            };
+
+            let resAnalyse = analyserCourse(runData);
+            runData.analyse = resAnalyse.analyse;
+            runData.conseil = resAnalyse.conseil;
+
+            if (!activeSessionRuns[runState.activeId]) {
+                activeSessionRuns[runState.activeId] = [];
+            }
+
+            activeSessionRuns[runState.activeId].push(runData);
+
+            let wasAbandon = runState.abandon;
+            runState.tours = 0;
+            runState.plots = 0;
+            runState.running = false;
+            runState.elapsedSec = 0;
+            runState.abandon = false;
+            let obsToursVal = document.getElementById('obs-tours');
+            if (obsToursVal) obsToursVal.innerText = 0;
+            let obsPlotsVal = document.getElementById('obs-plots');
+            if (obsPlotsVal) obsPlotsVal.innerText = 0;
 
             saveActiveRuns();
             updateActiveSessionUI();
 
-            alert(`Course validée pour ${coureurs[runState.activeId].prenom} (${distFinale} m) !`);
-            nav('view-session-config');
+            lastRunAnalysis = {
+                runnerId: runState.activeId,
+                distFinale: distFinale,
+                analyse: resAnalyse.analyse,
+                conseil: resAnalyse.conseil
+            };
+
+            if (wasAbandon) {
+                document.getElementById('modal-validation-text').innerHTML = `L'abandon de la course de <strong>${coureurs[runState.activeId].prenom}</strong> (${distFinale} m) a été enregistré.`;
+            } else {
+                document.getElementById('modal-validation-text').innerHTML = `La course de <strong>${coureurs[runState.activeId].prenom}</strong> (${distFinale} m) a été enregistrée avec succès.`;
+            }
+            openModal('modal-validation-course');
         }
 
         function annulerCourse() {
-            if (confirm("Voulez-vous vraiment annuler la course ? Les données enregistrées pour cette course ne seront pas sauvegardées.")) {
-                clearInterval(runState.timerInterval);
-                clearInterval(runState.arretInterval);
-                runState.running = false;
-                runState.arretActive = false;
-                nav('view-session-config');
-            }
+            showAppConfirm(
+                "Annuler la Course",
+                "Voulez-vous vraiment annuler la course ? Les données enregistrées pour cette course ne seront pas sauvegardées.",
+                () => {
+                    clearInterval(runState.timerInterval);
+                    clearInterval(runState.arretInterval);
+                    runState.running = false;
+                    runState.arretActive = false;
+                    runState.tours = 0;
+                    runState.plots = 0;
+                    runState.abandon = false;
+                    let obsToursVal = document.getElementById('obs-tours');
+                    if (obsToursVal) obsToursVal.innerText = 0;
+                    let obsPlotsVal = document.getElementById('obs-plots');
+                    if (obsPlotsVal) obsPlotsVal.innerText = 0;
+                    nav('view-session-config');
+                }
+            );
         }
+
+        // Initialisation des intitulés de fiches au chargement
+        updateInfosViewButtons();
     </script>
 </body>
 
