@@ -11,8 +11,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Mako&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <style>
         :root {
             --primary: #B83B1D;
@@ -25,6 +26,7 @@
             --text-muted: #8E8E93;
             --radius: 16px;
             --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-sport: 'Mako', sans-serif;
         }
 
         * {
@@ -41,6 +43,25 @@
             color: var(--text-main);
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
             min-height: 100vh;
+            position: relative;
+        }
+
+        #app-bg {
+            position: fixed;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            background: url('image/fd3.png') no-repeat center center / cover;
+            z-index: -1;
+            transition: filter 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        body.bg-blurred #app-bg,
+        body:has(.view:not(#view-accueil).active) #app-bg {
+            filter: blur(12px) brightness(0.95);
+            transform: scale(1.06);
         }
 
         /* Vues de l'application */
@@ -72,6 +93,20 @@
         }
 
         /* Typographie et En-têtes */
+        h1,
+        h2,
+        h3,
+        h4,
+        .obs-section-title,
+        .obs-section-title-bar,
+        .obs-runner-title,
+        .echauffement-card-title,
+        .arrets-card-title,
+        .fiche-card-title,
+        .target-title {
+            font-family: var(--font-sport);
+        }
+
         h1,
         h2 {
             text-align: center;
@@ -152,6 +187,16 @@
         }
 
         /* Boutons */
+        button,
+        .back-btn,
+        .counter-btn,
+        .btn-fiche-sq,
+        .btn-arret-toggle,
+        .btn-chrono-large,
+        .btn-config-sm {
+            font-family: var(--font-sport);
+        }
+
         button {
             width: 100%;
             padding: 18px 24px;
@@ -330,10 +375,10 @@
         }
 
         #view-accueil {
-            background: url('image/fd3.png') no-repeat center center / cover;
+            background: transparent;
             min-height: 100vh;
             margin: -20px;
-            padding: 20px;
+            padding: 70px 20px 20px 60px;
             box-sizing: border-box;
             overflow-x: hidden;
             max-width: none;
@@ -343,71 +388,76 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
         }
 
-        #view-accueil button {
-            background-color: rgba(184, 59, 29, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            color: #FFFFFF;
-            border-radius: 16px;
-            padding: 15px 24px;
-            font-size: 17px;
-            font-weight: 700;
-            width: 85%;
-            max-width: 380px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35);
-            border: 1.5px solid rgba(255, 255, 255, 0.35);
+        #view-accueil .btn-with-icon {
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: #000000;
+            border-radius: 18px;
+            padding: 18px 28px;
+            font-size: 18px;
+            font-weight: 800;
+            width: 88%;
+            max-width: 410px;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+            border: 1.5px solid rgba(0, 0, 0, 0.25);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        /* Effet escalier progressif (décalage horizontal sur 4 boutons) */
-        #view-accueil button:nth-child(1) {
-            transform: translateX(-100px);
+        /* Effet escalier montant vers la droite (décalé vers le bas et la droite) */
+        #view-accueil button.btn-with-icon:nth-of-type(1) {
+            transform: translateX(300px);
+            margin-top: 40px;
         }
 
-        #view-accueil button:nth-child(2) {
-            transform: translateX(-60px);
+        #view-accueil button.btn-with-icon:nth-of-type(2) {
+            transform: translateX(220px);
         }
 
-        #view-accueil button:nth-child(3) {
-            transform: translateX(-20px);
+        #view-accueil button.btn-with-icon:nth-of-type(3) {
+            transform: translateX(140px);
         }
 
-        #view-accueil button:nth-child(4) {
-            transform: translateX(20px);
+        #view-accueil button.btn-with-icon:nth-of-type(4) {
+            transform: translateX(60px);
         }
 
-        #view-accueil button:nth-child(1):hover,
-        #view-accueil button:nth-child(1):active {
-            background-color: rgba(184, 59, 29, 0.9);
-            transform: translateX(-100px) scale(1.03);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        #view-accueil button.btn-with-icon:nth-of-type(1):hover,
+        #view-accueil button.btn-with-icon:nth-of-type(1):active {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.45);
+            transform: translateX(300px) scale(1.03);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
-        #view-accueil button:nth-child(2):hover,
-        #view-accueil button:nth-child(2):active {
-            background-color: rgba(184, 59, 29, 0.9);
-            transform: translateX(-60px) scale(1.03);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        #view-accueil button.btn-with-icon:nth-of-type(2):hover,
+        #view-accueil button.btn-with-icon:nth-of-type(2):active {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.45);
+            transform: translateX(220px) scale(1.03);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
-        #view-accueil button:nth-child(3):hover,
-        #view-accueil button:nth-child(3):active {
-            background-color: rgba(184, 59, 29, 0.9);
-            transform: translateX(-20px) scale(1.03);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        #view-accueil button.btn-with-icon:nth-of-type(3):hover,
+        #view-accueil button.btn-with-icon:nth-of-type(3):active {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.45);
+            transform: translateX(140px) scale(1.03);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
-        #view-accueil button:nth-child(4):hover,
-        #view-accueil button:nth-child(4):active {
-            background-color: rgba(184, 59, 29, 0.9);
-            transform: translateX(20px) scale(1.03);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        #view-accueil button.btn-with-icon:nth-of-type(4):hover,
+        #view-accueil button.btn-with-icon:nth-of-type(4):active {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.45);
+            transform: translateX(60px) scale(1.03);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
         /* Page Infos Coureurs Layout */
@@ -463,20 +513,573 @@
         .coureur-col .btn-fiche-sq {
             width: 100%;
             height: 180px;
-            font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55)), url('image/fondbtn.png') no-repeat center center / cover;
-            color: #B83B1D;
-            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.5);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-size: 26px;
+            font-weight: 900;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: #000000;
+            border: 1.5px solid rgba(0, 0, 0, 0.25);
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        .coureur-col .btn-fiche-sq:hover {
+        .coureur-col .btn-fiche-sq:hover,
+        .coureur-col .btn-fiche-sq:active {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.45);
             transform: scale(1.02);
-            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Armoire à Trophées Styles (Vitrine Giant Images) */
+        .trophies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 22px;
+            margin-top: 18px;
+        }
+
+        .trophy-badge-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            padding: 22px 16px;
+            text-align: center;
+            border: 1.5px solid #E5E5EA;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .trophy-badge-card.unlocked {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(254, 243, 199, 0.8));
+            border: 2.5px solid #F59E0B;
+            box-shadow: 0 12px 28px rgba(245, 158, 11, 0.35);
+        }
+
+        .trophy-badge-card.unlocked:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 16px 36px rgba(245, 158, 11, 0.45);
+        }
+
+        .trophy-badge-card.locked {
+            opacity: 0.45;
+            filter: grayscale(0.9);
+            background: rgba(243, 244, 246, 0.75);
+        }
+
+        .trophy-count-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+            color: #FFFFFF;
+            font-family: var(--font-sport);
+            font-size: 15px;
+            font-weight: 900;
+            padding: 4px 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+            border: 2px solid #FFFFFF;
+            z-index: 5;
+        }
+
+        .btn-reset-app {
+            position: absolute !important;
+            top: 24px !important;
+            right: 28px !important;
+            width: auto !important;
+            max-width: none !important;
+            margin: 0 !important;
+            padding: 5px 12px !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            text-transform: none !important;
+            letter-spacing: normal !important;
+            background: rgba(220, 38, 38, 0.18) !important;
+            color: #DC2626 !important;
+            border: 1.5px solid rgba(220, 38, 38, 0.45) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 12px !important;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25) !important;
+            transform: none !important;
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .btn-reset-app:hover,
+        .btn-reset-app:active {
+            background: rgba(220, 38, 38, 0.9) !important;
+            color: #FFFFFF !important;
+            border-color: #DC2626 !important;
+            transform: scale(1.05) !important;
+            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4) !important;
+        }
+
+        /* Conteneur des boutons Sauvegarder / Charger sur l'accueil */
+        .home-io-row {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 5px;
+            margin-left: 25px;
+            margin-right: auto;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .btn-io-app {
+            flex: 1;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 800;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            user-select: none;
+        }
+
+        .btn-export-app {
+            background: rgba(37, 99, 235, 0.18);
+            color: #2563EB;
+            border: 1.5px solid rgba(37, 99, 235, 0.45);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-export-app:hover,
+        .btn-export-app:active {
+            background: rgba(37, 99, 235, 0.9);
+            color: #FFFFFF;
+            border-color: #2563EB;
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-import-app {
+            background: rgba(16, 185, 129, 0.18);
+            color: #059669;
+            border: 1.5px solid rgba(16, 185, 129, 0.45);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .btn-import-app:hover,
+        .btn-import-app:active {
+            background: rgba(16, 185, 129, 0.9);
+            color: #FFFFFF;
+            border-color: #059669;
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+        }
+
+        .trophy-img {
+            width: 210px;
+            height: 210px;
+            object-fit: contain;
+            margin-bottom: 14px;
+            filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.22));
+            transition: transform 0.25s ease;
+        }
+
+        .trophy-badge-card.unlocked:hover .trophy-img {
+            transform: scale(1.08);
+        }
+
+        .trophy-badge-card.locked .trophy-img {
+            filter: grayscale(1) opacity(0.4);
+        }
+
+        .trophy-title {
+            font-family: var(--font-sport);
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            line-height: 1.25;
+        }
+
+        .trophy-badge-card.unlocked .trophy-title {
+            color: #B45309;
+        }
+
+        .trophy-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .trophy-date {
+            font-size: 12px;
+            font-weight: 700;
+            color: #D97706;
+            margin-top: 10px;
+            background: rgba(245, 158, 11, 0.18);
+            padding: 4px 10px;
+            border-radius: 10px;
+        }
+
+        /* Animation Déblocage Trophée XXL Boom & Rebond (Optimisée 60 FPS GPU) */
+        @keyframes trophyBoomAndBounce {
+            0% {
+                opacity: 0;
+                transform: scale3d(0.05, 0.05, 1) translate3d(0, -50px, 0);
+                filter: drop-shadow(0 0 0px transparent);
+            }
+
+            25% {
+                opacity: 1;
+                transform: scale3d(3.8, 3.8, 1) translate3d(0, -15px, 0);
+                filter: drop-shadow(0 0 60px rgba(245, 158, 11, 0.8));
+            }
+
+            42% {
+                opacity: 1;
+                transform: scale3d(4.0, 4.0, 1) translate3d(0, 0, 0);
+                filter: drop-shadow(0 0 80px rgba(245, 158, 11, 0.9));
+            }
+
+            68% {
+                transform: scale3d(0.82, 0.82, 1) translate3d(0, 0, 0);
+                filter: drop-shadow(0 10px 25px rgba(245, 158, 11, 0.6));
+            }
+
+            82% {
+                transform: scale3d(1.15, 1.15, 1) translate3d(0, 0, 0);
+                filter: drop-shadow(0 14px 35px rgba(245, 158, 11, 0.55));
+            }
+
+            92% {
+                transform: scale3d(0.95, 0.95, 1) translate3d(0, 0, 0);
+                filter: drop-shadow(0 10px 20px rgba(245, 158, 11, 0.45));
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+                filter: drop-shadow(0 12px 24px rgba(245, 158, 11, 0.4));
+            }
+        }
+
+        @keyframes trophyContentFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            65% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .trophee-animated-img {
+            animation: trophyBoomAndBounce 2.0s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            z-index: 250;
+            position: relative;
+            will-change: transform, opacity, filter;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .trophee-animated-content {
+            animation: trophyContentFadeIn 2.0s ease-out forwards;
+            will-change: transform, opacity;
+        }
+
+        /* Module Évaluation Interactif (Style EPS Glassmorphism) */
+        .eval-toolbar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 16px 20px;
+            border-radius: 18px;
+            border: 1.5px solid rgba(0, 0, 0, 0.12);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .eval-toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .eval-runner-select {
+            padding: 10px 16px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 12px;
+            border: 1.5px solid #7C3AED;
+            background: #F3E8FF;
+            color: #5B21B6;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .eval-btn-import {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: #FFFFFF;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .eval-btn-import:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+        }
+
+        .eval-header-card {
+            background: linear-gradient(135deg, #1E1B4B, #312E81);
+            color: #FFFFFF;
+            border-radius: 18px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 10px 30px rgba(49, 46, 129, 0.3);
+        }
+
+        .eval-title-main {
+            font-size: 22px;
+            font-weight: 900;
+            font-family: var(--font-sport);
+            letter-spacing: 0.5px;
+        }
+
+        .eval-score-badge {
+            background: #F59E0B;
+            color: #78350F;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        /* Tableau d'évaluation interactif */
+        .eval-table-wrapper {
+            overflow-x: auto;
+            border-radius: 18px;
+            border: 2px solid #CBD5E1;
+            background: #FFFFFF;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+        }
+
+        .eval-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 950px;
+        }
+
+        .eval-table th {
+            padding: 16px;
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            border-bottom: 2px solid #CBD5E1;
+            border-right: 1px solid rgba(203, 213, 225, 0.6);
+        }
+
+        .eval-table th:last-child {
+            border-right: none;
+        }
+
+        .eval-th-comp {
+            background: #F1F5F9;
+            color: #334155;
+            width: 22%;
+            text-align: left !important;
+        }
+
+        .eval-th-n1 {
+            background: #FEE2E2;
+            color: #991B1B;
+            width: 18%;
+        }
+
+        .eval-th-n2 {
+            background: #FFEDD5;
+            color: #9A3412;
+            width: 18%;
+        }
+
+        .eval-th-n3 {
+            background: #FEF08A;
+            color: #854D0E;
+            width: 18%;
+        }
+
+        .eval-th-n4 {
+            background: #DCFCE7;
+            color: #166534;
+            width: 18%;
+        }
+
+        .eval-th-weight {
+            background: #F1F5F9;
+            color: #475569;
+            width: 6%;
+        }
+
+        .eval-table td {
+            padding: 14px 16px;
+            font-size: 13px;
+            line-height: 1.45;
+            vertical-align: top;
+            border-bottom: 1px solid #E2E8F0;
+            border-right: 1px solid #E2E8F0;
+            position: relative;
+            transition: all 0.18s ease;
+        }
+
+        .eval-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .eval-table td:last-child {
+            border-right: none;
+        }
+
+        .eval-td-comp {
+            background: #F8FAFC;
+            font-weight: 700;
+            color: #1E293B;
+        }
+
+        .eval-td-weight {
+            background: #F8FAFC;
+            font-weight: 800;
+            color: #64748B;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        /* Cases sélectionnables */
+        .eval-cell {
+            cursor: pointer;
+            background: #FFFFFF;
+            color: #334155;
+            user-select: none;
+        }
+
+        .eval-cell:hover {
+            background: #F1F5F9;
+            transform: scale(1.01);
+            z-index: 5;
+            box-shadow: inset 0 0 0 2px #94A3B8;
+        }
+
+        /* Niveaux spécifiques en surbrillance */
+        .eval-cell.level-1.selected {
+            background: #FEE2E2 !important;
+            color: #991B1B !important;
+            font-weight: 700;
+            box-shadow: inset 0 0 0 3px #EF4444, 0 4px 14px rgba(239, 68, 68, 0.3) !important;
+        }
+
+        .eval-cell.level-2.selected {
+            background: #FFEDD5 !important;
+            color: #9A3412 !important;
+            font-weight: 700;
+            box-shadow: inset 0 0 0 3px #F97316, 0 4px 14px rgba(249, 115, 22, 0.3) !important;
+        }
+
+        .eval-cell.level-3.selected {
+            background: #FEF08A !important;
+            color: #854D0E !important;
+            font-weight: 700;
+            box-shadow: inset 0 0 0 3px #EAB308, 0 4px 14px rgba(234, 179, 8, 0.3) !important;
+        }
+
+        .eval-cell.level-4.selected {
+            background: #DCFCE7 !important;
+            color: #166534 !important;
+            font-weight: 700;
+            box-shadow: inset 0 0 0 3px #22C55E, 0 4px 14px rgba(34, 197, 94, 0.3) !important;
+        }
+
+        /* Badge coche "✓" sur la case sélectionnée */
+        .eval-cell-badge {
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            font-size: 13px;
+            font-weight: 900;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #FFFFFF;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .eval-cell.level-1.selected .eval-cell-badge {
+            display: flex;
+            background: #EF4444;
+        }
+
+        .eval-cell.level-2.selected .eval-cell-badge {
+            display: flex;
+            background: #F97316;
+        }
+
+        .eval-cell.level-3.selected .eval-cell-badge {
+            display: flex;
+            background: #CA8A04;
+        }
+
+        .eval-cell.level-4.selected .eval-cell-badge {
+            display: flex;
+            background: #16A34A;
         }
 
         /* Dynamic Fiche Coureur Layout */
@@ -572,11 +1175,30 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
+            padding: 18px 24px;
             margin-bottom: 0;
             text-transform: none;
             letter-spacing: normal;
-            font-size: 16px;
+            font-size: 17px;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            color: #000000;
+            border: 1.5px solid rgba(0, 0, 0, 0.25);
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-seance-item:hover,
+        .btn-seance-item:active {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.45);
+            transform: scale(1.02);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
         .modal-large {
@@ -661,13 +1283,13 @@
 
         /* ENCART SPÉCIAL ARRÊTS / MARCHE */
         .arrets-marche-card {
-            background: rgba(217, 119, 6, 0.08);
+            background: #FFFFFF;
             border: 1.5px solid rgba(217, 119, 6, 0.35);
             border-radius: var(--radius);
             padding: 16px;
             margin-top: 15px;
             margin-bottom: 20px;
-            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
         }
 
         .arrets-card-header {
@@ -840,12 +1462,12 @@
         .chrono-prominent-card {
             background: #ffffff;
             border-radius: var(--radius, 16px);
-            padding: 20px 24px;
+            padding: 12px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-width: 190px;
+            min-width: 180px;
             height: 100%;
             box-sizing: border-box;
             border: 2px solid var(--primary, #7C3AED);
@@ -854,28 +1476,28 @@
         }
 
         .chrono-prominent-card .chrono-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             color: var(--primary-dark, #4C1D95);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .chrono-time-large {
-            font-size: 40px;
+            font-size: 32px;
             font-weight: 900;
             color: var(--text-main, #1F2937);
             font-variant-numeric: tabular-nums;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             line-height: 1;
         }
 
         .btn-chrono-large {
-            padding: 10px 20px !important;
-            font-size: 15px !important;
+            padding: 8px 16px !important;
+            font-size: 14px !important;
             font-weight: 800 !important;
-            border-radius: 10px !important;
+            border-radius: 8px !important;
             margin-bottom: 0 !important;
             width: 100% !important;
         }
@@ -1142,9 +1764,16 @@
 </head>
 
 <body>
+    <div id="app-bg"></div>
 
     <!-- VUE : ACCUEIL -->
-    <div id="view-accueil" class="view active">
+    <div id="view-accueil" class="view active" style="position: relative;">
+        <!-- Bouton réinitialiser ultra-discret tout en haut à droite -->
+        <div onclick="confirmResetData()" class="btn-reset-app" role="button" tabindex="0"
+            title="Réinitialiser l'application (remettre à 0)">
+            🔄 Remettre à 0
+        </div>
+
         <button class="primary btn-with-icon" onclick="openModal('modal-coureur', 1)">
             <img src="image/fiche1.png" alt="Inscription" class="btn-side-img">
             <span>S'inscrire</span>
@@ -1161,6 +1790,20 @@
             <img src="image/eval.png" alt="Évaluation" class="btn-side-img">
             <span>Évaluation</span>
         </button>
+
+        <!-- Boutons d'import/export côte à côte sous le bouton Évaluation -->
+        <div class="home-io-row">
+            <div onclick="exportAppDataJSON()" class="btn-io-app btn-export-app" role="button" tabindex="0"
+                title="Exporter toutes les données en fichier JSON">
+                💾 Sauvegarder
+            </div>
+            <input type="file" id="import-json-input" accept=".json" style="display:none;"
+                onchange="importAppDataJSON(event)">
+            <div onclick="document.getElementById('import-json-input').click()" class="btn-io-app btn-import-app"
+                role="button" tabindex="0" title="Charger un fichier JSON de données">
+                📂 Charger
+            </div>
+        </div>
     </div>
 
     <!-- VUE : INFOS COUREURS -->
@@ -1233,6 +1876,18 @@
         <div id="fiche-history" class="fiche-seances-list">
             <!-- Boutons séances injectés dynamiquement -->
         </div>
+
+        <!-- ENCART ARMOIRE À TROPHÉES -->
+        <div class="fiche-card" style="margin-top: 25px;">
+            <div class="fiche-card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🏆 Armoire à Trophées</span>
+                <span id="fiche-trophies-count" style="font-size: 13px; color: var(--primary); font-weight: 800;">0 /
+                    15</span>
+            </div>
+            <div id="fiche-trophies-grid" class="trophies-grid">
+                <!-- Badges trophées injectés dynamiquement -->
+            </div>
+        </div>
     </div>
 
     <!-- VUE : SÉANCE EN COURS -->
@@ -1293,8 +1948,23 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Auto-évaluation (0 à 3)</label>
-                        <input type="number" min="0" max="3" id="e-note" placeholder="0 à 3">
+                        <label>Auto-évaluation élève (0 à 3)</label>
+                        <select id="e-note">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé au
+                            prof)</label>
+                        <select id="e-note-prof" style="border: 2px solid var(--primary); background: #FFFBEB;">
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
                     </div>
                 </div>
                 <button class="primary btn-save-echauffement" onclick="saveEchauffement()">Enregistrer
@@ -1315,13 +1985,13 @@
 
     <!-- VUE : OBSERVATION COURSE -->
     <div id="view-observation" class="view">
-        <!-- HAUT : Observateur & Infos Coureur à gauche / Minuteur à droite -->
+        <!-- HAUT : Observateur au-dessus / Encart Infos Coureur & Minuteur côte à côte -->
+        <div class="obs-observer-mention">
+            Observateur : <span id="obs-observateur">...</span>
+        </div>
+
         <div class="obs-top-layout">
             <div class="obs-left-header">
-                <div class="obs-observer-mention">
-                    Observateur : <span id="obs-observateur">...</span>
-                </div>
-
                 <div class="obs-runner-info-card">
                     <div class="obs-runner-title" id="obs-title">Course de ...</div>
                     <div class="obs-info-grid">
@@ -1424,16 +2094,77 @@
         </div>
     </div>
 
-    <!-- VUE : ÉVALUATION -->
+    <!-- VUE : ÉVALUATION INTERACTIVE -->
     <div id="view-eval" class="view">
         <div class="header-bar">
             <button class="back-btn" onclick="nav('view-accueil')">◀ Retour</button>
-            <h2>Évaluation</h2>
+            <h2>Auto-Évaluation des Compétences</h2>
             <div style="width: 70px;"></div>
         </div>
-        <div style="background: var(--card-bg); padding: 20px; border-radius: var(--radius); text-align: center;">
-            <p style="margin-bottom: 15px;">Importez une fiche d'évaluation (.csv, .xlsx)</p>
-            <input type="file" accept=".csv, .xlsx" style="padding: 10px;">
+
+        <!-- Barre d'outils Évaluation -->
+        <div class="eval-toolbar">
+            <div class="eval-toolbar-group">
+                <label style="font-weight: 800; font-size: 15px; color: #4C1D95;">👤 Élève :</label>
+                <select id="eval-runner-select" class="eval-runner-select" onchange="onEvalRunnerChange()">
+                    <option value="1">1. Coureur 1</option>
+                    <option value="2">2. Coureur 2</option>
+                </select>
+            </div>
+            <div class="eval-toolbar-group">
+                <input type="file" id="eval-file-input" accept=".csv, .xlsx, .xls" style="display:none;"
+                    onchange="handleEvalFileImport(event)">
+                <button class="eval-btn-import" onclick="document.getElementById('eval-file-input').click()">
+                    📥 Importer un référentiel (.xlsx / .csv)
+                </button>
+                <button class="danger" onclick="deleteEvalGrid()"
+                    style="padding: 10px 14px; font-size: 13px; margin:0;">
+                    ❌ Supprimer la grille
+                </button>
+                <button class="secondary" onclick="clearCurrentEvalSelections()"
+                    style="padding: 10px 14px; font-size: 13px; margin:0;">
+                    🗑️ Effacer les choix
+                </button>
+            </div>
+        </div>
+
+        <!-- Header Fiche Évaluation Élève -->
+        <div class="eval-header-card">
+            <div>
+                <div
+                    style="font-size: 12px; font-weight: 800; color: #A5B4FC; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">
+                    ÉVALUATION DU COUREUR</div>
+                <div id="eval-student-name" class="eval-title-main">ÉVALUATION DE : -</div>
+            </div>
+            <div style="text-align: right;">
+                <div
+                    style="font-size: 11px; font-weight: 800; color: #FCD34D; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+                    NOTE GLOBALE CALCULÉE</div>
+                <div id="eval-score-display" class="eval-score-badge">0.0 / 20</div>
+            </div>
+        </div>
+
+        <!-- Tableau d'Évaluation Interactif -->
+        <div class="eval-table-wrapper">
+            <table class="eval-table" id="eval-table">
+                <thead>
+                    <tr>
+                        <th class="eval-th-comp">Compétences Pronote</th>
+                        <th class="eval-th-n1">OBJECTIFS NON ATTEINTS<br><span
+                                style="font-size: 11px; opacity:0.85;">1</span></th>
+                        <th class="eval-th-n2">OBJECTIFS PARTIELLEMENT ATTEINTS<br><span
+                                style="font-size: 11px; opacity:0.85;">2</span></th>
+                        <th class="eval-th-n3">OBJECTIFS ATTEINTS<br><span
+                                style="font-size: 11px; opacity:0.85;">3</span></th>
+                        <th class="eval-th-n4">OBJECTIFS DÉPASSÉS<br><span
+                                style="font-size: 11px; opacity:0.85;">4</span></th>
+                        <th class="eval-th-weight">%</th>
+                    </tr>
+                </thead>
+                <tbody id="eval-tbody">
+                    <!-- Injection dynamique des lignes via JS -->
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -1452,7 +2183,58 @@
             <label>Nom</label><input type="text" id="c-nom">
             <label>Prénom</label><input type="text" id="c-prenom">
             <label>Classe</label><input type="text" id="c-classe">
-            <label>VMA (km/h)</label><input type="number" step="0.5" id="c-vma">
+            <label>VMA (km/h)</label>
+            <select id="c-vma">
+                <option value="8">8.00 km/h</option>
+                <option value="8.25">8.25 km/h</option>
+                <option value="8.5">8.50 km/h</option>
+                <option value="8.75">8.75 km/h</option>
+                <option value="9">9.00 km/h</option>
+                <option value="9.25">9.25 km/h</option>
+                <option value="9.5">9.50 km/h</option>
+                <option value="9.75">9.75 km/h</option>
+                <option value="10">10.00 km/h</option>
+                <option value="10.25">10.25 km/h</option>
+                <option value="10.5">10.50 km/h</option>
+                <option value="10.75">10.75 km/h</option>
+                <option value="11">11.00 km/h</option>
+                <option value="11.25">11.25 km/h</option>
+                <option value="11.5">11.50 km/h</option>
+                <option value="11.75">11.75 km/h</option>
+                <option value="12">12.00 km/h</option>
+                <option value="12.25">12.25 km/h</option>
+                <option value="12.5">12.50 km/h</option>
+                <option value="12.75">12.75 km/h</option>
+                <option value="13">13.00 km/h</option>
+                <option value="13.25">13.25 km/h</option>
+                <option value="13.5">13.50 km/h</option>
+                <option value="13.75">13.75 km/h</option>
+                <option value="14">14.00 km/h</option>
+                <option value="14.25">14.25 km/h</option>
+                <option value="14.5">14.50 km/h</option>
+                <option value="14.75">14.75 km/h</option>
+                <option value="15">15.00 km/h</option>
+                <option value="15.25">15.25 km/h</option>
+                <option value="15.5">15.50 km/h</option>
+                <option value="15.75">15.75 km/h</option>
+                <option value="16">16.00 km/h</option>
+                <option value="16.25">16.25 km/h</option>
+                <option value="16.5">16.50 km/h</option>
+                <option value="16.75">16.75 km/h</option>
+                <option value="17">17.00 km/h</option>
+                <option value="17.25">17.25 km/h</option>
+                <option value="17.5">17.50 km/h</option>
+                <option value="17.75">17.75 km/h</option>
+                <option value="18">18.00 km/h</option>
+                <option value="18.25">18.25 km/h</option>
+                <option value="18.5">18.50 km/h</option>
+                <option value="18.75">18.75 km/h</option>
+                <option value="19">19.00 km/h</option>
+                <option value="19.25">19.25 km/h</option>
+                <option value="19.5">19.50 km/h</option>
+                <option value="19.75">19.75 km/h</option>
+                <option value="20">20.00 km/h</option>
+            </select>
             <div class="modal-buttons">
                 <button class="danger" onclick="closeModal('modal-coureur')">Annuler</button>
                 <button class="success" onclick="saveCoureur()">Valider</button>
@@ -1499,8 +2281,21 @@
                 <option>Bof</option>
                 <option>Pas bien</option>
             </select>
-            <label>Auto-évaluation (0 à 3)</label>
-            <input type="number" min="0" max="3" id="e-note">
+            <label>Auto-évaluation élève (0 à 3)</label>
+            <select id="e-note">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <label style="color: var(--primary); font-weight: 800; margin-top: 10px; display: block;">Évaluation prof (0
+                à 3 - réservé au prof)</label>
+            <select id="e-note-prof" style="border: 2px solid var(--primary); background: #FFFBEB;">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
             <div class="modal-buttons">
                 <button class="danger" onclick="closeModal('modal-echauffement')">Annuler</button>
                 <button class="success" onclick="saveEchauffement()">Valider</button>
@@ -1517,7 +2312,7 @@
             <p style="font-size: 14px; color: var(--primary); margin-top: 5px;">VMA : <span id="p-vma">0</span> km/h</p>
 
             <label>Temps de course</label>
-            <select id="p-temps"></select>
+            <select id="p-temps" onchange="calculerProjet()"></select>
 
             <label>Intensité (% VMA)</label>
             <select id="p-pct" onchange="calculerProjet()"></select>
@@ -1585,7 +2380,7 @@
             </div>
 
             <div class="modal-buttons">
-                <button class="primary" onclick="closeModal('modal-analyse-course'); nav('view-session-config');"
+                <button class="primary" onclick="fermerAnalyseEtVerifierTrophees();"
                     style="width: 100%; padding: 16px; font-size: 18px; font-weight: bold; font-family: inherit;">Fermer</button>
             </div>
         </div>
@@ -1601,6 +2396,46 @@
             <div class="modal-buttons">
                 <button id="app-alert-btn" class="primary" onclick="closeAppAlert()"
                     style="width: 100%; padding: 16px; font-size: 18px; font-weight: bold; font-family: inherit;">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE : TROPHÉE DÉBLOQUÉ -->
+    <div class="modal-overlay" id="modal-trophee-unlocked" style="z-index: 200;">
+        <div class="modal"
+            style="text-align: center; background: linear-gradient(135deg, #FFFFFF, #FEF3C7); border: 3px solid #F59E0B; box-shadow: 0 18px 50px rgba(245, 158, 11, 0.5); max-width: 480px; padding: 28px 24px; position: relative; overflow: visible;">
+
+            <!-- Badge du coureur qui a débloqué le trophée -->
+            <div id="modal-trophee-runner-badge"
+                style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: rgba(124, 58, 237, 0.12); border: 2px solid #7C3AED; color: #4C1D95; padding: 8px 20px; border-radius: 24px; font-weight: 900; font-size: 16px; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.15);">
+                🏃‍♂️ Coureur : <span id="modal-trophee-runner-name"
+                    style="color: #7C3AED; font-size: 18px; font-weight: 900;">...</span>
+            </div>
+
+            <!-- Zone d'animation du trophée XXL -->
+            <div
+                style="min-height: 240px; display: flex; align-items: center; justify-content: center; position: relative;">
+                <img id="modal-trophee-img" class="trophee-animated-img" src="" alt="Trophée"
+                    style="width: 220px; height: 220px; object-fit: contain; transform-origin: center center;">
+            </div>
+
+            <!-- Encart d'explication du trophée -->
+            <div id="modal-trophee-info-box" class="trophee-animated-content"
+                style="background: rgba(255, 255, 255, 0.92); border: 2px solid #F59E0B; border-radius: 18px; padding: 20px 16px; margin-top: 10px; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2);">
+                <div
+                    style="font-size: 13px; font-weight: 900; color: #D97706; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">
+                    🏆 Nouveau Trophée Débloqué !</div>
+                <h3 id="modal-trophee-title"
+                    style="font-size: 26px; font-weight: 900; color: #B45309; margin-bottom: 8px; font-family: var(--font-sport);">
+                    Nom du Trophée</h3>
+                <p id="modal-trophee-desc"
+                    style="font-size: 16px; color: #4B5563; margin-bottom: 18px; line-height: 1.45; font-weight: 600;">
+                </p>
+                <div class="modal-buttons">
+                    <button class="success"
+                        onclick="closeModal('modal-trophee-unlocked'); afficherProchainTropheeQueue();"
+                        style="width: 100%; padding: 16px; font-size: 19px; font-weight: 900;">Super ! 🏅</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1631,9 +2466,374 @@
 
         // Cache des courses effectuées dans la séance active en cours (avant validation "Séance terminée")
         let activeSessionRuns = JSON.parse(localStorage.getItem('df_active_runs')) || { 1: [], 2: [] };
-        let lastRunAnalysis = { runnerId: 1, distFinale: 0, analyse: '', conseil: '' };
+        let lastRunAnalysis = { runnerId: 1, distFinale: 0, analyse: '', conseil: '', lastRunData: null };
         let appAlertCallback = null;
         let appConfirmCallback = null;
+
+        // --- CATALOGUE DES TROPHÉES (15 TROPHÉES) ---
+        const DEFAULT_TROPHY_SVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%23F59E0B'><path d='M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1c2.21-.4 3.96-2.12 4.39-4.34C19.8 11.23 21 9.25 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z'/></svg>";
+
+        const TROPHEES_CONFIG = [
+            {
+                id: 'sans_pause',
+                title: "Sans pause",
+                description: "Course réussie sans faire aucun arrêt",
+                image: "trophée/sans_pause.png",
+                check: (coureur, lastCourse) => lastCourse && (lastCourse.arretsCount === 0) && !lastCourse.abandon
+            },
+            {
+                id: 'pro_effort',
+                title: "Pro de l'intensité",
+                description: "Moyenne d'intensité >= 100% VMA sur l'ensemble des courses de la séance",
+                image: "trophée/Pro_effort.png",
+                check: (coureur, lastCourse, totalDist, lastSessionAvgVMA) => lastSessionAvgVMA >= 100
+            },
+            {
+                id: 'pro_echauffement',
+                title: "Pro de l'échauffement",
+                description: "Évaluation élève 3/3 ET Évaluation prof 3/3 (débloqué en fin de séance)",
+                image: "trophée/pro_echauffement.png",
+                check: (coureur) => {
+                    let ech = coureur.echauffements || {};
+                    return Object.values(ech).some(e =>
+                        (parseInt(e.note) === 3) &&
+                        (parseInt(e.noteProf) === 3 || e.validProf === true || e.validProf === 'true')
+                    );
+                }
+            },
+            {
+                id: 'maitre_echauffement',
+                title: "Maître de l'échauffement",
+                description: "A obtenu 5 fois le trophée Pro de l'échauffement",
+                image: "trophée/maitre_echauffement.png",
+                check: (coureur) => {
+                    let ech = coureur.echauffements || {};
+                    let countPro = Object.values(ech).filter(e =>
+                        (parseInt(e.note) === 3) &&
+                        (parseInt(e.noteProf) === 3 || e.validProf === true || e.validProf === 'true')
+                    ).length;
+                    return countPro >= 5;
+                }
+            },
+            {
+                id: 'course_parfaite',
+                title: "Course parfaite",
+                description: "Objectif réussi et aucun arrêt effectué",
+                image: "trophée/course_parfaite.png",
+                check: (coureur, lastCourse) => lastCourse && !lastCourse.abandon && (lastCourse.arretsCount === 0) && (lastCourse.realise >= lastCourse.objectif - 25)
+            },
+            {
+                id: 'coureur_regulier',
+                title: "Coureur régulier",
+                description: "A obtenu 3 fois le trophée Course parfaite",
+                image: "trophée/coureur_regulier.png",
+                check: (coureur) => {
+                    let countPerfect = 0;
+                    let seances = getCoureurSeances(coureur);
+                    seances.forEach(s => {
+                        if (s.runs) {
+                            s.runs.forEach(r => {
+                                if (!r.abandon && (r.arretsCount === 0) && (r.realise >= r.objectif - 25)) {
+                                    countPerfect++;
+                                }
+                            });
+                        }
+                    });
+                    return countPerfect >= 3;
+                }
+            },
+            {
+                id: 'objectif_reussi_x3',
+                title: "Objectif réussi x3",
+                description: "A réussi son objectif de course 3 fois",
+                image: "trophée/objectif_reussi_x3.png",
+                check: (coureur) => {
+                    let countObj = 0;
+                    let seances = getCoureurSeances(coureur);
+                    seances.forEach(s => {
+                        if (s.runs) {
+                            s.runs.forEach(r => {
+                                if (!r.abandon && (r.realise >= r.objectif - 25)) {
+                                    countObj++;
+                                }
+                            });
+                        }
+                    });
+                    return countObj >= 3;
+                }
+            },
+            {
+                id: 'dist_1km',
+                title: "Cap des 1 km",
+                description: "1 000 m parcourus au total",
+                image: "trophée/1km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 1000
+            },
+            {
+                id: 'dist_2km',
+                title: "Cap des 2 km",
+                description: "2 000 m parcourus au total",
+                image: "trophée/2km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 2000
+            },
+            {
+                id: 'dist_5km',
+                title: "Cap des 5 km",
+                description: "5 000 m parcourus au total",
+                image: "trophée/5km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 5000
+            },
+            {
+                id: 'dist_8km',
+                title: "Cap des 8 km",
+                description: "8 000 m parcourus au total",
+                image: "trophée/8km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 8000
+            },
+            {
+                id: 'dist_10km',
+                title: "Cap des 10 km",
+                description: "10 000 m parcourus au total",
+                image: "trophée/10km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 10000
+            },
+            {
+                id: 'dist_12km',
+                title: "Cap des 12 km",
+                description: "12 000 m parcourus au total",
+                image: "trophée/12km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 12000
+            },
+            {
+                id: 'dist_15km',
+                title: "Cap des 15 km",
+                description: "15 000 m parcourus au total",
+                image: "trophée/15km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 15000
+            },
+            {
+                id: 'dist_20km',
+                title: "Marathonien (20 km)",
+                description: "20 000 m parcourus au total",
+                image: "trophée/20km.png",
+                check: (coureur, lastCourse, totalDist) => totalDist >= 20000
+            }
+        ];
+
+        let pendingTrophiesQueue = [];
+
+        function getTrophyCount(coureur, trophyId) {
+            if (!coureur.trophies) return 0;
+            let val = coureur.trophies[trophyId];
+            if (!val) return 0;
+            if (typeof val === 'number') return val;
+            if (typeof val === 'object' && val.count !== undefined) return val.count;
+            if (typeof val === 'string') return 1;
+            return 0;
+        }
+
+        function getTrophyLastDate(coureur, trophyId) {
+            if (!coureur.trophies) return '';
+            let val = coureur.trophies[trophyId];
+            if (!val) return '';
+            if (typeof val === 'object' && val.lastDate) return val.lastDate;
+            if (typeof val === 'string') return val;
+            return '';
+        }
+
+        function awardTrophy(coureur, trophyId) {
+            if (!coureur.trophies) coureur.trophies = {};
+            let currentCount = getTrophyCount(coureur, trophyId);
+            let dateStr = new Date().toLocaleDateString('fr-FR');
+            coureur.trophies[trophyId] = {
+                count: currentCount + 1,
+                lastDate: dateStr
+            };
+            return currentCount + 1;
+        }
+
+        function checkAndAwardTrophies(coureurId, lastCourse = null, isSessionEnd = false) {
+            if (!coureurs[coureurId]) return;
+            let coureur = coureurs[coureurId];
+            if (!coureur.trophies) coureur.trophies = {};
+            if (!coureur._awarded_sessions_effort) coureur._awarded_sessions_effort = [];
+            if (!coureur._awarded_sessions_echauffement) coureur._awarded_sessions_echauffement = [];
+
+            // 1. Récupérer l'intégralité des courses (séances passées + courses de la séance en cours)
+            let allRunnerRuns = [];
+            let seances = getCoureurSeances(coureur);
+            seances.forEach(s => {
+                if (s.runs) {
+                    allRunnerRuns.push(...s.runs);
+                }
+            });
+            let activeRuns = activeSessionRuns[coureurId] || [];
+            allRunnerRuns.push(...activeRuns);
+
+            let totalDist = allRunnerRuns.reduce((sum, r) => sum + (r.realise || 0), 0);
+            let newlyUnlocked = [];
+
+            // --- TROPHÉES DE COURSE ---
+
+            // A. Sans pause (par course)
+            if (lastCourse && (lastCourse.arretsCount === 0) && !lastCourse.abandon && !lastCourse._sans_pause_awarded) {
+                lastCourse._sans_pause_awarded = true;
+                awardTrophy(coureur, 'sans_pause');
+                newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'sans_pause'));
+            }
+
+            // B. Course parfaite (par course)
+            if (lastCourse && !lastCourse.abandon && (lastCourse.arretsCount === 0) && (lastCourse.realise >= lastCourse.objectif - 25) && !lastCourse._course_parfaite_awarded) {
+                lastCourse._course_parfaite_awarded = true;
+                awardTrophy(coureur, 'course_parfaite');
+                newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'course_parfaite'));
+            }
+
+            // C. Coureur régulier (Tous les 3 Course parfaite)
+            let courseParfaiteCount = getTrophyCount(coureur, 'course_parfaite');
+            let regulierCount = getTrophyCount(coureur, 'coureur_regulier');
+            if (courseParfaiteCount >= (regulierCount + 1) * 3) {
+                awardTrophy(coureur, 'coureur_regulier');
+                newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'coureur_regulier'));
+            }
+
+            // D. Objectif réussi x3 (Tous les 3 objectifs réussis)
+            let totalObjSuccess = allRunnerRuns.filter(r => !r.abandon && (r.realise >= r.objectif - 25)).length;
+            let objX3Count = getTrophyCount(coureur, 'objectif_reussi_x3');
+            if (totalObjSuccess >= (objX3Count + 1) * 3) {
+                awardTrophy(coureur, 'objectif_reussi_x3');
+                newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'objectif_reussi_x3'));
+            }
+
+            // --- TROPHÉES DÉBLOQUÉS UNIQUEMENT À LA VALIDATION DE LA SÉANCE ---
+            if (isSessionEnd) {
+                let currentSessionObj = (coureur.seances || []).find(s => s.num == seanceConfig.num);
+                let currentSessionRuns = currentSessionObj ? (currentSessionObj.runs || []) : (activeSessionRuns[coureurId] || []);
+
+                // 1. Pro de l'intensité : Moyenne des %VMA de toutes les courses réalisées dans la séance >= 100%
+                if (currentSessionRuns.length > 0) {
+                    let sumVMA = currentSessionRuns.reduce((acc, r) => acc + (r.pctVMA || 70), 0);
+                    let avgVMA = sumVMA / currentSessionRuns.length;
+                    if (avgVMA >= 100 && !coureur._awarded_sessions_effort.includes(seanceConfig.num)) {
+                        coureur._awarded_sessions_effort.push(seanceConfig.num);
+                        awardTrophy(coureur, 'pro_effort');
+                        newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'pro_effort'));
+                    }
+                }
+
+                // 2. Pro de l'échauffement : Note élève 3 & Note prof 3 pour la séance
+                let currentEch = (coureur.echauffements || {})[seanceConfig.num];
+                if (currentEch && (parseInt(currentEch.note) === 3) && (parseInt(currentEch.noteProf) === 3 || currentEch.validProf === true || currentEch.validProf === 'true')) {
+                    if (!coureur._awarded_sessions_echauffement.includes(seanceConfig.num)) {
+                        coureur._awarded_sessions_echauffement.push(seanceConfig.num);
+                        awardTrophy(coureur, 'pro_echauffement');
+                        newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'pro_echauffement'));
+                    }
+                }
+
+                // 3. Maître de l'échauffement (Tous les 5 Pro de l'échauffement)
+                let proEchCount = getTrophyCount(coureur, 'pro_echauffement');
+                let maitreCount = getTrophyCount(coureur, 'maitre_echauffement');
+                if (proEchCount >= (maitreCount + 1) * 5) {
+                    awardTrophy(coureur, 'maitre_echauffement');
+                    newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'maitre_echauffement'));
+                }
+            }
+
+            // --- TROPHÉES RECORDS DE DISTANCE (NON RÉTÉRABLES) ---
+            const DIST_TROPHIES = [
+                { id: 'dist_1km', dist: 1000 },
+                { id: 'dist_2km', dist: 2000 },
+                { id: 'dist_5km', dist: 5000 },
+                { id: 'dist_8km', dist: 8000 },
+                { id: 'dist_10km', dist: 10000 },
+                { id: 'dist_12km', dist: 12000 },
+                { id: 'dist_15km', dist: 15000 },
+                { id: 'dist_20km', dist: 20000 }
+            ];
+
+            DIST_TROPHIES.forEach(dt => {
+                if (getTrophyCount(coureur, dt.id) === 0 && totalDist >= dt.dist) {
+                    awardTrophy(coureur, dt.id);
+                    newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === dt.id));
+                }
+            });
+
+            saveData();
+
+            if (newlyUnlocked.length > 0) {
+                let itemsWithRunner = newlyUnlocked.map(t => ({
+                    ...t,
+                    coureurId: coureurId,
+                    prenom: coureur.prenom || (`Coureur ${coureurId}`)
+                }));
+                pendingTrophiesQueue.push(...itemsWithRunner);
+                afficherProchainTropheeQueue();
+            }
+        }
+
+        function afficherProchainTropheeQueue() {
+            if (pendingTrophiesQueue.length === 0) return;
+            let trophee = pendingTrophiesQueue.shift();
+
+            let imgEl = document.getElementById('modal-trophee-img');
+            let infoBox = document.getElementById('modal-trophee-info-box');
+            let runnerNameEl = document.getElementById('modal-trophee-runner-name');
+
+            if (runnerNameEl) {
+                let pName = trophee.prenom || (coureurs[trophee.coureurId] ? coureurs[trophee.coureurId].prenom : `Coureur ${trophee.coureurId || 1}`);
+                runnerNameEl.innerText = pName;
+            }
+
+            // Reset des animations CSS
+            if (imgEl) {
+                imgEl.classList.remove('trophee-animated-img');
+                void imgEl.offsetWidth; // Reflow pour relancer l'animation
+                imgEl.src = trophee.image;
+                imgEl.onerror = function () {
+                    this.src = DEFAULT_TROPHY_SVG;
+                };
+                imgEl.classList.add('trophee-animated-img');
+            }
+
+            if (infoBox) {
+                infoBox.classList.remove('trophee-animated-content');
+                void infoBox.offsetWidth;
+                infoBox.classList.add('trophee-animated-content');
+            }
+
+            document.getElementById('modal-trophee-title').innerText = trophee.title;
+            document.getElementById('modal-trophee-desc').innerText = trophee.description;
+            openModal('modal-trophee-unlocked');
+        }
+
+        function renderArmoireTrophies(coureur) {
+            if (!coureur.trophies) coureur.trophies = {};
+            let gridEl = document.getElementById('fiche-trophies-grid');
+            if (!gridEl) return;
+
+            let unlockedCount = 0;
+            let html = '';
+
+            TROPHEES_CONFIG.forEach(t => {
+                let count = getTrophyCount(coureur, t.id);
+                let isUnlocked = count > 0;
+                if (isUnlocked) unlockedCount++;
+                let lastDate = getTrophyLastDate(coureur, t.id);
+
+                html += `
+                <div class="trophy-badge-card ${isUnlocked ? 'unlocked' : 'locked'}">
+                    ${isUnlocked && count > 1 ? `<div class="trophy-count-badge">x${count}</div>` : ''}
+                    <img class="trophy-img" src="${t.image}" onerror="this.src='${DEFAULT_TROPHY_SVG}'" alt="${t.title}">
+                    <div class="trophy-title">${t.title}</div>
+                    <div class="trophy-desc">${t.description}</div>
+                    ${isUnlocked ? `<div class="trophy-date">${count > 1 ? count + ' fois obtenu' : 'Obtenu le ' + lastDate}</div>` : `<div class="trophy-date" style="background:none; color: var(--text-muted);">🔒 À débloquer</div>`}
+                </div>`;
+            });
+
+            gridEl.innerHTML = html;
+            document.getElementById('fiche-trophies-count').innerText = `${unlockedCount} / ${TROPHEES_CONFIG.length}`;
+        }
 
         function showAppAlert(title, message, icon = 'ℹ️', buttonText = 'OK', callback = null) {
             document.getElementById('app-alert-title').innerHTML = `${icon} ${title}`;
@@ -1667,6 +2867,17 @@
                 if (result && cb.onConfirm) cb.onConfirm();
                 else if (!result && cb.onCancel) cb.onCancel();
             }
+        }
+
+        function confirmResetData() {
+            showAppConfirm(
+                "Réinitialisation de l'application",
+                "Êtes-vous sûr de vouloir remettre l'application à zéro ?<br><br>⚠️ Toutes les données (coureurs, séances enregistrées, échauffements, trophées) seront réinitialisées.",
+                () => {
+                    localStorage.clear();
+                    location.reload();
+                }
+            );
         }
 
         let runState = {
@@ -1786,6 +2997,14 @@
             openModal('modal-analyse-course');
         }
 
+        function fermerAnalyseEtVerifierTrophees() {
+            closeModal('modal-analyse-course');
+            nav('view-session-config');
+            if (lastRunAnalysis && lastRunAnalysis.runnerId) {
+                checkAndAwardTrophies(lastRunAnalysis.runnerId, lastRunAnalysis.lastRunData);
+            }
+        }
+
         // --- MIGRATION / GESTION SÉANCES ---
         function getCoureurSeances(c) {
             if (c.seances && c.seances.length > 0) {
@@ -1808,10 +3027,368 @@
             return [];
         }
 
+        // --- IMPORT / EXPORT JSON ---
+        async function exportAppDataJSON() {
+            try {
+                let dateFormatted = new Date().toISOString().slice(0, 10);
+                let defaultFilename = `demi_fond_3e_sauvegarde_${dateFormatted}`;
+
+                let userChosenName = prompt("Saisissez le nom de votre fichier de sauvegarde :", defaultFilename);
+                if (userChosenName === null) return;
+
+                userChosenName = userChosenName.trim();
+                if (!userChosenName) userChosenName = defaultFilename;
+                if (!userChosenName.toLowerCase().endsWith('.json')) {
+                    userChosenName += '.json';
+                }
+
+                let exportData = {
+                    version: "Demi-Fond 3e v2",
+                    exportDate: new Date().toISOString(),
+                    coureurs: (typeof coureurs !== 'undefined') ? coureurs : {},
+                    seanceConfig: (typeof seanceConfig !== 'undefined') ? seanceConfig : {},
+                    activeSessionRuns: (typeof activeSessionRuns !== 'undefined') ? activeSessionRuns : { 1: [], 2: [] },
+                    activeEvalGrid: (typeof activeEvalGrid !== 'undefined') ? activeEvalGrid : []
+                };
+
+                let jsonStr = JSON.stringify(exportData, null, 2);
+                let blob = new Blob([jsonStr], { type: "application/json" });
+
+                if (window.showSaveFilePicker) {
+                    try {
+                        const handle = await window.showSaveFilePicker({
+                            suggestedName: userChosenName,
+                            types: [{
+                                description: 'Fichier de Sauvegarde JSON',
+                                accept: { 'application/json': ['.json'] },
+                            }],
+                        });
+                        const writable = await handle.createWritable();
+                        await writable.write(blob);
+                        await writable.close();
+                        showAppAlert("Sauvegarde Réussie", `Le fichier <strong>${handle.name}</strong> a été enregistré avec succès !`, "💾");
+                        return;
+                    } catch (err) {
+                        if (err.name === 'AbortError') return;
+                    }
+                }
+
+                let url = URL.createObjectURL(blob);
+                let downloadAnchor = document.createElement('a');
+                downloadAnchor.href = url;
+                downloadAnchor.download = userChosenName;
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+
+                setTimeout(() => {
+                    document.body.removeChild(downloadAnchor);
+                    URL.revokeObjectURL(url);
+                }, 100);
+
+                showAppAlert("Sauvegarde Réussie", `Le fichier <strong>${userChosenName}</strong> a été téléchargé avec succès.`, "💾");
+            } catch (err) {
+                console.error("Export error:", err);
+                showAppAlert("Erreur d'Exportation", `Impossible d'exporter les données : ${err.message}`, "⚠️");
+            }
+        }
+
+        function importAppDataJSON(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    let imported = JSON.parse(e.target.result);
+
+                    if (!imported || typeof imported !== 'object') {
+                        throw new Error("Format JSON invalide");
+                    }
+
+                    if (imported.coureurs) {
+                        coureurs = imported.coureurs;
+                        saveData();
+                    }
+
+                    if (imported.seanceConfig) {
+                        seanceConfig = imported.seanceConfig;
+                        localStorage.setItem('df_seance', JSON.stringify(seanceConfig));
+                    }
+
+                    if (imported.activeSessionRuns || imported.activeRuns) {
+                        activeSessionRuns = imported.activeSessionRuns || imported.activeRuns || { 1: [], 2: [] };
+                        saveActiveRuns();
+                    }
+
+                    if (imported.activeEvalGrid) {
+                        activeEvalGrid = imported.activeEvalGrid;
+                        localStorage.setItem('demi_fond_eval_grid', JSON.stringify(activeEvalGrid));
+                    }
+
+                    updateInfosViewButtons();
+                    renderEvalTable();
+                    updateActiveSessionUI();
+
+                    showAppAlert("Données Chargées", "Toutes les données de l'application ont été restaurées avec succès depuis le fichier JSON !", "✅");
+                } catch (err) {
+                    console.error("Import error:", err);
+                    showAppAlert("Erreur de Chargement", `Le fichier sélectionné ne contient pas un format de sauvegarde valide (${err.message}).`, "⚠️");
+                }
+            };
+            reader.readAsText(file, 'UTF-8');
+            event.target.value = '';
+        }
+
+        // --- MODULE ÉVALUATION INTERACTIF ---
+        let activeEvalGrid = JSON.parse(localStorage.getItem('demi_fond_eval_grid')) || [];
+
+        function renderEvalTable() {
+            let runnerSelect = document.getElementById('eval-runner-select');
+            if (!runnerSelect) return;
+
+            let runnerId = runnerSelect.value;
+            let coureur = coureurs[runnerId];
+
+            if (runnerSelect.options && runnerSelect.options.length >= 2) {
+                let p1 = coureurs[1] ? (coureurs[1].prenom || 'Coureur 1') : 'Coureur 1';
+                let p2 = coureurs[2] ? (coureurs[2].prenom || 'Coureur 2') : 'Coureur 2';
+                runnerSelect.options[0].text = `1. ${p1}`;
+                runnerSelect.options[1].text = `2. ${p2}`;
+            }
+
+            let nameStr = coureur ? (coureur.prenom ? `${coureur.prenom} ${coureur.nom || ''}`.trim() : `Coureur ${runnerId}`) : `Coureur ${runnerId}`;
+            let nameElem = document.getElementById('eval-student-name');
+            if (nameElem) nameElem.innerText = "ÉVALUATION DE : " + nameStr.toUpperCase();
+
+            let tbody = document.getElementById('eval-tbody');
+            if (!tbody) return;
+
+            if (!activeEvalGrid || activeEvalGrid.length === 0) {
+                tbody.innerHTML = `<tr>
+                    <td colspan="6" style="text-align: center; padding: 45px 20px; color: #64748B; background: #F8FAFC;">
+                        <div style="font-size: 32px; margin-bottom: 10px;">📋</div>
+                        <div style="font-size: 16px; font-weight: 800; color: #1E293B; margin-bottom: 6px;">Aucune grille d'évaluation importée</div>
+                        <div style="font-size: 14px; color: #64748B;">Pour commencer l'auto-évaluation, cliquez sur le bouton <strong>"📥 Importer un référentiel (.xlsx / .csv)"</strong> ci-dessus.</div>
+                    </td>
+                </tr>`;
+
+                let scoreEl = document.getElementById('eval-score-display');
+                if (scoreEl) {
+                    scoreEl.innerText = "- / 20";
+                    scoreEl.style.background = "#64748B";
+                    scoreEl.style.color = "#FFFFFF";
+                }
+                return;
+            }
+
+            if (coureur && !coureur.evaluation) coureur.evaluation = {};
+            let userSelections = coureur ? coureur.evaluation : {};
+
+            let html = '';
+            let totalWeightedScore = 0;
+            let answeredCount = 0;
+
+            activeEvalGrid.forEach((row, rIdx) => {
+                let selectedLevel = userSelections[rIdx] || null; // 1, 2, 3, or 4
+
+                let weightRaw = row.poids ? row.poids.toString().replace('%', '').replace(',', '.').trim() : '';
+                let weightNum = parseFloat(weightRaw) || (100 / activeEvalGrid.length);
+
+                if (selectedLevel) {
+                    answeredCount++;
+                    totalWeightedScore += (selectedLevel * 5) * (weightNum / 100);
+                }
+
+                html += `<tr>
+                    <td class="eval-td-comp">${row.competence || '-'}</td>
+                    <td class="eval-cell level-1 ${selectedLevel === 1 ? 'selected' : ''}" onclick="toggleEvalCell(${runnerId}, ${rIdx}, 1)">
+                        <div class="eval-cell-badge">✓</div>
+                        ${row.n1 || '-'}
+                    </td>
+                    <td class="eval-cell level-2 ${selectedLevel === 2 ? 'selected' : ''}" onclick="toggleEvalCell(${runnerId}, ${rIdx}, 2)">
+                        <div class="eval-cell-badge">✓</div>
+                        ${row.n2 || '-'}
+                    </td>
+                    <td class="eval-cell level-3 ${selectedLevel === 3 ? 'selected' : ''}" onclick="toggleEvalCell(${runnerId}, ${rIdx}, 3)">
+                        <div class="eval-cell-badge">✓</div>
+                        ${row.n3 || '-'}
+                    </td>
+                    <td class="eval-cell level-4 ${selectedLevel === 4 ? 'selected' : ''}" onclick="toggleEvalCell(${runnerId}, ${rIdx}, 4)">
+                        <div class="eval-cell-badge">✓</div>
+                        ${row.n4 || '-'}
+                    </td>
+                    <td class="eval-td-weight">${row.poids || '-'}</td>
+                </tr>`;
+            });
+
+            tbody.innerHTML = html;
+
+            let scoreEl = document.getElementById('eval-score-display');
+            if (scoreEl) {
+                if (answeredCount === 0) {
+                    scoreEl.innerText = "- / 20";
+                    scoreEl.style.background = "#64748B";
+                    scoreEl.style.color = "#FFFFFF";
+                } else {
+                    let finalScore = Math.min(20, Math.max(0, totalWeightedScore)).toFixed(1);
+                    scoreEl.innerText = `${finalScore} / 20`;
+                    if (totalWeightedScore >= 16) {
+                        scoreEl.style.background = "#22C55E";
+                        scoreEl.style.color = "#FFFFFF";
+                    } else if (totalWeightedScore >= 12) {
+                        scoreEl.style.background = "#EAB308";
+                        scoreEl.style.color = "#422006";
+                    } else if (totalWeightedScore >= 8) {
+                        scoreEl.style.background = "#F97316";
+                        scoreEl.style.color = "#FFFFFF";
+                    } else {
+                        scoreEl.style.background = "#EF4444";
+                        scoreEl.style.color = "#FFFFFF";
+                    }
+                }
+            }
+        }
+
+        function toggleEvalCell(runnerId, rIdx, level) {
+            let coureur = coureurs[runnerId];
+            if (!coureur) return;
+            if (!coureur.evaluation) coureur.evaluation = {};
+
+            if (coureur.evaluation[rIdx] === level) {
+                delete coureur.evaluation[rIdx];
+            } else {
+                coureur.evaluation[rIdx] = level;
+            }
+
+            saveData();
+            renderEvalTable();
+        }
+
+        function onEvalRunnerChange() {
+            renderEvalTable();
+        }
+
+        function clearCurrentEvalSelections() {
+            let runnerId = document.getElementById('eval-runner-select').value;
+            if (coureurs[runnerId]) {
+                coureurs[runnerId].evaluation = {};
+                saveData();
+                renderEvalTable();
+            }
+        }
+
+        function deleteEvalGrid() {
+            if (!activeEvalGrid || activeEvalGrid.length === 0) {
+                showAppAlert("Information", "Aucune grille d'évaluation n'est actuellement chargée.", "ℹ️");
+                return;
+            }
+            showAppConfirm(
+                "Supprimer la grille",
+                "Voulez-vous vraiment supprimer le référentiel d'évaluation actuellement chargé ?",
+                () => {
+                    activeEvalGrid = [];
+                    localStorage.removeItem('demi_fond_eval_grid');
+                    renderEvalTable();
+                    showAppAlert("Grille supprimée", "Le référentiel d'évaluation a été retiré.", "🗑️");
+                }
+            );
+        }
+
+        function handleEvalFileImport(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let fileName = file.name.toLowerCase();
+            let reader = new FileReader();
+
+            if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                reader.onload = function (e) {
+                    try {
+                        let data = new Uint8Array(e.target.result);
+                        if (typeof XLSX !== 'undefined') {
+                            let workbook = XLSX.read(data, { type: 'array' });
+                            let firstSheetName = workbook.SheetNames[0];
+                            let worksheet = workbook.Sheets[firstSheetName];
+                            let jsonRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                            processImportedEvalRows(jsonRows);
+                        } else {
+                            showAppAlert("Erreur Bibliothèque", "La bibliothèque XLSX n'a pas pu se charger. Veuillez essayer au format .CSV.", "⚠️");
+                        }
+                    } catch (err) {
+                        showAppAlert("Erreur d'importation", "Impossible de lire le fichier Excel. Vérifiez la structure du tableau.", "⚠️");
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                reader.onload = function (e) {
+                    try {
+                        let text = e.target.result;
+                        let rows = parseCSVText(text);
+                        processImportedEvalRows(rows);
+                    } catch (err) {
+                        showAppAlert("Erreur d'importation", "Impossible de lire le fichier CSV. Vérifiez l'encodage.", "⚠️");
+                    }
+                };
+                reader.readAsText(file, 'UTF-8');
+            }
+            event.target.value = '';
+        }
+
+        function parseCSVText(text) {
+            let lines = text.split(/\r\n|\n/);
+            return lines.map(line => {
+                let sep = line.includes(';') ? ';' : (line.includes('\t') ? '\t' : ',');
+                return line.split(sep).map(cell => cell.replace(/^"|"$/g, '').trim());
+            }).filter(row => row.length > 1);
+        }
+
+        function processImportedEvalRows(rows) {
+            if (!rows || rows.length < 2) {
+                showAppAlert("Fichier vide", "Le fichier ne contient pas assez de données pour constituer une grille d'évaluation.", "⚠️");
+                return;
+            }
+
+            let newGrid = [];
+            let startIdx = 0;
+            let firstRowStr = rows[0].join(' ').toLowerCase();
+            if (firstRowStr.includes('compétence') || firstRowStr.includes('objectifs') || firstRowStr.includes('niveau') || firstRowStr.includes('pronote')) {
+                startIdx = 1;
+            }
+
+            for (let i = startIdx; i < rows.length; i++) {
+                let r = rows[i];
+                if (!r || r.length < 5) continue;
+                newGrid.push({
+                    competence: r[0] || '',
+                    n1: r[1] || '',
+                    n2: r[2] || '',
+                    n3: r[3] || '',
+                    n4: r[4] || '',
+                    poids: r[5] ? (r[5].toString().includes('%') ? r[5] : r[5] + ' %') : ''
+                });
+            }
+
+            if (newGrid.length === 0) {
+                showAppAlert("Erreur de format", "Aucun critère d'évaluation n'a pu être extrait du fichier. Assurez-vous d'avoir au moins 5 colonnes.", "⚠️");
+                return;
+            }
+
+            activeEvalGrid = newGrid;
+            localStorage.setItem('demi_fond_eval_grid', JSON.stringify(activeEvalGrid));
+            renderEvalTable();
+            showAppAlert("Importation Réussie", `Le référentiel d'évaluation a été importé avec succès (${newGrid.length} compétences).`, "✅");
+        }
+
         // --- NAVIGATION ---
         function nav(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
+
+            if (viewId === 'view-accueil') {
+                document.body.classList.remove('bg-blurred');
+            } else {
+                document.body.classList.add('bg-blurred');
+            }
 
             if (viewId === 'view-infos') {
                 updateInfosViewButtons();
@@ -1819,6 +3396,9 @@
             if (viewId === 'view-session-config') {
                 populateEchauffementCoureurs();
                 updateActiveSessionUI();
+            }
+            if (viewId === 'view-eval') {
+                renderEvalTable();
             }
         }
 
@@ -1832,10 +3412,10 @@
         }
 
         function populateEchauffementCoureurs() {
-            let select = document.getElementById('e-coureur');
-            if (select) {
+            let selects = document.querySelectorAll('#e-coureur');
+            selects.forEach(select => {
                 select.innerHTML = `<option value="1">${coureurs[1].prenom}</option><option value="2">${coureurs[2].prenom}</option>`;
-            }
+            });
         }
 
         function updateActiveSessionUI() {
@@ -1865,7 +3445,7 @@
                 let statusClass = "";
 
                 if (diff > 25) {
-                    statusText = "🚀 Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
+                    statusText = "❌ Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
                     statusClass = "status-depasse";
                 } else if (diff >= -25 && diff <= 25) {
                     statusText = "✅ Atteint (" + (diff >= 0 ? "+" + diff : diff) + " m)";
@@ -1916,6 +3496,22 @@
                     </div>
                 `;
             });
+
+            // Calcul de la moyenne VMA de la séance en cours pour chaque coureur
+            let r1 = activeSessionRuns[1] || [];
+            let r2 = activeSessionRuns[2] || [];
+            let avg1 = r1.length > 0 ? Math.round(r1.reduce((sum, r) => sum + (r.pctVMA || 70), 0) / r1.length) : null;
+            let avg2 = r2.length > 0 ? Math.round(r2.reduce((sum, r) => sum + (r.pctVMA || 70), 0) / r2.length) : null;
+
+            html += `
+                <div class="seance-course-box" style="margin-top: 18px; background: rgba(184, 59, 29, 0.08); border: 1.5px solid rgba(184, 59, 29, 0.3); padding: 14px 18px;">
+                    <div style="color: var(--primary); font-size: 15px; font-weight: 800; text-align: center; margin-bottom: 8px;">🔥 Moyenne d'intensité de la séance en cours</div>
+                    <div style="display: flex; justify-content: space-around; font-size: 14px; font-weight: 700; flex-wrap: wrap; gap: 10px;">
+                        <span>${coureurs[1].prenom} : <strong style="color: var(--primary);">${avg1 !== null ? avg1 + '% VMA' : 'Pas encore de course'}</strong></span>
+                        <span>${coureurs[2].prenom} : <strong style="color: var(--primary);">${avg2 !== null ? avg2 + '% VMA' : 'Pas encore de course'}</strong></span>
+                    </div>
+                </div>
+            `;
 
             container.innerHTML = html;
         }
@@ -2008,18 +3604,37 @@
         }
 
         function saveEchauffement() {
-            let id = document.getElementById('e-coureur').value;
+            let selectCoureur = document.querySelector('#echauffement-body #e-coureur') || document.querySelector('#modal-echauffement #e-coureur') || document.getElementById('e-coureur');
+            let id = selectCoureur ? selectCoureur.value : 1;
+            if (!coureurs[id]) return;
+
             if (!coureurs[id].echauffements) coureurs[id].echauffements = {};
+
+            let selectEleve = document.querySelector('#echauffement-body #e-note') || document.querySelector('#modal-echauffement #e-note') || document.getElementById('e-note');
+            let selectProf = document.querySelector('#echauffement-body #e-note-prof') || document.querySelector('#modal-echauffement #e-note-prof') || document.getElementById('e-note-prof');
+
+            let noteVal = selectEleve ? parseInt(selectEleve.value) : 0;
+            let noteProfVal = selectProf ? parseInt(selectProf.value) : 0;
+
+            let fcReposEl = document.querySelector('#echauffement-body #e-fc-repos') || document.querySelector('#modal-echauffement #e-fc-repos') || document.getElementById('e-fc-repos');
+            let sensReposEl = document.querySelector('#echauffement-body #e-sens-repos') || document.querySelector('#modal-echauffement #e-sens-repos') || document.getElementById('e-sens-repos');
+            let fcPostEl = document.querySelector('#echauffement-body #e-fc-post') || document.querySelector('#modal-echauffement #e-fc-post') || document.getElementById('e-fc-post');
+            let sensPostEl = document.querySelector('#echauffement-body #e-sens-post') || document.querySelector('#modal-echauffement #e-sens-post') || document.getElementById('e-sens-post');
+
             coureurs[id].echauffements[seanceConfig.num] = {
-                fcRepos: document.getElementById('e-fc-repos').value,
-                sensRepos: document.getElementById('e-sens-repos').value,
-                fcPost: document.getElementById('e-fc-post').value,
-                sensPost: document.getElementById('e-sens-post').value,
-                note: document.getElementById('e-note').value
+                fcRepos: fcReposEl ? fcReposEl.value : '',
+                sensRepos: sensReposEl ? sensReposEl.value : '',
+                fcPost: fcPostEl ? fcPostEl.value : '',
+                sensPost: sensPostEl ? sensPostEl.value : '',
+                note: noteVal,
+                noteProf: noteProfVal
             };
+
             saveData();
             toggleEchauffementCard(false);
-            showAppAlert("Échauffement Enregistré", `Les données d'échauffement de <strong>${coureurs[id].prenom}</strong> ont été enregistrées.`, "🔥");
+            closeModal('modal-echauffement');
+
+            showAppAlert("Échauffement Enregistré", `Les données d'échauffement de <strong>${coureurs[id].prenom}</strong> ont été enregistrées.<br>• Note Élève : <strong>${noteVal}/3</strong><br>• Note Prof : <strong>${noteProfVal}/3</strong>`, "🔥");
         }
 
         function toggleEchauffementCard(forceState = null) {
@@ -2065,6 +3680,10 @@
             saveActiveRuns();
             saveData();
             updateActiveSessionUI();
+
+            // Vérifier et débloquer les trophées pour les deux coureurs en fin de séance (avec validation isSessionEnd = true)
+            checkAndAwardTrophies(1, null, true);
+            checkAndAwardTrophies(2, null, true);
 
             if (hasRuns) {
                 showAppAlert("Séance Terminée", `La séance n°<strong>${seanceConfig.num}</strong> a été enregistrée avec succès dans les fiches coureurs.`, "🏁", "Retour à l'accueil", () => {
@@ -2113,13 +3732,15 @@
                 seances.forEach((seance, sIdx) => {
                     let nbCourses = seance.runs ? seance.runs.length : 0;
                     let numSeance = seance.num || (sIdx + 1);
-                    histHTML += `<button class="primary btn-seance-item" onclick="openDetailSeance(${id}, ${sIdx})">
-                        <span><strong>Séance n°${numSeance}</strong> <small style="opacity:0.8; margin-left:8px;">(${nbCourses} course${nbCourses > 1 ? 's' : ''} - ${seance.date || 'S.D.'})</small></span>
+                    histHTML += `<button class="btn-seance-item" onclick="openDetailSeance(${id}, ${sIdx})">
+                        <span><strong>Séance n°${numSeance}</strong> <small style="opacity:0.7; margin-left:8px;">(${nbCourses} course${nbCourses > 1 ? 's' : ''} - ${seance.date || 'S.D.'})</small></span>
                         <span>Voir les détails ➔</span>
                     </button>`;
                 });
             }
             document.getElementById('fiche-history').innerHTML = histHTML;
+            renderArmoireTrophies(c);
+            checkAndAwardTrophies(id);
             nav('view-fiche');
         }
 
@@ -2211,6 +3832,19 @@
                         </div>
                     `;
                 });
+
+                // Affichage de la moyenne VMA en bas du récap de la séance
+                let totalVMA = 0;
+                seance.runs.forEach(r => {
+                    totalVMA += (r.pctVMA || (r.vitesseCible && c.vma ? Math.round((r.vitesseCible / c.vma) * 100) : 70));
+                });
+                let avgVMA = Math.round(totalVMA / seance.runs.length);
+
+                contentHTML += `
+                    <div class="seance-course-box" style="margin-top: 15px; background: rgba(184, 59, 29, 0.08); border: 1.5px solid rgba(184, 59, 29, 0.3); text-align: center; padding: 12px;">
+                        <div style="color: var(--primary); font-size: 14px; font-weight: 800;">🔥 Moyenne d'intensité de la séance : <span style="font-size: 18px; color: var(--primary);">${avgVMA}% VMA</span></div>
+                    </div>
+                `;
             }
 
             document.getElementById('modal-seance-content').innerHTML = contentHTML;
@@ -2393,7 +4027,7 @@
             let totalPlotsDone = (runState.tours * nbPlotsTour) + runState.plots;
             let distActuelle = totalPlotsDone * distPlot;
 
-            let targetPlotsNeeded = runState.targetMeters > 0 ? Math.ceil(runState.targetMeters / distPlot) : 0;
+            let targetPlotsNeeded = runState.targetMeters > 0 ? Math.round(runState.targetMeters / distPlot) : 0;
 
             let obsDistDone = document.getElementById('obs-dist-done');
             if (obsDistDone) obsDistDone.innerText = distActuelle + " m";
@@ -2487,7 +4121,8 @@
                 runnerId: runState.activeId,
                 distFinale: distFinale,
                 analyse: resAnalyse.analyse,
-                conseil: resAnalyse.conseil
+                conseil: resAnalyse.conseil,
+                lastRunData: runData
             };
 
             if (wasAbandon) {
@@ -2521,6 +4156,7 @@
 
         // Initialisation des intitulés de fiches au chargement
         updateInfosViewButtons();
+        renderEvalTable();
     </script>
 </body>
 
