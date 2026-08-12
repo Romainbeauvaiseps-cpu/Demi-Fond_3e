@@ -77,7 +77,7 @@
 
         /* Vues de l'application */
         .view {
-            display: none;
+            display: none !important;
             padding: 20px;
             animation: fadeIn 0.3s ease;
         }
@@ -88,7 +88,11 @@
         }
 
         .view.active {
-            display: block;
+            display: block !important;
+        }
+
+        #view-accueil.active {
+            display: flex !important;
         }
 
         @keyframes fadeIn {
@@ -391,12 +395,15 @@
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
             max-width: none;
             position: relative;
+        }
+
+        #view-accueil.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .home-stage {
@@ -453,22 +460,22 @@
 
         /* Placement escalier le long des couloirs de la piste */
         #view-accueil .home-btn-1 {
-            top: 36.5cqh;
+            top: 28cqh;
             left: 24.5cqw;
         }
 
         #view-accueil .home-btn-2 {
-            top: 48cqh;
+            top: 39.3cqh;
             left: 19cqw;
         }
 
         #view-accueil .home-btn-3 {
-            top: 59.5cqh;
+            top: 51cqh;
             left: 13.5cqw;
         }
 
         #view-accueil .home-btn-4 {
-            top: 71cqh;
+            top: 62.5cqh;
             left: 8cqw;
         }
 
@@ -3415,6 +3422,8 @@
             } else {
                 document.body.classList.add('bg-blurred');
             }
+
+            window.scrollTo(0, 0);
 
             if (viewId === 'view-infos') {
                 updateInfosViewButtons();
