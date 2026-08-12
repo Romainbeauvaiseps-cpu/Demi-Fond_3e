@@ -1,0 +1,17 @@
+{
+  "name": "Suivi Demi-Fond 3e",
+  "short_name": "Demi-Fond 3e",
+  "description": "Application d'évaluation et de suivi Demi-Fond 3ème EPS",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F2F2F7",
+  "theme_color": "#B83B1D",
+  "icons": [
+    {
+      "src": "image/icone.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

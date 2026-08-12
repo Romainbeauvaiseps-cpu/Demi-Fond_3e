@@ -8,6 +8,11 @@
     <title>Suivi Demi-Fond</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Demi-Fond 3e">
+    <link rel="apple-touch-icon" href="image/icone.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="image/icone.png">
+    <link rel="icon" type="image/png" href="image/icone.png">
+    <link rel="manifest" href="manifest.json">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -56,12 +61,18 @@
             z-index: -1;
             transition: filter 0.3s ease, transform 0.3s ease;
             pointer-events: none;
+            display: none;
         }
 
         body.bg-blurred #app-bg,
         body:has(.view:not(#view-accueil).active) #app-bg {
             filter: blur(12px) brightness(0.95);
             transform: scale(1.06);
+            display: block;
+        }
+
+        body:has(#view-accueil.active) {
+            background-color: #FFFFFF;
         }
 
         /* Vues de l'application */
@@ -376,88 +387,97 @@
 
         #view-accueil {
             background: transparent;
+            width: 100%;
             min-height: 100vh;
-            margin: -20px;
-            padding: 70px 20px 20px 60px;
-            box-sizing: border-box;
-            overflow-x: hidden;
-            max-width: none;
-        }
-
-        #view-accueil.active {
+            margin: 0;
+            padding: 0;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: flex-start;
+            overflow: hidden;
+            max-width: none;
+            position: relative;
         }
 
-        #view-accueil .btn-with-icon {
-            background: rgba(255, 255, 255, 0.72);
+        .home-stage {
+            position: relative;
+            width: 100vw;
+            height: calc(100vw * 9 / 16);
+            max-height: 100vh;
+            max-width: calc(100vh * 16 / 9);
+            aspect-ratio: 16 / 9;
+            background: url('image/fd3.png') no-repeat center center / contain;
+            container-type: size;
+            margin: auto;
+            box-sizing: border-box;
+        }
+
+        #view-accueil .home-btn {
+            position: absolute;
+            width: 27cqw;
+            height: 10.5cqh;
+            padding: 0 2cqw;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1cqw;
+            background: rgba(255, 255, 255, 0.76);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             color: #000000;
-            border-radius: 18px;
-            padding: 18px 28px;
-            font-size: 18px;
+            border-radius: 1.4cqw;
+            font-size: clamp(11px, 1.32cqw, 19px);
             font-weight: 800;
-            width: 88%;
-            max-width: 410px;
-            margin-bottom: 18px;
-            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.6);
-            border: 1.5px solid rgba(0, 0, 0, 0.25);
+            box-shadow: 0 0.6cqw 1.8cqw rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+            border: clamp(1px, 0.15cqw, 2px) solid rgba(0, 0, 0, 0.25);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            white-space: nowrap;
+            cursor: pointer;
             transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            z-index: 10;
         }
 
-        /* Effet escalier montant vers la droite (décalé vers le bas et la droite) */
-        #view-accueil button.btn-with-icon:nth-of-type(1) {
-            transform: translateX(300px);
-            margin-top: 40px;
+        #view-accueil .home-btn .btn-side-img {
+            height: 52%;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
         }
 
-        #view-accueil button.btn-with-icon:nth-of-type(2) {
-            transform: translateX(220px);
+        #view-accueil .home-btn span {
+            display: inline-block;
+            line-height: 1.1;
         }
 
-        #view-accueil button.btn-with-icon:nth-of-type(3) {
-            transform: translateX(140px);
+        /* Placement escalier le long des couloirs de la piste */
+        #view-accueil .home-btn-1 {
+            top: 36.5cqh;
+            left: 24.5cqw;
         }
 
-        #view-accueil button.btn-with-icon:nth-of-type(4) {
-            transform: translateX(60px);
+        #view-accueil .home-btn-2 {
+            top: 48cqh;
+            left: 19cqw;
         }
 
-        #view-accueil button.btn-with-icon:nth-of-type(1):hover,
-        #view-accueil button.btn-with-icon:nth-of-type(1):active {
-            background: rgba(255, 255, 255, 0.92);
+        #view-accueil .home-btn-3 {
+            top: 59.5cqh;
+            left: 13.5cqw;
+        }
+
+        #view-accueil .home-btn-4 {
+            top: 71cqh;
+            left: 8cqw;
+        }
+
+        #view-accueil .home-btn:hover,
+        #view-accueil .home-btn:active {
+            background: rgba(255, 255, 255, 0.95);
             border-color: rgba(0, 0, 0, 0.45);
-            transform: translateX(300px) scale(1.03);
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-        }
-
-        #view-accueil button.btn-with-icon:nth-of-type(2):hover,
-        #view-accueil button.btn-with-icon:nth-of-type(2):active {
-            background: rgba(255, 255, 255, 0.92);
-            border-color: rgba(0, 0, 0, 0.45);
-            transform: translateX(220px) scale(1.03);
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-        }
-
-        #view-accueil button.btn-with-icon:nth-of-type(3):hover,
-        #view-accueil button.btn-with-icon:nth-of-type(3):active {
-            background: rgba(255, 255, 255, 0.92);
-            border-color: rgba(0, 0, 0, 0.45);
-            transform: translateX(140px) scale(1.03);
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
-        }
-
-        #view-accueil button.btn-with-icon:nth-of-type(4):hover,
-        #view-accueil button.btn-with-icon:nth-of-type(4):active {
-            background: rgba(255, 255, 255, 0.92);
-            border-color: rgba(0, 0, 0, 0.45);
-            transform: translateX(60px) scale(1.03);
-            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+            transform: scale(1.03);
+            box-shadow: 0 0.8cqw 2.2cqw rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
         /* Page Infos Coureurs Layout */
@@ -595,13 +615,13 @@
 
         .btn-reset-app {
             position: absolute !important;
-            top: 24px !important;
-            right: 28px !important;
+            top: 3.5cqh !important;
+            right: 2.5cqw !important;
             width: auto !important;
             max-width: none !important;
             margin: 0 !important;
-            padding: 5px 12px !important;
-            font-size: 11px !important;
+            padding: 0.6cqh 1.2cqw !important;
+            font-size: clamp(10px, 1.05cqw, 14px) !important;
             font-weight: 800 !important;
             text-transform: none !important;
             letter-spacing: normal !important;
@@ -610,7 +630,7 @@
             border: 1.5px solid rgba(220, 38, 38, 0.45) !important;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
-            border-radius: 12px !important;
+            border-radius: 0.9cqw !important;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25) !important;
             transform: none !important;
@@ -629,24 +649,27 @@
 
         /* Conteneur des boutons Sauvegarder / Charger sur l'accueil */
         .home-io-row {
+            position: absolute;
+            top: 77.5cqh;
+            left: 4.5cqw;
+            width: 22cqw;
+            height: 7.5cqh;
             display: flex;
-            gap: 10px;
+            gap: 0.8cqw;
             justify-content: flex-start;
             align-items: center;
-            margin-top: 5px;
-            margin-left: 25px;
-            margin-right: auto;
-            width: 100%;
-            max-width: 300px;
+            margin: 0;
+            z-index: 10;
         }
 
         .btn-io-app {
             flex: 1;
-            padding: 6px 12px;
-            font-size: 12px;
+            height: 100%;
+            padding: 0 0.8cqw;
+            font-size: clamp(9px, 0.95cqw, 13px);
             font-weight: 800;
             text-align: center;
-            border-radius: 10px;
+            border-radius: 0.9cqw;
             cursor: pointer;
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -654,8 +677,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 0.4cqw;
             user-select: none;
+            white-space: nowrap;
         }
 
         .btn-export-app {
@@ -1767,41 +1791,43 @@
     <div id="app-bg"></div>
 
     <!-- VUE : ACCUEIL -->
-    <div id="view-accueil" class="view active" style="position: relative;">
-        <!-- Bouton réinitialiser ultra-discret tout en haut à droite -->
-        <div onclick="confirmResetData()" class="btn-reset-app" role="button" tabindex="0"
-            title="Réinitialiser l'application (remettre à 0)">
-            🔄 Remettre à 0
-        </div>
-
-        <button class="primary btn-with-icon" onclick="openModal('modal-coureur', 1)">
-            <img src="image/fiche1.png" alt="Inscription" class="btn-side-img">
-            <span>S'inscrire</span>
-        </button>
-        <button class="primary btn-with-icon" onclick="nav('view-infos')">
-            <img src="image/logofiche.png" alt="Fiches coureurs" class="btn-side-img">
-            <span>Fiches coureurs</span>
-        </button>
-        <button class="primary btn-with-icon" onclick="nav('view-session-config')">
-            <img src="image/tableau.png" alt="Séance" class="btn-side-img">
-            <span>Commencer une séance</span>
-        </button>
-        <button class="primary btn-with-icon" onclick="nav('view-eval')">
-            <img src="image/eval.png" alt="Évaluation" class="btn-side-img">
-            <span>Évaluation</span>
-        </button>
-
-        <!-- Boutons d'import/export côte à côte sous le bouton Évaluation -->
-        <div class="home-io-row">
-            <div onclick="exportAppDataJSON()" class="btn-io-app btn-export-app" role="button" tabindex="0"
-                title="Exporter toutes les données en fichier JSON">
-                💾 Sauvegarder
+    <div id="view-accueil" class="view active">
+        <div class="home-stage">
+            <!-- Bouton réinitialiser ultra-discret tout en haut à droite -->
+            <div onclick="confirmResetData()" class="btn-reset-app" role="button" tabindex="0"
+                title="Réinitialiser l'application (remettre à 0)">
+                🔄 Remettre à 0
             </div>
-            <input type="file" id="import-json-input" accept=".json" style="display:none;"
-                onchange="importAppDataJSON(event)">
-            <div onclick="document.getElementById('import-json-input').click()" class="btn-io-app btn-import-app"
-                role="button" tabindex="0" title="Charger un fichier JSON de données">
-                📂 Charger
+
+            <button class="primary btn-with-icon home-btn home-btn-1" onclick="openModal('modal-coureur', 1)">
+                <img src="image/fiche1.png" alt="Inscription" class="btn-side-img">
+                <span>S'inscrire</span>
+            </button>
+            <button class="primary btn-with-icon home-btn home-btn-2" onclick="nav('view-infos')">
+                <img src="image/logofiche.png" alt="Fiches coureurs" class="btn-side-img">
+                <span>Fiches coureurs</span>
+            </button>
+            <button class="primary btn-with-icon home-btn home-btn-3" onclick="nav('view-session-config')">
+                <img src="image/tableau.png" alt="Séance" class="btn-side-img">
+                <span>Commencer une séance</span>
+            </button>
+            <button class="primary btn-with-icon home-btn home-btn-4" onclick="nav('view-eval')">
+                <img src="image/eval.png" alt="Évaluation" class="btn-side-img">
+                <span>Évaluation</span>
+            </button>
+
+            <!-- Boutons d'import/export côte à côte sous le bouton Évaluation -->
+            <div class="home-io-row">
+                <div onclick="exportAppDataJSON()" class="btn-io-app btn-export-app" role="button" tabindex="0"
+                    title="Exporter toutes les données en fichier JSON">
+                    💾 Sauvegarder
+                </div>
+                <input type="file" id="import-json-input" accept=".json" style="display:none;"
+                    onchange="importAppDataJSON(event)">
+                <div onclick="document.getElementById('import-json-input').click()" class="btn-io-app btn-import-app"
+                    role="button" tabindex="0" title="Charger un fichier JSON de données">
+                    📂 Charger
+                </div>
             </div>
         </div>
     </div>
