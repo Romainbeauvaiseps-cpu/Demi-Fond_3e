@@ -865,16 +865,39 @@
             flex-wrap: wrap;
         }
 
-        .eval-runner-select {
-            padding: 10px 16px;
-            font-size: 16px;
-            font-weight: 800;
-            border-radius: 12px;
-            border: 1.5px solid #7C3AED;
+        .eval-runner-tabs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .eval-tab-btn {
             background: #F3E8FF;
             color: #5B21B6;
+            border: 2px solid #7C3AED;
+            border-radius: 12px;
+            padding: 8px 18px;
+            font-size: 15px;
+            font-weight: 800;
             cursor: pointer;
-            outline: none;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 0 !important;
+        }
+
+        .eval-tab-btn:hover {
+            background: #E9D5FF;
+            transform: translateY(-1px);
+        }
+
+        .eval-tab-btn.active {
+            background: #7C3AED;
+            color: #FFFFFF;
+            border-color: #5B21B6;
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
         }
 
         .eval-btn-import {
@@ -1409,6 +1432,58 @@
             font-variant-numeric: tabular-nums;
         }
 
+        .btn-undo-arret {
+            background: #FEF3C7;
+            color: #B45309;
+            border: 1.5px solid #F59E0B;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-undo-arret:hover {
+            background: #FDE68A;
+            color: #92400E;
+            transform: translateY(-1px);
+        }
+
+        .btn-undo-arret:active {
+            transform: translateY(0);
+        }
+
+        .btn-action-sm {
+            background: #F3F4F6;
+            border: 1px solid #D1D5DB;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-action-sm:hover {
+            transform: scale(1.08);
+        }
+
+        .btn-action-sm.edit:hover {
+            background: #FEF3C7;
+            border-color: #F59E0B;
+        }
+
+        .btn-action-sm.delete:hover {
+            background: #FEE2E2;
+            border-color: #EF4444;
+        }
+
         /* REORGANISATION PAGE OBSERVATION */
         .obs-top-layout {
             display: grid;
@@ -1689,6 +1764,35 @@
             gap: 8px;
         }
 
+        .echauffement-duo-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        @media (max-width: 640px) {
+            .echauffement-duo-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .echauffement-coureur-box {
+            background: rgba(124, 58, 237, 0.03);
+            border: 1.5px solid rgba(124, 58, 237, 0.15);
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .echauffement-coureur-header {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--primary-dark, #4C1D95);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed rgba(124, 58, 237, 0.2);
+        }
+
         .echauffement-form-grid {
             display: flex;
             flex-direction: column;
@@ -1947,57 +2051,75 @@
             </div>
 
             <div id="echauffement-body" style="margin-top: 16px;">
-                <div class="echauffement-form-grid">
-                    <div class="form-group">
-                        <label>Coureur</label>
-                        <select id="e-coureur"></select>
+                <div class="echauffement-duo-container">
+                    <!-- Coureur 1 (Gauche) -->
+                    <div class="echauffement-coureur-box">
+                        <div class="echauffement-coureur-header" id="e-title-c1">🏃 Coureur 1</div>
+                        <div class="echauffement-form-grid" style="margin-bottom: 0;">
+                            <div class="form-group">
+                                <label>Ressenti post-échauffement</label>
+                                <select id="e1-sens-post">
+                                    <option>Très bien</option>
+                                    <option>Bien</option>
+                                    <option>Moyen</option>
+                                    <option>Bof</option>
+                                    <option>Pas bien</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Auto-évaluation élève (0 à 3)</label>
+                                <select id="e1-note">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé au prof)</label>
+                                <select id="e1-note-prof" style="border: 2px solid var(--primary); background: #FFFBEB;">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>FC Repos (bpm)</label>
-                        <input type="number" id="e-fc-repos" placeholder="ex: 65">
-                    </div>
-                    <div class="form-group">
-                        <label>Sensation Repos</label>
-                        <select id="e-sens-repos">
-                            <option>Très bien</option>
-                            <option>Bien</option>
-                            <option>Moyen</option>
-                            <option>Bof</option>
-                            <option>Pas bien</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>FC Post-Échauffement</label>
-                        <input type="number" id="e-fc-post" placeholder="ex: 120">
-                    </div>
-                    <div class="form-group">
-                        <label>Sensation Post-Échauffement</label>
-                        <select id="e-sens-post">
-                            <option>Très bien</option>
-                            <option>Bien</option>
-                            <option>Moyen</option>
-                            <option>Bof</option>
-                            <option>Pas bien</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Auto-évaluation élève (0 à 3)</label>
-                        <select id="e-note">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé au
-                            prof)</label>
-                        <select id="e-note-prof" style="border: 2px solid var(--primary); background: #FFFBEB;">
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
+
+                    <!-- Coureur 2 (Droite) -->
+                    <div class="echauffement-coureur-box">
+                        <div class="echauffement-coureur-header" id="e-title-c2">🏃 Coureur 2</div>
+                        <div class="echauffement-form-grid" style="margin-bottom: 0;">
+                            <div class="form-group">
+                                <label>Ressenti post-échauffement</label>
+                                <select id="e2-sens-post">
+                                    <option>Très bien</option>
+                                    <option>Bien</option>
+                                    <option>Moyen</option>
+                                    <option>Bof</option>
+                                    <option>Pas bien</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Auto-évaluation élève (0 à 3)</label>
+                                <select id="e2-note">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé au prof)</label>
+                                <select id="e2-note-prof" style="border: 2px solid var(--primary); background: #FFFBEB;">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <button class="primary btn-save-echauffement" onclick="saveEchauffement()">Enregistrer
@@ -2075,7 +2197,12 @@
             <div class="arrets-marche-card" style="margin: 0;">
                 <div class="arrets-card-header">
                     <div class="arrets-card-title">🚶 Arrêts / Marche</div>
-                    <div class="arrets-counter-badge" id="obs-arrets-count">0 arrêt(s)</div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button id="btn-undo-arret" class="btn-undo-arret" onclick="annulerDernierArret()" title="Annuler le dernier arrêt">
+                            ↩️ Annuler
+                        </button>
+                        <div class="arrets-counter-badge" id="obs-arrets-count">0 arrêt(s)</div>
+                    </div>
                 </div>
                 <div class="arrets-card-body">
                     <button id="btn-toggle-marche" class="btn-arret-toggle" onclick="toggleArretMarche()">
@@ -2137,12 +2264,13 @@
 
         <!-- Barre d'outils Évaluation -->
         <div class="eval-toolbar">
-            <div class="eval-toolbar-group">
-                <label style="font-weight: 800; font-size: 15px; color: #4C1D95;">👤 Élève :</label>
-                <select id="eval-runner-select" class="eval-runner-select" onchange="onEvalRunnerChange()">
-                    <option value="1">1. Coureur 1</option>
-                    <option value="2">2. Coureur 2</option>
-                </select>
+            <div class="eval-runner-tabs" id="eval-runner-tabs">
+                <button class="eval-tab-btn active" id="eval-tab-1" onclick="selectEvalRunner(1)">
+                    👤 Coureur 1
+                </button>
+                <button class="eval-tab-btn" id="eval-tab-2" onclick="selectEvalRunner(2)">
+                    👤 Coureur 2
+                </button>
             </div>
             <div class="eval-toolbar-group">
                 <input type="file" id="eval-file-input" accept=".csv, .xlsx, .xls" style="display:none;"
@@ -2375,6 +2503,70 @@
         </div>
     </div>
 
+    <!-- Modale : Édition d'une course de la séance -->
+    <div class="modal-overlay" id="modal-edit-course">
+        <div class="modal" style="max-width: 500px;">
+            <h3>✏️ Modifier la course</h3>
+            <input type="hidden" id="edit-run-runner-id">
+            <input type="hidden" id="edit-run-array-idx">
+
+            <div style="font-weight: 800; color: var(--primary); margin-bottom: 15px; font-size: 16px; text-align: center;" id="edit-run-runner-name">Coureur</div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: bold; font-size: 13px;">Distance Objectif (m)</label>
+                <input type="number" id="edit-run-obj" placeholder="ex: 500" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 12px;">
+                <label style="font-weight: bold; font-size: 13px;">Distance Réalisée (m)</label>
+                <input type="number" id="edit-run-realise" placeholder="ex: 520" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                <div class="form-group" style="flex: 1;">
+                    <label style="font-weight: bold; font-size: 13px;">Nombre de tours</label>
+                    <input type="number" id="edit-run-tours" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label style="font-weight: bold; font-size: 13px;">Plots en plus</label>
+                    <input type="number" id="edit-run-plots" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                <div class="form-group" style="flex: 1;">
+                    <label style="font-weight: bold; font-size: 13px;">Intensité (% VMA)</label>
+                    <input type="number" id="edit-run-pct" placeholder="ex: 80" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label style="font-weight: bold; font-size: 13px;">Vitesse Cible (km/h)</label>
+                    <input type="number" step="0.1" id="edit-run-speed" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                <div class="form-group" style="flex: 1;">
+                    <label style="font-weight: bold; font-size: 13px;">Nombre d'arrêts</label>
+                    <input type="number" id="edit-run-arrets" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label style="font-weight: bold; font-size: 13px;">Temps d'arrêt total (sec)</label>
+                    <input type="number" id="edit-run-arrets-sec" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 15px; display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <input type="checkbox" id="edit-run-abandon" style="width: auto;">
+                <label for="edit-run-abandon" style="margin: 0; cursor: pointer; color: #DC2626; font-weight: bold;">Déclarer comme abandon</label>
+            </div>
+
+            <div class="modal-buttons" style="display: flex; gap: 10px;">
+                <button class="danger" onclick="closeModal('modal-edit-course')" style="flex:1;">Annuler</button>
+                <button class="success" onclick="saveEditedCourse()" style="flex:1;">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modale 1 : Confirmation d'Enregistrement Course -->
     <div class="modal-overlay" id="modal-validation-course">
         <div class="modal"
@@ -2506,6 +2698,20 @@
         // --- CATALOGUE DES TROPHÉES (15 TROPHÉES) ---
         const DEFAULT_TROPHY_SVG = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='%23F59E0B'><path d='M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1c2.21-.4 3.96-2.12 4.39-4.34C19.8 11.23 21 9.25 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z'/></svg>";
 
+        function isObjectifReussi(r) {
+            if (!r || r.abandon) return false;
+            if (!r.objectif || r.objectif <= 0) return false;
+            if (!r.realise || r.realise <= 0) return false;
+            let diff = r.realise - r.objectif;
+            return (diff >= -25 && diff <= 25);
+        }
+
+        function isCourseParfaite(r) {
+            if (!r || r.abandon) return false;
+            if (r.arretsCount > 0) return false;
+            return isObjectifReussi(r);
+        }
+
         const TROPHEES_CONFIG = [
             {
                 id: 'sans_pause',
@@ -2553,7 +2759,7 @@
                 title: "Course parfaite",
                 description: "Objectif réussi et aucun arrêt effectué",
                 image: "trophée/course_parfaite.png",
-                check: (coureur, lastCourse) => lastCourse && !lastCourse.abandon && (lastCourse.arretsCount === 0) && (lastCourse.realise >= lastCourse.objectif - 25)
+                check: (coureur, lastCourse) => isCourseParfaite(lastCourse)
             },
             {
                 id: 'coureur_regulier',
@@ -2566,7 +2772,7 @@
                     seances.forEach(s => {
                         if (s.runs) {
                             s.runs.forEach(r => {
-                                if (!r.abandon && (r.arretsCount === 0) && (r.realise >= r.objectif - 25)) {
+                                if (isCourseParfaite(r)) {
                                     countPerfect++;
                                 }
                             });
@@ -2586,7 +2792,7 @@
                     seances.forEach(s => {
                         if (s.runs) {
                             s.runs.forEach(r => {
-                                if (!r.abandon && (r.realise >= r.objectif - 25)) {
+                                if (isObjectifReussi(r)) {
                                     countObj++;
                                 }
                             });
@@ -2709,14 +2915,14 @@
             // --- TROPHÉES DE COURSE ---
 
             // A. Sans pause (par course)
-            if (lastCourse && (lastCourse.arretsCount === 0) && !lastCourse.abandon && !lastCourse._sans_pause_awarded) {
+            if (lastCourse && (lastCourse.arretsCount === 0 || lastCourse.arretsCount === undefined) && !lastCourse.abandon && !lastCourse._sans_pause_awarded) {
                 lastCourse._sans_pause_awarded = true;
                 awardTrophy(coureur, 'sans_pause');
                 newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'sans_pause'));
             }
 
             // B. Course parfaite (par course)
-            if (lastCourse && !lastCourse.abandon && (lastCourse.arretsCount === 0) && (lastCourse.realise >= lastCourse.objectif - 25) && !lastCourse._course_parfaite_awarded) {
+            if (lastCourse && isCourseParfaite(lastCourse) && !lastCourse._course_parfaite_awarded) {
                 lastCourse._course_parfaite_awarded = true;
                 awardTrophy(coureur, 'course_parfaite');
                 newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === 'course_parfaite'));
@@ -2731,7 +2937,7 @@
             }
 
             // D. Objectif réussi x3 (Tous les 3 objectifs réussis)
-            let totalObjSuccess = allRunnerRuns.filter(r => !r.abandon && (r.realise >= r.objectif - 25)).length;
+            let totalObjSuccess = allRunnerRuns.filter(isObjectifReussi).length;
             let objX3Count = getTrophyCount(coureur, 'objectif_reussi_x3');
             if (totalObjSuccess >= (objX3Count + 1) * 3) {
                 awardTrophy(coureur, 'objectif_reussi_x3');
@@ -2773,7 +2979,78 @@
                 }
             }
 
-            // --- TROPHÉES RECORDS DE DISTANCE (NON RÉTÉRABLES) ---
+            recalculerTrophees(coureurId);
+
+            if (newlyUnlocked.length > 0) {
+                let itemsWithRunner = newlyUnlocked.map(t => ({
+                    ...t,
+                    coureurId: coureurId,
+                    prenom: coureur.prenom || (`Coureur ${coureurId}`)
+                }));
+                pendingTrophiesQueue.push(...itemsWithRunner);
+                afficherProchainTropheeQueue();
+            }
+        }
+
+        function recalculerTrophees(coureurId) {
+            if (!coureurs[coureurId]) return;
+            let coureur = coureurs[coureurId];
+
+            let allRunnerRuns = [];
+            let seances = getCoureurSeances(coureur);
+            seances.forEach(s => {
+                if (s.runs) {
+                    allRunnerRuns.push(...s.runs);
+                }
+            });
+            let activeRuns = activeSessionRuns[coureurId] || [];
+            allRunnerRuns.push(...activeRuns);
+
+            let totalDist = allRunnerRuns.reduce((sum, r) => sum + (r.realise || 0), 0);
+
+            let sansPauseCount = allRunnerRuns.filter(r => !r.abandon && (r.arretsCount === 0 || r.arretsCount === undefined)).length;
+            let courseParfaiteCount = allRunnerRuns.filter(isCourseParfaite).length;
+            let coureurRegulierCount = Math.floor(courseParfaiteCount / 3);
+
+            let totalObjSuccess = allRunnerRuns.filter(isObjectifReussi).length;
+            let objX3Count = Math.floor(totalObjSuccess / 3);
+
+            let proEffortCount = 0;
+            seances.forEach(s => {
+                if (s.runs && s.runs.length > 0) {
+                    let sumVMA = s.runs.reduce((acc, r) => acc + (r.pctVMA || 70), 0);
+                    if ((sumVMA / s.runs.length) >= 100) proEffortCount++;
+                }
+            });
+
+            let ech = coureur.echauffements || {};
+            let proEchCount = Object.values(ech).filter(e =>
+                (parseInt(e.note) === 3) &&
+                (parseInt(e.noteProf) === 3 || e.validProf === true || e.validProf === 'true')
+            ).length;
+            let maitreEchCount = Math.floor(proEchCount / 5);
+
+            if (!coureur.trophies) coureur.trophies = {};
+
+            function updateTrophyRecord(id, count) {
+                if (count > 0) {
+                    let lastDate = (coureur.trophies[id] && typeof coureur.trophies[id] === 'object' && coureur.trophies[id].lastDate)
+                        ? coureur.trophies[id].lastDate
+                        : new Date().toLocaleDateString('fr-FR');
+                    coureur.trophies[id] = { count: count, lastDate: lastDate };
+                } else {
+                    delete coureur.trophies[id];
+                }
+            }
+
+            updateTrophyRecord('sans_pause', sansPauseCount);
+            updateTrophyRecord('course_parfaite', courseParfaiteCount);
+            updateTrophyRecord('coureur_regulier', coureurRegulierCount);
+            updateTrophyRecord('objectif_reussi_x3', objX3Count);
+            updateTrophyRecord('pro_effort', proEffortCount);
+            updateTrophyRecord('pro_echauffement', proEchCount);
+            updateTrophyRecord('maitre_echauffement', maitreEchCount);
+
             const DIST_TROPHIES = [
                 { id: 'dist_1km', dist: 1000 },
                 { id: 'dist_2km', dist: 2000 },
@@ -2786,23 +3063,14 @@
             ];
 
             DIST_TROPHIES.forEach(dt => {
-                if (getTrophyCount(coureur, dt.id) === 0 && totalDist >= dt.dist) {
-                    awardTrophy(coureur, dt.id);
-                    newlyUnlocked.push(TROPHEES_CONFIG.find(t => t.id === dt.id));
+                if (totalDist >= dt.dist) {
+                    updateTrophyRecord(dt.id, 1);
+                } else {
+                    delete coureur.trophies[dt.id];
                 }
             });
 
             saveData();
-
-            if (newlyUnlocked.length > 0) {
-                let itemsWithRunner = newlyUnlocked.map(t => ({
-                    ...t,
-                    coureurId: coureurId,
-                    prenom: coureur.prenom || (`Coureur ${coureurId}`)
-                }));
-                pendingTrophiesQueue.push(...itemsWithRunner);
-                afficherProchainTropheeQueue();
-            }
         }
 
         function afficherProchainTropheeQueue() {
@@ -2949,7 +3217,7 @@
             let nbPlotsTour = seanceConfig.nbPlots || 4;
             let distPlot = seanceConfig.distPlots || 50;
             let totalPlotsDone = (runData.tours * nbPlotsTour) + runData.plots;
-            let targetPlotsNeeded = runData.objectif > 0 ? Math.ceil(runData.objectif / distPlot) : 0;
+            let targetPlotsNeeded = runData.objectif > 0 ? Math.round(runData.objectif / distPlot) : 0;
 
             let diffPlots = totalPlotsDone - targetPlotsNeeded;
             let absDiff = Math.abs(diffPlots);
@@ -3174,19 +3442,29 @@
 
         // --- MODULE ÉVALUATION INTERACTIF ---
         let activeEvalGrid = JSON.parse(localStorage.getItem('demi_fond_eval_grid')) || [];
+        let activeEvalRunnerId = 1;
+
+        function selectEvalRunner(runnerId) {
+            activeEvalRunnerId = runnerId;
+            renderEvalTable();
+        }
 
         function renderEvalTable() {
-            let runnerSelect = document.getElementById('eval-runner-select');
-            if (!runnerSelect) return;
-
-            let runnerId = runnerSelect.value;
+            let runnerId = activeEvalRunnerId || 1;
             let coureur = coureurs[runnerId];
 
-            if (runnerSelect.options && runnerSelect.options.length >= 2) {
-                let p1 = coureurs[1] ? (coureurs[1].prenom || 'Coureur 1') : 'Coureur 1';
-                let p2 = coureurs[2] ? (coureurs[2].prenom || 'Coureur 2') : 'Coureur 2';
-                runnerSelect.options[0].text = `1. ${p1}`;
-                runnerSelect.options[1].text = `2. ${p2}`;
+            let p1 = coureurs[1] ? (coureurs[1].prenom || 'Coureur 1') : 'Coureur 1';
+            let p2 = coureurs[2] ? (coureurs[2].prenom || 'Coureur 2') : 'Coureur 2';
+
+            let tab1 = document.getElementById('eval-tab-1');
+            let tab2 = document.getElementById('eval-tab-2');
+            if (tab1) {
+                tab1.innerText = `👤 ${p1}`;
+                tab1.classList.toggle('active', runnerId === 1);
+            }
+            if (tab2) {
+                tab2.innerText = `👤 ${p2}`;
+                tab2.classList.toggle('active', runnerId === 2);
             }
 
             let nameStr = coureur ? (coureur.prenom ? `${coureur.prenom} ${coureur.nom || ''}`.trim() : `Coureur ${runnerId}`) : `Coureur ${runnerId}`;
@@ -3302,7 +3580,7 @@
         }
 
         function clearCurrentEvalSelections() {
-            let runnerId = document.getElementById('eval-runner-select').value;
+            let runnerId = activeEvalRunnerId || 1;
             if (coureurs[runnerId]) {
                 coureurs[runnerId].evaluation = {};
                 saveData();
@@ -3447,9 +3725,29 @@
         }
 
         function populateEchauffementCoureurs() {
+            let p1 = coureurs[1] ? (coureurs[1].prenom || 'Coureur 1') : 'Coureur 1';
+            let p2 = coureurs[2] ? (coureurs[2].prenom || 'Coureur 2') : 'Coureur 2';
+
+            let titleC1 = document.getElementById('e-title-c1');
+            let titleC2 = document.getElementById('e-title-c2');
+            if (titleC1) titleC1.innerText = `🏃 ${p1}`;
+            if (titleC2) titleC2.innerText = `🏃 ${p2}`;
+
             let selects = document.querySelectorAll('#e-coureur');
             selects.forEach(select => {
-                select.innerHTML = `<option value="1">${coureurs[1].prenom}</option><option value="2">${coureurs[2].prenom}</option>`;
+                select.innerHTML = `<option value="1">${p1}</option><option value="2">${p2}</option>`;
+            });
+
+            // Préremplissage des données d'échauffement des 2 coureurs pour la séance en cours
+            [1, 2].forEach(id => {
+                let ech = (coureurs[id] && coureurs[id].echauffements) ? coureurs[id].echauffements[seanceConfig.num] : null;
+                let sensEl = document.getElementById(`e${id}-sens-post`);
+                let noteEl = document.getElementById(`e${id}-note`);
+                let noteProfEl = document.getElementById(`e${id}-note-prof`);
+
+                if (sensEl) sensEl.value = (ech && ech.sensPost) ? ech.sensPost : 'Très bien';
+                if (noteEl) noteEl.value = (ech && ech.note !== undefined) ? ech.note : 0;
+                if (noteProfEl) noteProfEl.value = (ech && ech.noteProf !== undefined) ? ech.noteProf : 0;
             });
         }
 
@@ -3457,11 +3755,15 @@
             let container = document.getElementById('active-session-runs-container');
             if (!container) return;
 
+            // Recalculer la cohérence des trophées des 2 coureurs
+            recalculerTrophees(1);
+            recalculerTrophees(2);
+
             let allRuns = [];
             [1, 2].forEach(id => {
                 if (activeSessionRuns[id] && activeSessionRuns[id].length > 0) {
                     activeSessionRuns[id].forEach((run, idx) => {
-                        allRuns.push({ runnerId: id, runnerName: coureurs[id].prenom, run: run, runIdx: idx + 1 });
+                        allRuns.push({ runnerId: id, runnerName: coureurs[id].prenom, run: run, runIdx: idx + 1, arrayIdx: idx });
                     });
                 }
             });
@@ -3501,10 +3803,16 @@
                 }
 
                 html += `
-                    <div class="seance-course-box" style="margin-bottom: 12px;">
-                        <div class="course-header">
-                            <h4>${item.runnerName} - Course n°${item.runIdx} ${marcheBadge}</h4>
-                            <div class="status-badge ${statusClass}">${statusText}</div>
+                    <div class="seance-course-box" style="margin-bottom: 12px; position: relative;">
+                        <div class="course-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                            <h4 style="margin: 0;">${item.runnerName} - Course n°${item.runIdx} ${marcheBadge}</h4>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <div class="status-badge ${statusClass}">${statusText}</div>
+                                <div class="course-actions-btns" style="display: flex; gap: 4px;">
+                                    <button class="btn-action-sm edit" onclick="ouvrirModalEditionCourse(${item.runnerId}, ${item.arrayIdx})" title="Modifier cette course">✏️</button>
+                                    <button class="btn-action-sm delete" onclick="supprimerCourse(${item.runnerId}, ${item.arrayIdx})" title="Supprimer cette course">🗑️</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="seance-detail-grid">
                             <div class="seance-stat-card">
@@ -3549,6 +3857,88 @@
             `;
 
             container.innerHTML = html;
+        }
+
+        function supprimerCourse(runnerId, arrayIdx) {
+            let runnerName = coureurs[runnerId] ? coureurs[runnerId].prenom : `Coureur ${runnerId}`;
+            showAppConfirm(
+                "Supprimer la course",
+                `Voulez-vous vraiment supprimer la course n°${arrayIdx + 1} de <strong>${runnerName}</strong> ?<br><br>⚠️ Cette action mettra à jour automatiquement les statistiques et trophées de l'élève.`,
+                () => {
+                    if (activeSessionRuns[runnerId]) {
+                        activeSessionRuns[runnerId].splice(arrayIdx, 1);
+                        saveActiveRuns();
+                        updateActiveSessionUI();
+                        recalculerTrophees(runnerId);
+                        showAppAlert("Course Supprimée", `La course a été supprimée et la fiche de <strong>${runnerName}</strong> a été réactualisée.`, "🗑️");
+                    }
+                }
+            );
+        }
+
+        function ouvrirModalEditionCourse(runnerId, arrayIdx) {
+            let run = activeSessionRuns[runnerId] ? activeSessionRuns[runnerId][arrayIdx] : null;
+            if (!run) return;
+
+            document.getElementById('edit-run-runner-id').value = runnerId;
+            document.getElementById('edit-run-array-idx').value = arrayIdx;
+
+            let runnerName = coureurs[runnerId] ? coureurs[runnerId].prenom : `Coureur ${runnerId}`;
+            document.getElementById('edit-run-runner-name').innerText = `${runnerName} - Course n°${arrayIdx + 1}`;
+
+            document.getElementById('edit-run-obj').value = run.objectif || 0;
+            document.getElementById('edit-run-realise').value = run.realise || 0;
+            document.getElementById('edit-run-tours').value = run.tours || 0;
+            document.getElementById('edit-run-plots').value = run.plots || 0;
+            document.getElementById('edit-run-pct').value = run.pctVMA || 70;
+            document.getElementById('edit-run-speed').value = run.vitesseCible || 0;
+            document.getElementById('edit-run-arrets').value = run.arretsCount || 0;
+            document.getElementById('edit-run-arrets-sec').value = run.arretTotalSec || 0;
+            document.getElementById('edit-run-abandon').checked = run.abandon || false;
+
+            openModal('modal-edit-course');
+        }
+
+        function saveEditedCourse() {
+            let runnerId = parseInt(document.getElementById('edit-run-runner-id').value);
+            let arrayIdx = parseInt(document.getElementById('edit-run-array-idx').value);
+
+            let run = activeSessionRuns[runnerId] ? activeSessionRuns[runnerId][arrayIdx] : null;
+            if (!run) return;
+
+            let objVal = parseInt(document.getElementById('edit-run-obj').value) || 0;
+            let realiseVal = parseInt(document.getElementById('edit-run-realise').value) || 0;
+            let toursVal = parseInt(document.getElementById('edit-run-tours').value) || 0;
+            let plotsVal = parseInt(document.getElementById('edit-run-plots').value) || 0;
+            let pctVal = parseInt(document.getElementById('edit-run-pct').value) || 70;
+            let speedVal = parseFloat(document.getElementById('edit-run-speed').value) || 0;
+            let arretsVal = parseInt(document.getElementById('edit-run-arrets').value) || 0;
+            let arretsSecVal = parseInt(document.getElementById('edit-run-arrets-sec').value) || 0;
+            let abandonVal = document.getElementById('edit-run-abandon').checked;
+
+            run.objectif = objVal;
+            run.realise = realiseVal;
+            run.tours = toursVal;
+            run.plots = plotsVal;
+            run.pctVMA = pctVal;
+            run.vitesseCible = speedVal;
+            run.arretsCount = arretsVal;
+            run.marche = arretsVal > 0;
+            run.arretTotalSec = arretsSecVal;
+            run.abandon = abandonVal;
+
+            let resAnalyse = analyserCourse(run);
+            run.analyse = resAnalyse.analyse;
+            run.conseil = resAnalyse.conseil;
+
+            saveActiveRuns();
+            updateActiveSessionUI();
+            recalculerTrophees(runnerId);
+
+            closeModal('modal-edit-course');
+
+            let runnerName = coureurs[runnerId] ? coureurs[runnerId].prenom : `Coureur ${runnerId}`;
+            showAppAlert("Course Modifiée", `La course de <strong>${runnerName}</strong> a été mise à jour et la fiche élève réactualisée.`, "✏️");
         }
 
         function loadCoureurFormData(id) {
@@ -3639,37 +4029,35 @@
         }
 
         function saveEchauffement() {
-            let selectCoureur = document.querySelector('#echauffement-body #e-coureur') || document.querySelector('#modal-echauffement #e-coureur') || document.getElementById('e-coureur');
-            let id = selectCoureur ? selectCoureur.value : 1;
-            if (!coureurs[id]) return;
+            [1, 2].forEach(id => {
+                if (!coureurs[id]) return;
+                if (!coureurs[id].echauffements) coureurs[id].echauffements = {};
 
-            if (!coureurs[id].echauffements) coureurs[id].echauffements = {};
+                let sensPostEl = document.getElementById(`e${id}-sens-post`);
+                let noteEl = document.getElementById(`e${id}-note`);
+                let noteProfEl = document.getElementById(`e${id}-note-prof`);
 
-            let selectEleve = document.querySelector('#echauffement-body #e-note') || document.querySelector('#modal-echauffement #e-note') || document.getElementById('e-note');
-            let selectProf = document.querySelector('#echauffement-body #e-note-prof') || document.querySelector('#modal-echauffement #e-note-prof') || document.getElementById('e-note-prof');
+                let sensPostVal = sensPostEl ? sensPostEl.value : '';
+                let noteVal = noteEl ? parseInt(noteEl.value) : 0;
+                let noteProfVal = noteProfEl ? parseInt(noteProfEl.value) : 0;
 
-            let noteVal = selectEleve ? parseInt(selectEleve.value) : 0;
-            let noteProfVal = selectProf ? parseInt(selectProf.value) : 0;
+                coureurs[id].echauffements[seanceConfig.num] = {
+                    sensPost: sensPostVal,
+                    note: noteVal,
+                    noteProf: noteProfVal
+                };
 
-            let fcReposEl = document.querySelector('#echauffement-body #e-fc-repos') || document.querySelector('#modal-echauffement #e-fc-repos') || document.getElementById('e-fc-repos');
-            let sensReposEl = document.querySelector('#echauffement-body #e-sens-repos') || document.querySelector('#modal-echauffement #e-sens-repos') || document.getElementById('e-sens-repos');
-            let fcPostEl = document.querySelector('#echauffement-body #e-fc-post') || document.querySelector('#modal-echauffement #e-fc-post') || document.getElementById('e-fc-post');
-            let sensPostEl = document.querySelector('#echauffement-body #e-sens-post') || document.querySelector('#modal-echauffement #e-sens-post') || document.getElementById('e-sens-post');
-
-            coureurs[id].echauffements[seanceConfig.num] = {
-                fcRepos: fcReposEl ? fcReposEl.value : '',
-                sensRepos: sensReposEl ? sensReposEl.value : '',
-                fcPost: fcPostEl ? fcPostEl.value : '',
-                sensPost: sensPostEl ? sensPostEl.value : '',
-                note: noteVal,
-                noteProf: noteProfVal
-            };
+                checkAndAwardTrophies(id);
+            });
 
             saveData();
             toggleEchauffementCard(false);
             closeModal('modal-echauffement');
 
-            showAppAlert("Échauffement Enregistré", `Les données d'échauffement de <strong>${coureurs[id].prenom}</strong> ont été enregistrées.<br>• Note Élève : <strong>${noteVal}/3</strong><br>• Note Prof : <strong>${noteProfVal}/3</strong>`, "🔥");
+            let p1 = coureurs[1] ? (coureurs[1].prenom || 'Coureur 1') : 'Coureur 1';
+            let p2 = coureurs[2] ? (coureurs[2].prenom || 'Coureur 2') : 'Coureur 2';
+
+            showAppAlert("Échauffement Enregistré", `Les données d'échauffement de <strong>${p1}</strong> et <strong>${p2}</strong> ont été enregistrées.`, "🔥");
         }
 
         function toggleEchauffementCard(forceState = null) {
@@ -3946,6 +4334,7 @@
             if (obsPlotsElem) obsPlotsElem.innerText = 0;
             runState.arretsCount = 0; runState.arretActive = false;
             runState.arretCurrentSec = 0; runState.arretTotalSec = 0;
+            runState.arretHistory = [];
             clearInterval(runState.arretInterval);
 
             let arretBadge = document.getElementById('obs-arrets-count');
@@ -3990,17 +4379,60 @@
                 clearInterval(runState.arretInterval);
                 runState.arretInterval = setInterval(() => {
                     runState.arretCurrentSec = Math.floor((Date.now() - startTime) / 1000);
-                    document.getElementById('obs-arret-chrono').innerText = formatTime(runState.arretCurrentSec);
+                    let displayTotal = runState.arretTotalSec + runState.arretCurrentSec;
+                    document.getElementById('obs-arret-chrono').innerText = formatTime(displayTotal);
                 }, 1000);
             } else {
                 // Coureur repart -> stopper le chrono d'arrêt
                 runState.arretActive = false;
                 clearInterval(runState.arretInterval);
                 runState.arretTotalSec += runState.arretCurrentSec;
+                if (!runState.arretHistory) runState.arretHistory = [];
+                runState.arretHistory.push(runState.arretCurrentSec);
+                runState.arretCurrentSec = 0;
 
                 btn.classList.remove('active');
                 icon.innerText = "⏱️";
                 text.innerText = "Le coureur s'arrête / marche";
+                document.getElementById('obs-arret-chrono').innerText = formatTime(runState.arretTotalSec);
+            }
+        }
+
+        function annulerDernierArret() {
+            let btn = document.getElementById('btn-toggle-marche');
+            let icon = document.getElementById('btn-arret-icon');
+            let text = document.getElementById('btn-arret-text');
+
+            if (runState.arretActive) {
+                // 1. Si un arrêt est actuellement en cours de chronométrage
+                clearInterval(runState.arretInterval);
+                runState.arretActive = false;
+                runState.arretCurrentSec = 0;
+                runState.arretsCount = Math.max(0, runState.arretsCount - 1);
+
+                if (btn) {
+                    btn.classList.remove('active');
+                    if (icon) icon.innerText = "⏱️";
+                    if (text) text.innerText = "Le coureur s'arrête / marche";
+                }
+
+                document.getElementById('obs-arrets-count').innerText = runState.arretsCount + " arrêt(s)";
+                document.getElementById('obs-arret-chrono').innerText = formatTime(runState.arretTotalSec);
+
+                showAppAlert("Action annulée", "L'arrêt en cours a été annulé.", "↩️");
+            } else if (runState.arretsCount > 0) {
+                // 2. Si un arrêt a déjà été comptabilisé et terminé
+                if (!runState.arretHistory) runState.arretHistory = [];
+                let lastDur = runState.arretHistory.length > 0 ? runState.arretHistory.pop() : 0;
+                runState.arretTotalSec = Math.max(0, runState.arretTotalSec - lastDur);
+                runState.arretsCount = Math.max(0, runState.arretsCount - 1);
+
+                document.getElementById('obs-arrets-count').innerText = runState.arretsCount + " arrêt(s)";
+                document.getElementById('obs-arret-chrono').innerText = formatTime(runState.arretTotalSec);
+
+                showAppAlert("Action annulée", "Le dernier arrêt enregistré a été retiré.", "↩️");
+            } else {
+                showAppAlert("Information", "Aucun arrêt à annuler.", "ℹ️");
             }
         }
 
