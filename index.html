@@ -2076,8 +2076,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé au prof)</label>
-                                <select id="e1-note-prof" style="border: 2px solid var(--primary); background: #FFFBEB;">
+                                <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé
+                                    au prof)</label>
+                                <select id="e1-note-prof"
+                                    style="border: 2px solid var(--primary); background: #FFFBEB;">
                                     <option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -2111,8 +2113,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé au prof)</label>
-                                <select id="e2-note-prof" style="border: 2px solid var(--primary); background: #FFFBEB;">
+                                <label style="color: var(--primary); font-weight: 800;">Évaluation prof (0 à 3 - réservé
+                                    au prof)</label>
+                                <select id="e2-note-prof"
+                                    style="border: 2px solid var(--primary); background: #FFFBEB;">
                                     <option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -2198,7 +2202,8 @@
                 <div class="arrets-card-header">
                     <div class="arrets-card-title">🚶 Arrêts / Marche</div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <button id="btn-undo-arret" class="btn-undo-arret" onclick="annulerDernierArret()" title="Annuler le dernier arrêt">
+                        <button id="btn-undo-arret" class="btn-undo-arret" onclick="annulerDernierArret()"
+                            title="Annuler le dernier arrêt">
                             ↩️ Annuler
                         </button>
                         <div class="arrets-counter-badge" id="obs-arrets-count">0 arrêt(s)</div>
@@ -2510,54 +2515,66 @@
             <input type="hidden" id="edit-run-runner-id">
             <input type="hidden" id="edit-run-array-idx">
 
-            <div style="font-weight: 800; color: var(--primary); margin-bottom: 15px; font-size: 16px; text-align: center;" id="edit-run-runner-name">Coureur</div>
+            <div style="font-weight: 800; color: var(--primary); margin-bottom: 15px; font-size: 16px; text-align: center;"
+                id="edit-run-runner-name">Coureur</div>
 
             <div class="form-group" style="margin-bottom: 12px;">
                 <label style="font-weight: bold; font-size: 13px;">Distance Objectif (m)</label>
-                <input type="number" id="edit-run-obj" placeholder="ex: 500" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                <input type="number" id="edit-run-obj" placeholder="ex: 500"
+                    style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
             </div>
 
             <div class="form-group" style="margin-bottom: 12px;">
                 <label style="font-weight: bold; font-size: 13px;">Distance Réalisée (m)</label>
-                <input type="number" id="edit-run-realise" placeholder="ex: 520" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                <input type="number" id="edit-run-realise" placeholder="ex: 520"
+                    style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
             </div>
 
             <div style="display: flex; gap: 10px; margin-bottom: 12px;">
                 <div class="form-group" style="flex: 1;">
                     <label style="font-weight: bold; font-size: 13px;">Nombre de tours</label>
-                    <input type="number" id="edit-run-tours" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                    <input type="number" id="edit-run-tours"
+                        style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label style="font-weight: bold; font-size: 13px;">Plots en plus</label>
-                    <input type="number" id="edit-run-plots" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                    <input type="number" id="edit-run-plots"
+                        style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
                 </div>
             </div>
 
             <div style="display: flex; gap: 10px; margin-bottom: 12px;">
                 <div class="form-group" style="flex: 1;">
                     <label style="font-weight: bold; font-size: 13px;">Intensité (% VMA)</label>
-                    <input type="number" id="edit-run-pct" placeholder="ex: 80" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                    <input type="number" id="edit-run-pct" placeholder="ex: 80"
+                        style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label style="font-weight: bold; font-size: 13px;">Vitesse Cible (km/h)</label>
-                    <input type="number" step="0.1" id="edit-run-speed" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                    <input type="number" step="0.1" id="edit-run-speed"
+                        style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
                 </div>
             </div>
 
             <div style="display: flex; gap: 10px; margin-bottom: 12px;">
                 <div class="form-group" style="flex: 1;">
                     <label style="font-weight: bold; font-size: 13px;">Nombre d'arrêts</label>
-                    <input type="number" id="edit-run-arrets" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                    <input type="number" id="edit-run-arrets"
+                        style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
                 </div>
                 <div class="form-group" style="flex: 1;">
                     <label style="font-weight: bold; font-size: 13px;">Temps d'arrêt total (sec)</label>
-                    <input type="number" id="edit-run-arrets-sec" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
+                    <input type="number" id="edit-run-arrets-sec"
+                        style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid #D1D5DB;">
                 </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 15px; display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <div class="form-group"
+                style="margin-bottom: 15px; display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <input type="checkbox" id="edit-run-abandon" style="width: auto;">
-                <label for="edit-run-abandon" style="margin: 0; cursor: pointer; color: #DC2626; font-weight: bold;">Déclarer comme abandon</label>
+                <label for="edit-run-abandon"
+                    style="margin: 0; cursor: pointer; color: #DC2626; font-weight: bold;">Déclarer comme
+                    abandon</label>
             </div>
 
             <div class="modal-buttons" style="display: flex; gap: 10px;">
@@ -3751,6 +3768,59 @@
             });
         }
 
+        // --- UTILITAIRES TOURS & PLOTS ---
+        function formatEcartToursPlots(diffPlots, nbPlotsTour) {
+            nbPlotsTour = nbPlotsTour || 4;
+            if (diffPlots === 0) {
+                return "0 plot";
+            }
+            let sign = diffPlots > 0 ? "+" : "-";
+            let absPlots = Math.abs(diffPlots);
+            let tours = Math.floor(absPlots / nbPlotsTour);
+            let plotsRem = absPlots % nbPlotsTour;
+
+            if (tours > 0 && plotsRem > 0) {
+                return `${sign}${tours} tour${tours > 1 ? 's' : ''} et ${plotsRem} plot${plotsRem > 1 ? 's' : ''}`;
+            } else if (tours > 0) {
+                return `${sign}${tours} tour${tours > 1 ? 's' : ''}`;
+            } else {
+                return `${sign}${plotsRem} plot${plotsRem > 1 ? 's' : ''}`;
+            }
+        }
+
+        function calculerEcartPlots(run, nbPlotsTour, distPlot) {
+            nbPlotsTour = nbPlotsTour || (seanceConfig ? seanceConfig.nbPlots : 4) || 4;
+            distPlot = distPlot || (seanceConfig ? seanceConfig.distPlots : 50) || 50;
+
+            let totalPlotsDone;
+            if (run.tours !== undefined && run.plots !== undefined && (run.tours > 0 || run.plots > 0 || run.realise === 0)) {
+                totalPlotsDone = (parseInt(run.tours) * nbPlotsTour) + parseInt(run.plots);
+            } else {
+                totalPlotsDone = Math.round((run.realise || 0) / distPlot);
+            }
+            let targetPlotsNeeded = (run.objectif && run.objectif > 0) ? Math.round(run.objectif / distPlot) : 0;
+            return totalPlotsDone - targetPlotsNeeded;
+        }
+
+        function formatToursEtPlots(tours, plots, nbPlotsTour) {
+            nbPlotsTour = nbPlotsTour || 4;
+            tours = parseInt(tours) || 0;
+            plots = parseInt(plots) || 0;
+            if (plots >= nbPlotsTour) {
+                tours += Math.floor(plots / nbPlotsTour);
+                plots = plots % nbPlotsTour;
+            }
+            if (tours > 0 && plots > 0) {
+                return `${tours} tour${tours > 1 ? 's' : ''} + ${plots} plot${plots > 1 ? 's' : ''}`;
+            } else if (tours > 0) {
+                return `${tours} tour${tours > 1 ? 's' : ''}`;
+            } else if (plots > 0) {
+                return `${plots} plot${plots > 1 ? 's' : ''}`;
+            } else {
+                return `0 plot`;
+            }
+        }
+
         function updateActiveSessionUI() {
             let container = document.getElementById('active-session-runs-container');
             if (!container) return;
@@ -3773,22 +3843,33 @@
                 return;
             }
 
+            let nbPlotsTour = seanceConfig.nbPlots || 4;
+            let distPlot = seanceConfig.distPlots || 50;
+
             let html = `<h3 style="margin-top: 25px; margin-bottom: 12px; color: var(--primary-dark); text-align: center;">🏃 Courses de la séance en cours (${allRuns.length})</h3>`;
 
             allRuns.forEach((item) => {
                 let run = item.run;
                 let diff = run.realise - run.objectif;
+                let diffPlots = calculerEcartPlots(run, nbPlotsTour, distPlot);
+                let ecartToursPlots = formatEcartToursPlots(diffPlots, nbPlotsTour);
+                let diffDistStr = (diff >= 0 ? "+" + diff : diff) + " m";
+                let ecartCombined = `${diffDistStr} • ${ecartToursPlots}`;
+
                 let statusText = "";
                 let statusClass = "";
 
-                if (diff > 25) {
-                    statusText = "❌ Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
+                if (run.abandon) {
+                    statusText = "⚠️ Abandon (" + run.realise + " m)";
+                    statusClass = "status-non-atteint";
+                } else if (diff > 25) {
+                    statusText = `❌ Dépassé (${ecartCombined})`;
                     statusClass = "status-depasse";
                 } else if (diff >= -25 && diff <= 25) {
-                    statusText = "✅ Atteint (" + (diff >= 0 ? "+" + diff : diff) + " m)";
+                    statusText = `✅ Atteint (${ecartCombined})`;
                     statusClass = "status-atteint";
                 } else {
-                    statusText = "❌ Non Atteint (" + diff + " m)";
+                    statusText = `❌ Non Atteint (${ecartCombined})`;
                     statusClass = "status-non-atteint";
                 }
 
@@ -3797,10 +3878,24 @@
                 let pct = run.pctVMA || 70;
 
                 let marcheBadge = '';
-                if (run.arretsCount > 0) {
+                if (run.abandon) {
+                    marcheBadge = `<span style="background:#DC2626; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">⚠️ Abandon</span>`;
+                } else if (run.arretsCount > 0) {
                     let totalStopStr = run.arretTotalSec ? formatTime(run.arretTotalSec) : '0s';
                     marcheBadge = `<span style="background:#D97706; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">🚶 ${run.arretsCount} arrêt(s) (${totalStopStr})</span>`;
                 }
+
+                let objPlotsTotal = run.objectif > 0 ? Math.round(run.objectif / distPlot) : 0;
+                let objTours = Math.floor(objPlotsTotal / nbPlotsTour);
+                let objPlotsRem = objPlotsTotal % nbPlotsTour;
+                let objToursPlotsStr = formatToursEtPlots(objTours, objPlotsRem, nbPlotsTour);
+
+                let realPlotsTotal = (run.tours !== undefined && run.plots !== undefined && (run.tours > 0 || run.plots > 0 || run.realise === 0))
+                    ? (parseInt(run.tours) * nbPlotsTour + parseInt(run.plots))
+                    : Math.round((run.realise || 0) / distPlot);
+                let realTours = Math.floor(realPlotsTotal / nbPlotsTour);
+                let realPlotsRem = realPlotsTotal % nbPlotsTour;
+                let realToursPlotsStr = formatToursEtPlots(realTours, realPlotsRem, nbPlotsTour);
 
                 html += `
                     <div class="seance-course-box" style="margin-bottom: 12px; position: relative;">
@@ -3830,10 +3925,12 @@
                             <div class="seance-stat-card">
                                 <div class="label">Objectif</div>
                                 <div class="val">${run.objectif} m</div>
+                                <div style="font-size:12px; color:var(--text-muted); font-weight:600; margin-top:3px;">${objToursPlotsStr}</div>
                             </div>
                             <div class="seance-stat-card">
                                 <div class="label">Réalisé</div>
                                 <div class="val" style="color:var(--primary); font-weight:800;">${run.realise} m</div>
+                                <div style="font-size:12px; color:var(--text-muted); font-weight:600; margin-top:3px;">${realToursPlotsStr}</div>
                             </div>
                         </div>
                     </div>
@@ -4089,10 +4186,14 @@
                     let existing = coureurs[id].seances.find(s => s.num == seanceConfig.num);
                     if (existing) {
                         existing.runs.push(...runsToSave);
+                        if (!existing.distPlots) existing.distPlots = seanceConfig.distPlots || 50;
+                        if (!existing.nbPlots) existing.nbPlots = seanceConfig.nbPlots || 4;
                     } else {
                         coureurs[id].seances.push({
                             num: seanceConfig.num,
                             date: seanceConfig.date,
+                            distPlots: seanceConfig.distPlots || 50,
+                            nbPlots: seanceConfig.nbPlots || 4,
                             runs: [...runsToSave]
                         });
                     }
@@ -4180,8 +4281,16 @@
             if (!seance.runs || seance.runs.length === 0) {
                 contentHTML += '<p style="text-align:center;">Aucune course dans cette séance.</p>';
             } else {
+                let nbPlotsTour = (seance && seance.nbPlots) || (seanceConfig && seanceConfig.nbPlots) || 4;
+                let distPlot = (seance && seance.distPlots) || (seanceConfig && seanceConfig.distPlots) || 50;
+
                 seance.runs.forEach((run, rIdx) => {
                     let diff = run.realise - run.objectif;
+                    let diffPlots = calculerEcartPlots(run, nbPlotsTour, distPlot);
+                    let ecartToursPlots = formatEcartToursPlots(diffPlots, nbPlotsTour);
+                    let diffDistStr = (diff >= 0 ? "+" + diff : diff) + " m";
+                    let ecartCombined = `${diffDistStr} • ${ecartToursPlots}`;
+
                     let statusText = "";
                     let statusClass = "";
 
@@ -4189,13 +4298,13 @@
                         statusText = "⚠️ Abandon (" + run.realise + " m)";
                         statusClass = "status-non-atteint";
                     } else if (diff > 25) {
-                        statusText = "❌ Projet Dépassé (" + (diff > 0 ? "+" + diff : diff) + " m)";
+                        statusText = `❌ Projet Dépassé (${ecartCombined})`;
                         statusClass = "status-depasse";
                     } else if (diff >= -25 && diff <= 25) {
-                        statusText = "✅ Projet Atteint (" + (diff >= 0 ? "+" + diff : diff) + " m)";
+                        statusText = `✅ Projet Atteint (${ecartCombined})`;
                         statusClass = "status-atteint";
                     } else {
-                        statusText = "❌ Projet Non Atteint (" + diff + " m)";
+                        statusText = `❌ Projet Non Atteint (${ecartCombined})`;
                         statusClass = "status-non-atteint";
                     }
 
@@ -4211,6 +4320,18 @@
                     } else if (run.marche) {
                         marcheBadge = `<span style="background:#D97706; color:white; padding:2px 8px; border-radius:12px; font-size:12px; font-weight:bold; margin-left:6px;">🚶 Marche</span>`;
                     }
+
+                    let objPlotsTotal = run.objectif > 0 ? Math.round(run.objectif / distPlot) : 0;
+                    let objTours = Math.floor(objPlotsTotal / nbPlotsTour);
+                    let objPlotsRem = objPlotsTotal % nbPlotsTour;
+                    let objToursPlotsStr = formatToursEtPlots(objTours, objPlotsRem, nbPlotsTour);
+
+                    let realPlotsTotal = (run.tours !== undefined && run.plots !== undefined && (run.tours > 0 || run.plots > 0 || run.realise === 0))
+                        ? (parseInt(run.tours) * nbPlotsTour + parseInt(run.plots))
+                        : Math.round((run.realise || 0) / distPlot);
+                    let realTours = Math.floor(realPlotsTotal / nbPlotsTour);
+                    let realPlotsRem = realPlotsTotal % nbPlotsTour;
+                    let realToursPlotsStr = formatToursEtPlots(realTours, realPlotsRem, nbPlotsTour);
 
                     contentHTML += `
                         <div class="seance-course-box">
@@ -4234,10 +4355,12 @@
                                 <div class="seance-stat-card">
                                     <div class="label">Distance Objectif</div>
                                     <div class="val">${run.objectif} m</div>
+                                    <div style="font-size:12px; color:var(--text-muted); font-weight:600; margin-top:3px;">${objToursPlotsStr}</div>
                                 </div>
                                 <div class="seance-stat-card">
                                     <div class="label">Distance Réalisée</div>
                                     <div class="val" style="color:var(--primary);">${run.realise} m</div>
+                                    <div style="font-size:12px; color:var(--text-muted); font-weight:600; margin-top:3px;">${realToursPlotsStr}</div>
                                 </div>
                                 <div class="seance-stat-card">
                                     <div class="label">Arrêts / Marche</div>
