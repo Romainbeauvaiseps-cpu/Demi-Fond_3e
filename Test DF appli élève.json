@@ -1,0 +1,474 @@
+{
+  "version": "Demi-Fond 3e v3 (4 coureurs)",
+  "application": "Demi-Fond 3e - EPS",
+  "exportDate": "2026-10-09T07:11:06.037Z",
+  "nombreCoureurs": 4,
+  "seanceConfig": {
+    "num": 1,
+    "date": "2026-10-08",
+    "distPlots": 25,
+    "nbPlots": 8
+  },
+  "coureurs": {
+    "1": {
+      "nom": "Beauvais",
+      "prenom": "Romain",
+      "classe": "Prof",
+      "vma": 13,
+      "seances": [
+        {
+          "num": 1,
+          "date": "2026-10-06",
+          "distPlots": 50,
+          "nbPlots": 4,
+          "runs": [
+            {
+              "tempsSec": 150,
+              "pctVMA": 125,
+              "vitesseCible": 12.5,
+              "objectif": 521,
+              "realise": 200,
+              "tours": 1,
+              "plots": 0,
+              "marche": false,
+              "arretsCount": 0,
+              "arretTotalSec": 0,
+              "abandon": false,
+              "analyse": "Analyse de la course : Tu es loin de ton projet de course !",
+              "conseil": "Conseil : Change ton projet, réduis l'intensité choisie, elle est trop élevée pour toi.",
+              "_sans_pause_awarded": true
+            },
+            {
+              "tempsSec": 180,
+              "pctVMA": 90,
+              "vitesseCible": 9,
+              "objectif": 450,
+              "realise": 700,
+              "tours": 3,
+              "plots": 2,
+              "marche": false,
+              "arretsCount": 0,
+              "arretTotalSec": 0,
+              "abandon": false,
+              "analyse": "Analyse de la course : Tu as dépassé de beaucoup ton projet ! Tu as bien couru mais l'objectif est de ne pas dépassé.",
+              "conseil": "Conseil : Change ton projet, augmente l'intensité, elle est surement trop faible.",
+              "_sans_pause_awarded": true
+            },
+            {
+              "tempsSec": 360,
+              "pctVMA": 80,
+              "vitesseCible": 10.4,
+              "objectif": 1040,
+              "realise": 1025,
+              "tours": 5,
+              "plots": 1,
+              "marche": false,
+              "arretsCount": 0,
+              "arretTotalSec": 0,
+              "abandon": false,
+              "analyse": "Analyse de la course : Tu n'as pas validé ton objectif de course.",
+              "conseil": "Conseil : Cours un peu plus vite. Prends des repères pendant la course pour savoir où tu en es dans ton projet et si tu dois accélérer ou ralentir pendant la course.",
+              "_sans_pause_awarded": true,
+              "_course_parfaite_awarded": true
+            }
+          ]
+        }
+      ],
+      "runs": [],
+      "trophies": {
+        "sans_pause": {
+          "count": 3,
+          "lastDate": "09/10/2026"
+        },
+        "pro_echauffement": {
+          "count": 1,
+          "lastDate": "09/10/2026"
+        },
+        "course_parfaite": {
+          "count": 1,
+          "lastDate": "09/10/2026"
+        },
+        "dist_1km": {
+          "count": 1,
+          "lastDate": "09/10/2026"
+        }
+      },
+      "_awarded_sessions_effort": [
+        1
+      ],
+      "_awarded_sessions_echauffement": [
+        1
+      ],
+      "echauffements": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 3,
+          "noteProf": 3
+        }
+      }
+    },
+    "2": {
+      "nom": "SALLEZ",
+      "prenom": "Quentin",
+      "classe": "Prof",
+      "vma": 14,
+      "seances": [],
+      "runs": [],
+      "trophies": {},
+      "echauffements": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 2,
+          "noteProf": 1
+        }
+      },
+      "_awarded_sessions_effort": [],
+      "_awarded_sessions_echauffement": []
+    },
+    "3": {
+      "nom": "GUENNEC",
+      "prenom": "Thierry",
+      "classe": "Prof",
+      "vma": 12,
+      "seances": [
+        {
+          "num": 1,
+          "date": "2026-10-08",
+          "distPlots": 25,
+          "nbPlots": 8,
+          "runs": [
+            {
+              "tempsSec": 360,
+              "pctVMA": 85,
+              "vitesseCible": 10.2,
+              "objectif": 1020,
+              "realise": 1025,
+              "tours": 5,
+              "plots": 1,
+              "marche": false,
+              "arretsCount": 0,
+              "arretTotalSec": 0,
+              "abandon": false,
+              "analyse": "Course réussie ! Bravo !",
+              "conseil": "Conserve cette stratégie et cette régularité pour tes prochaines séances !",
+              "_sans_pause_awarded": true,
+              "_course_parfaite_awarded": true
+            }
+          ]
+        }
+      ],
+      "runs": [],
+      "trophies": {
+        "sans_pause": {
+          "count": 1,
+          "lastDate": "09/10/2026"
+        },
+        "course_parfaite": {
+          "count": 1,
+          "lastDate": "09/10/2026"
+        },
+        "dist_1km": {
+          "count": 1,
+          "lastDate": "09/10/2026"
+        }
+      },
+      "_awarded_sessions_effort": [],
+      "_awarded_sessions_echauffement": [],
+      "echauffements": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 2,
+          "noteProf": 2
+        }
+      }
+    },
+    "4": {
+      "nom": "BLONDEL",
+      "prenom": "Britany",
+      "classe": "Prof",
+      "vma": 14,
+      "seances": [],
+      "runs": [],
+      "trophies": {
+        "pro_echauffement": {
+          "count": 1,
+          "lastDate": "09/10/2026"
+        }
+      },
+      "echauffements": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 3,
+          "noteProf": 3
+        }
+      },
+      "_awarded_sessions_effort": [],
+      "_awarded_sessions_echauffement": [
+        1
+      ]
+    }
+  },
+  "activeSessionRuns": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": []
+  },
+  "activeEvalGrid": [],
+  "donneesEchauffement": [
+    {
+      "coureurId": 1,
+      "coureurNom": "Romain",
+      "coureurPrenom": "Romain",
+      "coureurNomFamille": "Beauvais",
+      "classe": "Prof",
+      "seanceNum": 1,
+      "date": "2026-10-08",
+      "sensationPostEchauffement": "Très bien",
+      "autoEvaluationEleve": 3,
+      "evaluationProf": 3,
+      "estValideProf": true
+    },
+    {
+      "coureurId": 2,
+      "coureurNom": "Quentin",
+      "coureurPrenom": "Quentin",
+      "coureurNomFamille": "SALLEZ",
+      "classe": "Prof",
+      "seanceNum": 1,
+      "date": "2026-10-08",
+      "sensationPostEchauffement": "Très bien",
+      "autoEvaluationEleve": 2,
+      "evaluationProf": 1,
+      "estValideProf": false
+    },
+    {
+      "coureurId": 3,
+      "coureurNom": "Thierry",
+      "coureurPrenom": "Thierry",
+      "coureurNomFamille": "GUENNEC",
+      "classe": "Prof",
+      "seanceNum": 1,
+      "date": "2026-10-08",
+      "sensationPostEchauffement": "Très bien",
+      "autoEvaluationEleve": 2,
+      "evaluationProf": 2,
+      "estValideProf": false
+    },
+    {
+      "coureurId": 4,
+      "coureurNom": "Britany",
+      "coureurPrenom": "Britany",
+      "coureurNomFamille": "BLONDEL",
+      "classe": "Prof",
+      "seanceNum": 1,
+      "date": "2026-10-08",
+      "sensationPostEchauffement": "Très bien",
+      "autoEvaluationEleve": 3,
+      "evaluationProf": 3,
+      "estValideProf": true
+    }
+  ],
+  "echauffementsParCoureur": {
+    "1": {
+      "coureurId": 1,
+      "nom": "Beauvais",
+      "prenom": "Romain",
+      "classe": "Prof",
+      "vma": 13,
+      "seances": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 3,
+          "noteProf": 3
+        }
+      }
+    },
+    "2": {
+      "coureurId": 2,
+      "nom": "SALLEZ",
+      "prenom": "Quentin",
+      "classe": "Prof",
+      "vma": 14,
+      "seances": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 2,
+          "noteProf": 1
+        }
+      }
+    },
+    "3": {
+      "coureurId": 3,
+      "nom": "GUENNEC",
+      "prenom": "Thierry",
+      "classe": "Prof",
+      "vma": 12,
+      "seances": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 2,
+          "noteProf": 2
+        }
+      }
+    },
+    "4": {
+      "coureurId": 4,
+      "nom": "BLONDEL",
+      "prenom": "Britany",
+      "classe": "Prof",
+      "vma": 14,
+      "seances": {
+        "1": {
+          "seanceNum": 1,
+          "date": "2026-10-08",
+          "sensPost": "Très bien",
+          "note": 3,
+          "noteProf": 3
+        }
+      }
+    }
+  },
+  "donneesCourses": [
+    {
+      "coureurId": 1,
+      "coureurNom": "Romain",
+      "classe": "Prof",
+      "vma": 13,
+      "seanceNum": 1,
+      "date": "2026-10-06",
+      "distPlots": 50,
+      "nbPlots": 4,
+      "courseIndex": 1,
+      "statut": "Objectif Non Atteint",
+      "dureeSec": 150,
+      "dureeFormatee": "02:30",
+      "pctVMA": 125,
+      "vitesseCible": 12.5,
+      "distanceObjectif": 521,
+      "distanceRealisee": 200,
+      "ecartMetres": -321,
+      "tours": 1,
+      "plots": 0,
+      "arretsMarche": false,
+      "nombreArrets": 0,
+      "tempsArretTotalSec": 0,
+      "tempsArretFormate": "00:00",
+      "abandon": false,
+      "analyse": "Analyse de la course : Tu es loin de ton projet de course !",
+      "conseil": "Conseil : Change ton projet, réduis l'intensité choisie, elle est trop élevée pour toi.",
+      "enCoursDeSeance": false
+    },
+    {
+      "coureurId": 1,
+      "coureurNom": "Romain",
+      "classe": "Prof",
+      "vma": 13,
+      "seanceNum": 1,
+      "date": "2026-10-06",
+      "distPlots": 50,
+      "nbPlots": 4,
+      "courseIndex": 2,
+      "statut": "Objectif Non Atteint",
+      "dureeSec": 180,
+      "dureeFormatee": "03:00",
+      "pctVMA": 90,
+      "vitesseCible": 9,
+      "distanceObjectif": 450,
+      "distanceRealisee": 700,
+      "ecartMetres": 250,
+      "tours": 3,
+      "plots": 2,
+      "arretsMarche": false,
+      "nombreArrets": 0,
+      "tempsArretTotalSec": 0,
+      "tempsArretFormate": "00:00",
+      "abandon": false,
+      "analyse": "Analyse de la course : Tu as dépassé de beaucoup ton projet ! Tu as bien couru mais l'objectif est de ne pas dépassé.",
+      "conseil": "Conseil : Change ton projet, augmente l'intensité, elle est surement trop faible.",
+      "enCoursDeSeance": false
+    },
+    {
+      "coureurId": 1,
+      "coureurNom": "Romain",
+      "classe": "Prof",
+      "vma": 13,
+      "seanceNum": 1,
+      "date": "2026-10-06",
+      "distPlots": 50,
+      "nbPlots": 4,
+      "courseIndex": 3,
+      "statut": "Objectif Réussi",
+      "dureeSec": 360,
+      "dureeFormatee": "06:00",
+      "pctVMA": 80,
+      "vitesseCible": 10.4,
+      "distanceObjectif": 1040,
+      "distanceRealisee": 1025,
+      "ecartMetres": -15,
+      "tours": 5,
+      "plots": 1,
+      "arretsMarche": false,
+      "nombreArrets": 0,
+      "tempsArretTotalSec": 0,
+      "tempsArretFormate": "00:00",
+      "abandon": false,
+      "analyse": "Analyse de la course : Tu n'as pas validé ton objectif de course.",
+      "conseil": "Conseil : Cours un peu plus vite. Prends des repères pendant la course pour savoir où tu en es dans ton projet et si tu dois accélérer ou ralentir pendant la course.",
+      "enCoursDeSeance": false
+    },
+    {
+      "coureurId": 3,
+      "coureurNom": "Thierry",
+      "classe": "Prof",
+      "vma": 12,
+      "seanceNum": 1,
+      "date": "2026-10-08",
+      "distPlots": 25,
+      "nbPlots": 8,
+      "courseIndex": 1,
+      "statut": "Objectif Réussi",
+      "dureeSec": 360,
+      "dureeFormatee": "06:00",
+      "pctVMA": 85,
+      "vitesseCible": 10.2,
+      "distanceObjectif": 1020,
+      "distanceRealisee": 1025,
+      "ecartMetres": 5,
+      "tours": 5,
+      "plots": 1,
+      "arretsMarche": false,
+      "nombreArrets": 0,
+      "tempsArretTotalSec": 0,
+      "tempsArretFormate": "00:00",
+      "abandon": false,
+      "analyse": "Course réussie ! Bravo !",
+      "conseil": "Conserve cette stratégie et cette régularité pour tes prochaines séances !",
+      "enCoursDeSeance": false
+    }
+  ],
+  "equipeTrophies": {
+    "dist_1km_equipe": {
+      "count": 1,
+      "lastDate": "09/10/2026"
+    },
+    "dist_2km_equipe": {
+      "count": 1,
+      "lastDate": "09/10/2026"
+    }
+  }
+}
