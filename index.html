@@ -4723,21 +4723,21 @@
                 id: 'sans_pause',
                 title: "Sans pause",
                 description: "Course réussie sans faire aucun arrêt",
-                image: "trophée/sans_pause.png",
+                image: "trophée/sans_pause.svg",
                 check: (coureur, lastCourse) => lastCourse && (lastCourse.arretsCount === 0) && !lastCourse.abandon
             },
             {
                 id: 'pro_effort',
                 title: "Pro de l'effort",
                 description: "Course terminée (sans abandon) avec une intensité choisie supérieure à 95% de VMA",
-                image: "trophée/Pro_effort.png",
+                image: "trophée/pro_effort.svg",
                 check: (coureur, lastCourse) => lastCourse && (lastCourse.pctVMA > 95) && !lastCourse.abandon
             },
             {
                 id: 'pro_echauffement',
                 title: "Pro de l'échauffement",
                 description: "Évaluation élève 3/3 ET Évaluation prof 3/3 (débloqué en fin de séance)",
-                image: "trophée/pro_echauffement.png",
+                image: "trophée/pro_echauffement.svg",
                 check: (coureur) => {
                     let ech = coureur.echauffements || {};
                     return Object.values(ech).some(e =>
@@ -4750,7 +4750,7 @@
                 id: 'maitre_echauffement',
                 title: "Maître de l'échauffement",
                 description: "A obtenu 5 fois le trophée Pro de l'échauffement",
-                image: "trophée/maitre_echauffement.png",
+                image: "trophée/maitre_echauffement.svg",
                 check: (coureur) => {
                     let ech = coureur.echauffements || {};
                     let countPro = Object.values(ech).filter(e =>
@@ -4764,14 +4764,14 @@
                 id: 'course_parfaite',
                 title: "Course parfaite",
                 description: "Objectif réussi et aucun arrêt effectué",
-                image: "trophée/course_parfaite.png",
+                image: "trophée/course_parfaite.svg",
                 check: (coureur, lastCourse) => isCourseParfaite(lastCourse)
             },
             {
                 id: 'coureur_regulier',
                 title: "Coureur régulier",
                 description: "A obtenu 3 fois le trophée Course parfaite",
-                image: "trophée/coureur_regulier.png",
+                image: "trophée/coureur_regulier.svg",
                 check: (coureur) => {
                     let countPerfect = 0;
                     let seances = getCoureurSeances(coureur);
@@ -4811,56 +4811,56 @@
                 id: 'dist_1km',
                 title: "Cap des 1 km",
                 description: "1 000 m parcourus au total",
-                image: "trophée/1km.png",
+                image: "trophée/1km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 1000
             },
             {
                 id: 'dist_2km',
                 title: "Cap des 2 km",
                 description: "2 000 m parcourus au total",
-                image: "trophée/2km.png",
+                image: "trophée/2km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 2000
             },
             {
                 id: 'dist_5km',
                 title: "Cap des 5 km",
                 description: "5 000 m parcourus au total",
-                image: "trophée/5km.png",
+                image: "trophée/5km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 5000
             },
             {
                 id: 'dist_8km',
                 title: "Cap des 8 km",
                 description: "8 000 m parcourus au total",
-                image: "trophée/8km.png",
+                image: "trophée/8km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 8000
             },
             {
                 id: 'dist_10km',
                 title: "Cap des 10 km",
                 description: "10 000 m parcourus au total",
-                image: "trophée/10km.png",
+                image: "trophée/10km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 10000
             },
             {
                 id: 'dist_12km',
                 title: "Cap des 12 km",
                 description: "12 000 m parcourus au total",
-                image: "trophée/12km.png",
+                image: "trophée/12km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 12000
             },
             {
                 id: 'dist_15km',
                 title: "Cap des 15 km",
                 description: "15 000 m parcourus au total",
-                image: "trophée/15km.png",
+                image: "trophée/15km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 15000
             },
             {
                 id: 'dist_20km',
                 title: "Marathonien (20 km)",
                 description: "20 000 m parcourus au total",
-                image: "trophée/20km.png",
+                image: "trophée/20km.svg",
                 check: (coureur, lastCourse, totalDist) => totalDist >= 20000
             }
         ];
@@ -5223,7 +5223,7 @@
                 id: 'equipe_reguliere',
                 title: "Équipe régulière",
                 description: "Au moins 3 courses parfaites par coureur ou 12 courses parfaites cumulées",
-                image: "trophée/coureur_regulier.png",
+                image: "trophée/coureur_regulier.svg",
                 checkCount: (stats) => {
                     let minP = Math.min(
                         stats.runnerCourseParfaite[1],
@@ -5249,7 +5249,7 @@
                 id: 'pro_effort_equipe',
                 title: "Intensité collective",
                 description: "Les 4 coureurs ont atteint une moyenne >= 100% VMA sur une même séance",
-                image: "trophée/Pro_effort.png",
+                image: "trophée/pro_effort.svg",
                 checkCount: (stats) => {
                     let sessionsEffortCount = 0;
                     let checkedSessions = new Set();
@@ -5295,7 +5295,7 @@
                 id: 'pro_echauffement_equipe',
                 title: "Échauffement d'équipe au top",
                 description: "Les 4 coureurs ont obtenu 3/3 élève et prof sur leur échauffement d'une même séance",
-                image: "trophée/pro_echauffement.png",
+                image: "trophée/pro_echauffement.svg",
                 checkCount: (stats) => {
                     let fullEchCount = 0;
                     let echSessionNums = new Set();
@@ -5324,7 +5324,7 @@
                 id: 'maitre_echauffement_equipe',
                 title: "Maîtres de l'échauffement",
                 description: "10 échauffements 3/3 élève et prof validés au total par les coureurs de l'équipe",
-                image: "trophée/maitre_echauffement.png",
+                image: "trophée/maitre_echauffement.svg",
                 checkCount: (stats) => {
                     let totalProEch = 0;
                     for (let id = 1; id <= 4; id++) {
@@ -5345,7 +5345,7 @@
                 id: 'dist_1km_equipe',
                 title: "Cap collectif 1 km",
                 description: "1 000 m parcourus au total par l'équipe",
-                image: "trophée/1km.png",
+                image: "trophée/1km.svg",
                 dist: 1000,
                 checkCount: (stats) => stats.totalDist >= 1000 ? 1 : 0
             },
@@ -5353,7 +5353,7 @@
                 id: 'dist_2km_equipe',
                 title: "Cap collectif 2 km",
                 description: "2 000 m parcourus au total par l'équipe",
-                image: "trophée/2km.png",
+                image: "trophée/2km.svg",
                 dist: 2000,
                 checkCount: (stats) => stats.totalDist >= 2000 ? 1 : 0
             },
@@ -5361,7 +5361,7 @@
                 id: 'dist_5km_equipe',
                 title: "Cap collectif 5 km",
                 description: "5 000 m parcourus au total par l'équipe",
-                image: "trophée/5km.png",
+                image: "trophée/5km.svg",
                 dist: 5000,
                 checkCount: (stats) => stats.totalDist >= 5000 ? 1 : 0
             },
@@ -5369,7 +5369,7 @@
                 id: 'dist_8km_equipe',
                 title: "Cap collectif 8 km",
                 description: "8 000 m parcourus au total par l'équipe",
-                image: "trophée/8km.png",
+                image: "trophée/8km.svg",
                 dist: 8000,
                 checkCount: (stats) => stats.totalDist >= 8000 ? 1 : 0
             },
@@ -5377,7 +5377,7 @@
                 id: 'dist_10km_equipe',
                 title: "Cap collectif 10 km",
                 description: "10 000 m parcourus au total par l'équipe",
-                image: "trophée/10km.png",
+                image: "trophée/10km.svg",
                 dist: 10000,
                 checkCount: (stats) => stats.totalDist >= 10000 ? 1 : 0
             },
@@ -5385,7 +5385,7 @@
                 id: 'dist_12km_equipe',
                 title: "Cap collectif 12 km",
                 description: "12 000 m parcourus au total par l'équipe",
-                image: "trophée/12km.png",
+                image: "trophée/12km.svg",
                 dist: 12000,
                 checkCount: (stats) => stats.totalDist >= 12000 ? 1 : 0
             },
@@ -5393,7 +5393,7 @@
                 id: 'dist_15km_equipe',
                 title: "Cap collectif 15 km",
                 description: "15 000 m parcourus au total par l'équipe",
-                image: "trophée/15km.png",
+                image: "trophée/15km.svg",
                 dist: 15000,
                 checkCount: (stats) => stats.totalDist >= 15000 ? 1 : 0
             },
@@ -5401,7 +5401,7 @@
                 id: 'dist_20km_equipe',
                 title: "Cap collectif 20 km",
                 description: "20 000 m parcourus au total par l'équipe",
-                image: "trophée/20km.png",
+                image: "trophée/20km.svg",
                 dist: 20000,
                 checkCount: (stats) => stats.totalDist >= 20000 ? 1 : 0
             },
@@ -5409,7 +5409,7 @@
                 id: 'dist_21km_equipe',
                 title: "Semi-marathon (21 km !!)",
                 description: "21 000 m cumulés : l'équipe a couru un semi-marathon complet !",
-                image: "trophée/21km.png",
+                image: "trophée/21km.svg",
                 dist: 21000,
                 checkCount: (stats) => stats.totalDist >= 21000 ? 1 : 0
             },
@@ -5417,7 +5417,7 @@
                 id: 'dist_25km_equipe',
                 title: "Cap des 25 km",
                 description: "25 000 m parcourus au total par l'équipe",
-                image: "trophée/25km.png",
+                image: "trophée/25km.svg",
                 dist: 25000,
                 checkCount: (stats) => stats.totalDist >= 25000 ? 1 : 0
             },
@@ -5425,7 +5425,7 @@
                 id: 'dist_30km_equipe',
                 title: "Cap des 30 km",
                 description: "30 000 m parcourus au total par l'équipe",
-                image: "trophée/30km.png",
+                image: "trophée/30km.svg",
                 dist: 30000,
                 checkCount: (stats) => stats.totalDist >= 30000 ? 1 : 0
             },
@@ -5433,7 +5433,7 @@
                 id: 'dist_35km_equipe',
                 title: "Cap des 35 km",
                 description: "35 000 m parcourus au total par l'équipe",
-                image: "trophée/35km.png",
+                image: "trophée/35km.svg",
                 dist: 35000,
                 checkCount: (stats) => stats.totalDist >= 35000 ? 1 : 0
             },
@@ -5441,7 +5441,7 @@
                 id: 'dist_42km_equipe',
                 title: "Marathon (42 km !!!)",
                 description: "42 000 m cumulés : l'équipe a bouclé la distance mythique du marathon !",
-                image: "trophée/42km.png",
+                image: "trophée/42km.svg",
                 dist: 42000,
                 checkCount: (stats) => stats.totalDist >= 42000 ? 1 : 0
             }
